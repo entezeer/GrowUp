@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">GrowUp</string>
+    <string name="log_in">Войти</string>
+    <string name="get_started">Начать</string>
+    <string name="preview_text">Thus much I thought proper to tell you in relation to yourself</string>
+    <string name="register">Регистрация</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="farmer">Фермер</string>
+    <string name="angrosist">Оптовик</string>
+    <string name="me">Я</string>
+    <string name="number">Номер</string>
+    <string name="market">Маркет</string>
+    <string name="products">Продукция</string>
+</resources>

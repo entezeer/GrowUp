@@ -1,0 +1,61 @@
+package com.example.growup
+
+import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
+import android.widget.Button
+import java.util.*
+
+class FirstActivity : AppCompatActivity() {
+    private var viewPager: ViewPager? = null
+    private var indicator: TabLayout? = null
+    private var getStartedBtn: Button? = null
+
+
+    private var listImages: MutableList<Drawable> = ArrayList()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_first)
+
+        init()
+        setImages()
+
+        viewPager?.adapter = ViewPagerAdapter(this,listImages)
+        indicator?.setupWithViewPager(viewPager,true)
+
+        val timer = Timer()
+        timer.scheduleAtFixedRate(SliderTimer(),2000,4000)
+    }
+
+    private fun init() {
+        viewPager = findViewById(R.id.viewPager)
+        indicator = findViewById(R.id.indicator)
+
+        getStartedBtn = findViewById(R.id.get_started)
+        getStartedBtn?.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+    }
+
+    private fun setImages() {
+        listImages.add(resources.getDrawable(R.drawable.grow1))
+        listImages.add(resources.getDrawable(R.drawable.grow2))
+        listImages.add(resources.getDrawable(R.drawable.grow3))
+    }
+
+    inner class SliderTimer: TimerTask(){
+        override fun run() {
+            this@FirstActivity.runOnUiThread {
+                if(viewPager?.currentItem!! < listImages.size-1){
+                    viewPager?.currentItem = viewPager?.currentItem!! +1
+                }
+                else viewPager?.currentItem = 0
+            }
+        }
+    }
+}
