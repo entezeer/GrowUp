@@ -9,9 +9,13 @@
     <string name="name">Имя</string>
     <string name="last_name">Фамилия</string>
     <string name="farmer">Фермер</string>
-    <string name="angrosist">Оптовик</string>
+    <string name="wholesaler">Оптовик</string>
     <string name="me">Я</string>
     <string name="number">Номер</string>
     <string name="market">Маркет</string>
     <string name="products">Продукция</string>
+    <string name="verify_code">Введите код</string>
+
+    <string name="nointernet_title">OOPS! NO INTERNET CONNECTION</string>
+    <string name="nointernet_text">Check your internet connection and try again</string>
 </resources>

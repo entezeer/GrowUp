@@ -29,24 +29,27 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"/>
 
-            <LinearLayout
-                    android:layout_marginTop="30dp"
 
+            <RadioGroup
+                    android:id="@+id/type_radio_group"
+                    android:layout_marginTop="30dp"
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                 <RadioButton
+                        android:id="@+id/farmer"
                         android:layout_marginRight="50dp"
                         android:text="@string/farmer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 <RadioButton
+                        android:id="@+id/wholesaler"
                         android:layout_marginLeft="50dp"
-                        android:text="@string/angrosist"
+                        android:text="@string/wholesaler"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
-            </LinearLayout>
+            </RadioGroup>
 
 
             <EditText
@@ -77,15 +80,26 @@
                     android:layout_gravity="center_horizontal"
                     android:inputType="textEmailAddress"
             />
-            <EditText
-                    android:id="@+id/number"
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/number"
-                    android:textSize="20sp"
-                    android:layout_gravity="center_horizontal"
-                    android:inputType="number"
-            />
+                    android:layout_height="wrap_content">
+                <Spinner
+                        android:id="@+id/spinner_countries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                <EditText
+                        android:id="@+id/number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/number"
+                        android:digits="0123456789"
+                        android:maxLength="10"
+                        android:textSize="20sp"
+                        android:layout_gravity="center_horizontal"
+                        android:inputType="number"
+                />
+            </LinearLayout>
 
             <EditText
                     android:id="@+id/password"
