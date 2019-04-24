@@ -9,17 +9,18 @@ import android.support.v4.view.ViewPager
 import android.widget.Button
 import java.util.*
 
-class FirstActivity : AppCompatActivity() {
+class StartActivity : AppCompatActivity() {
+
     private var viewPager: ViewPager? = null
     private var indicator: TabLayout? = null
-    private var getStartedBtn: Button? = null
-
+    private var login: Button? = null
+    private var register: Button? = null
 
     private var listImages: MutableList<Drawable> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_first)
+        setContentView(R.layout.activity_start)
 
         init()
         setImages()
@@ -34,12 +35,15 @@ class FirstActivity : AppCompatActivity() {
     private fun init() {
         viewPager = findViewById(R.id.viewPager)
         indicator = findViewById(R.id.indicator)
-
-        getStartedBtn = findViewById(R.id.get_started)
-        getStartedBtn?.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+        login = findViewById(R.id.log_in)
+        login?.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
         }
+        register = findViewById(R.id.register)
+        register?.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
     }
 
     private fun setImages() {
@@ -50,7 +54,7 @@ class FirstActivity : AppCompatActivity() {
 
     inner class SliderTimer: TimerTask(){
         override fun run() {
-            this@FirstActivity.runOnUiThread {
+            this@StartActivity.runOnUiThread {
                 if(viewPager?.currentItem!! < listImages.size-1){
                     viewPager?.currentItem = viewPager?.currentItem!! +1
                 }

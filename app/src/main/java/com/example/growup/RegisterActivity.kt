@@ -78,6 +78,7 @@ class RegisterActivity : AppCompatActivity() {
             )
             val intent = Intent(this, VerifyPhoneActivity::class.java)
             intent.putExtra("phonenumber", "+${code + mNumber}")
+            intent.putExtra("fromActivity", "register")
             startActivity(intent)
         }
     }

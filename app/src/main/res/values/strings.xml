@@ -22,4 +22,9 @@
     <string name="search">Search</string>
     <string name="enter_number">Введите номер</string>
 
+    <string name="main">Главная</string>
+    <string name="log_out">Выйти</string>
+    <string name="settings">Настройки</string>
+    <string name="search">Поиск</string>
+
 </resources>
