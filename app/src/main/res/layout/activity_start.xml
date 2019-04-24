@@ -5,8 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.growup.FirstActivity">
-
+        tools:context=".MainActivity">
     <android.support.v4.view.ViewPager
 
             android:id="@+id/viewPager"
@@ -19,6 +18,7 @@
     >
 
     </android.support.v4.view.ViewPager>
+
     <android.support.design.widget.TabLayout
             android:id="@+id/indicator"
             android:layout_width="match_parent"
@@ -29,21 +29,37 @@
             app:tabBackground="@drawable/indicator"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/get_started"
-            tools:layout_editor_absoluteX="0dp"
-            />
+            app:layout_constraintBottom_toTopOf="@+id/bottom"/>
 
-    <Button
-            android:id="@+id/get_started"
-            android:text="@string/get_started"
-            android:textColor="@color/white"
-            android:padding="20dp"
+    <LinearLayout
             android:background="@color/mainGreen"
+            android:id="@+id/bottom"
+            android:gravity="center|bottom"
+            android:paddingBottom="25dp"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-    />
+    >
+        <Button
+                android:id="@+id/log_in"
+                android:text="@string/log_in"
+                android:background="@color/white"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginRight="10dp"/>
+        <Button
+                android:id="@+id/register"
+                android:text="@string/register"
+                android:textColor="@color/white"
+                android:background="@color/mainBlue"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+        />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -9,9 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.support.v4.view.ViewPager
 
-
-
-
 class ViewPagerAdapter(private val context: Context, var listImages: MutableList<Drawable>) : PagerAdapter() {
 
     private var layoutInflater = LayoutInflater.from(context)

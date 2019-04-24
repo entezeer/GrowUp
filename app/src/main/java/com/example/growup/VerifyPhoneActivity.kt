@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit
 class VerifyPhoneActivity : AppCompatActivity() {
 
     private var verificationId: String? = null
+    private var fromActivity: String? = null
     private var loginBtn: Button? = null
     private var verifyPhone: EditText? = null
 
@@ -25,12 +26,13 @@ class VerifyPhoneActivity : AppCompatActivity() {
         loginBtn = findViewById(R.id.login_btn)
         verifyPhone = findViewById(R.id.verify_phone)
         val phoneNumber = intent.getStringExtra("phonenumber")
+        fromActivity = intent.getStringExtra("fromActivity")
         Toast.makeText(this, phoneNumber, Toast.LENGTH_LONG).show()
         sendVerificationCode(phoneNumber)
 
         loginBtn?.setOnClickListener {
             val code = verifyPhone?.text.toString().trim()
-            if (code.isEmpty() || code.length < 6){
+            if (code.isEmpty() || code.length < 6) {
                 verifyPhone?.error = "Enter code . . ."
                 verifyPhone?.requestFocus()
             }
@@ -48,17 +50,24 @@ class VerifyPhoneActivity : AppCompatActivity() {
         GrowUpApplication.mAuth.signInWithCredential(credential)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).setValue(GrowUpApplication.mUserData).addOnCompleteListener { it1 ->
-                        if(it1.isSuccessful){
-                            val intent = Intent(this@VerifyPhoneActivity, MarketActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
+                    if (fromActivity!="login") {
+                        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!)
+                            .setValue(GrowUpApplication.mUserData).addOnCompleteListener { it1 ->
+                            if (it1.isSuccessful) {
+                                val intent = Intent(this@VerifyPhoneActivity, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                            }
                         }
+                    }
+                    else{
+                        val intent = Intent(this@VerifyPhoneActivity, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
                     }
                 } else {
                     Toast.makeText(this@VerifyPhoneActivity, it.exception?.message, Toast.LENGTH_LONG).show()
                 }
-
             }
     }
 

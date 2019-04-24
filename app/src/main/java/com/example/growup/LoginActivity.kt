@@ -44,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
 
         val intent = Intent(this, VerifyPhoneActivity::class.java)
         intent.putExtra("phonenumber", "+${code + mNumber}")
+        intent.putExtra("fromActivity", "login")
         startActivity(intent)
 
     }
