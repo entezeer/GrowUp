@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "875071218181",
+    "firebase_url": "https://growup-c6560.firebaseio.com",
+    "project_id": "growup-c6560",
+    "storage_bucket": "growup-c6560.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875071218181:android:776b9987c8014ac4",
+        "android_client_info": {
+          "package_name": "com.example.grow2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875071218181-lb1od84ovppsdbehig6j7bpagnuulsil.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.grow2",
+            "certificate_hash": "8cec7cde5e3d8b93683a667679808348113902a2"
+          }
+        },
+        {
+          "client_id": "875071218181-ke463fm4cams25gjc7j3hfqhhnvd637i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6o8U8n3xXI_FaKuOf_U3X7Hag5QfE2Jk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875071218181-ke463fm4cams25gjc7j3hfqhhnvd637i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

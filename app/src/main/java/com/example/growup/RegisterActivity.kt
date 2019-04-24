@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.*
 import com.entezeer.tracking.utils.ValidUtils
 import com.example.growup.models.CountryCodes
+import com.example.growup.models.User
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -13,7 +14,7 @@ class RegisterActivity : AppCompatActivity() {
     private var radioButton: RadioButton? = null
 
     private var name: EditText? = null
-    private var last_name: EditText? = null
+    private var lastName: EditText? = null
     private var email: EditText? = null
     private var number: EditText? = null
     private var password: EditText? = null
@@ -37,41 +38,51 @@ class RegisterActivity : AppCompatActivity() {
         radioGroup = findViewById(R.id.type_radio_group)
 
         name = findViewById(R.id.name)
-        last_name = findViewById(R.id.last_name)
+        lastName = findViewById(R.id.last_name)
         email = findViewById(R.id.email)
         number = findViewById(R.id.number)
         password = findViewById(R.id.password)
 
-        spinner?.adapter = ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,CountryCodes.countryNames)
+        spinner?.adapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, CountryCodes.countryNames)
 
         registerBtn?.setOnClickListener {
             register()
-//            startActivity(Intent(this, FarmerActivity::class.java))
         }
     }
 
-    private fun register(){
+    private fun register() {
         checkUserType()
-        Toast.makeText(this,userType, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, userType, Toast.LENGTH_LONG).show()
         val code = CountryCodes.countryAreaCodes[spinner?.selectedItemPosition!!]
         val mNumber = number?.text.toString().trim()
         val mEmail = email?.text.toString()
         val mPassword = password?.text.toString()
 
-        if (mNumber.isEmpty() || mNumber.length < 9){
+
+        if (mNumber.isEmpty() || mNumber.length < 9) {
             number?.error = "Valid number is required"
             number?.requestFocus()
             return
         }
 
-        if (ValidUtils.validCredentials(mEmail,mPassword,email!!,password!!)){
-            val intent = Intent(this,VerifyPhoneActivity::class.java)
-            intent.putExtra("phonenumber","+${code+mNumber}")
+        if (ValidUtils.validCredentials(mEmail, mPassword, email!!, password!!)) {
+            GrowUpApplication.mUserData = User(
+                name?.text.toString(),
+                lastName?.text.toString(),
+                "+${code + mNumber}",
+                email?.text.toString(),
+                password?.text.toString(),
+                userType,
+                ""
+            )
+            val intent = Intent(this, VerifyPhoneActivity::class.java)
+            intent.putExtra("phonenumber", "+${code + mNumber}")
             startActivity(intent)
         }
     }
 
-    private fun checkUserType(){
+    private fun checkUserType() {
         val selectedId = radioGroup?.checkedRadioButtonId
         radioButton = selectedId?.let { findViewById(it) }
 

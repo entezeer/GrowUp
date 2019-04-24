@@ -48,9 +48,13 @@ class VerifyPhoneActivity : AppCompatActivity() {
         GrowUpApplication.mAuth.signInWithCredential(credential)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    var intent = Intent(this@VerifyPhoneActivity, MarketActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
+                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).setValue(GrowUpApplication.mUserData).addOnCompleteListener { it1 ->
+                        if(it1.isSuccessful){
+                            val intent = Intent(this@VerifyPhoneActivity, MarketActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                    }
                 } else {
                     Toast.makeText(this@VerifyPhoneActivity, it.exception?.message, Toast.LENGTH_LONG).show()
                 }
@@ -85,6 +89,5 @@ class VerifyPhoneActivity : AppCompatActivity() {
         override fun onVerificationFailed(e: FirebaseException?) {
             Toast.makeText(this@VerifyPhoneActivity, e?.message, Toast.LENGTH_LONG).show()
         }
-
     }
 }
