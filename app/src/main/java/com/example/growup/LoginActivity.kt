@@ -25,8 +25,7 @@ class LoginActivity : AppCompatActivity() {
         number = findViewById(R.id.number)
         loginBtn = findViewById(R.id.login_btn)
 
-        spinner?.adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, CountryCodes.countryNames)
+        spinner?.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, CountryCodes.countryNames)
         loginBtn?.setOnClickListener {
             register()
         }
