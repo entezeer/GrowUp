@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         listImages.add(resources.getDrawable(R.drawable.grow2))
         listImages.add(resources.getDrawable(R.drawable.grow3))
     }
-
     inner class SliderTimer: TimerTask(){
         override fun run() {
             this@MainActivity.runOnUiThread {
