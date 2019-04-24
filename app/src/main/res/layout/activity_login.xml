@@ -29,24 +29,27 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"/>
 
-        <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:textSize="20sp"
-                android:layout_gravity="center_horizontal"
-                android:inputType="textEmailAddress"
-        />
-        <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:textSize="20sp"
-                android:layout_gravity="center_horizontal"
-                android:inputType="textPassword"
-        />
+            <LinearLayout
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <Spinner
+                        android:id="@+id/spinner_countries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                <EditText
+                        android:id="@+id/number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/enter_number"
+                        android:digits="0123456789"
+                        android:maxLength="10"
+                        android:textSize="20sp"
+                        android:layout_gravity="center_horizontal"
+                        android:inputType="number"
+                />
+            </LinearLayout>
 
         <Button
                 android:layout_marginTop="20dp"
