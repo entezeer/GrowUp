@@ -1,4 +1,4 @@
-package com.example.growup
+package com.example.growup.ui
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.widget.Button
+import com.example.growup.R
+import com.example.growup.ui.auth.LoginActivity
+import com.example.growup.ui.auth.RegisterActivity
 import java.util.*
 
 class StartActivity : AppCompatActivity() {
@@ -25,7 +28,7 @@ class StartActivity : AppCompatActivity() {
         init()
         setImages()
 
-        viewPager?.adapter = ViewPagerAdapter(this,listImages)
+        viewPager?.adapter = ViewPagerAdapter(this, listImages)
         indicator?.setupWithViewPager(viewPager,true)
 
         val timer = Timer()

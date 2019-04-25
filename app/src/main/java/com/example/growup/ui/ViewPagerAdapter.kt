@@ -1,4 +1,4 @@
-package com.example.growup
+package com.example.growup.ui
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.support.v4.view.ViewPager
+import com.example.growup.R
 
 class ViewPagerAdapter(private val context: Context, var listImages: MutableList<Drawable>) : PagerAdapter() {
 

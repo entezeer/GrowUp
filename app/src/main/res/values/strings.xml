@@ -18,12 +18,9 @@
 
     <string name="nointernet_title">OOPS! NO INTERNET CONNECTION</string>
     <string name="nointernet_text">Check your internet connection and try again</string>
-
     <string name="enter_number">Введите номер</string>
-
     <string name="main">Главная</string>
     <string name="log_out">Выйти</string>
     <string name="settings">Настройки</string>
     <string name="search">Поиск</string>
-
 </resources>
