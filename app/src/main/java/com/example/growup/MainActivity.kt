@@ -86,21 +86,11 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    inner class SliderTimer: TimerTask(){
-        override fun run() {
-            this@MainActivity.runOnUiThread {
-                if(viewPager?.currentItem!! < listImages.size-1){
-                    viewPager?.currentItem = viewPager?.currentItem!! +1
-                }
-                else viewPager?.currentItem = 0
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 drawerLayout?.openDrawer(GravityCompat.START)
                 true
-
             }
             else -> super.onOptionsItemSelected(item)
         }

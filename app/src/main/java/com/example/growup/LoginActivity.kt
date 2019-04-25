@@ -4,8 +4,8 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import com.entezeer.tracking.utils.ValidUtils
 import com.example.growup.models.CountryCodes
+import com.google.firebase.database.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
         spinner?.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, CountryCodes.countryNames)
         loginBtn?.setOnClickListener {
             register()
+
         }
     }
 
@@ -42,10 +43,34 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        val intent = Intent(this, VerifyPhoneActivity::class.java)
-        intent.putExtra("phonenumber", "+${code + mNumber}")
-        intent.putExtra("fromActivity", "login")
-        startActivity(intent)
+        checkUserExist("+${code + mNumber}")
+    }
 
+    private fun checkUserExist(phoneNumber: String) {
+        val intent = Intent(this, VerifyPhoneActivity::class.java)
+
+        GrowUpApplication.mUserRef.orderByChild("phoneNumber").equalTo(phoneNumber)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.value != null) {
+                        // user with this number already exist
+                        intent.putExtra("phonenumber", phoneNumber)
+                        intent.putExtra("fromActivity", "login")
+                        startActivity(intent)
+                    } else {
+                        // user with this number doesn't exist ->
+                        Toast.makeText(this@LoginActivity,"User with this phone number doesn't exist , please sign up",Toast.LENGTH_LONG).show()
+
+                    }
+                }
+
+            })
     }
 }
+
+
+
