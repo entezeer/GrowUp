@@ -18,13 +18,18 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SettingsActivity">
+        <activity android:name=".SearchActivity">
         </activity>
-        <activity android:name=".VerifyPhoneActivity">
+        <activity android:name=".SettingsActivity"
+                  android:theme="@style/MainTheme">
         </activity>
-        <activity android:name=".StartActivity"
+        <activity android:name=".VerifyPhoneActivity"
                   android:theme="@style/MainTheme"
         >
+        </activity>
+        <activity
+                android:name=".StartActivity"
+                android:theme="@style/MainTheme">
         </activity>
         <activity
                 android:name=".RegisterActivity"

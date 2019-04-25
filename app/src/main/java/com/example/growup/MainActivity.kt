@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_main -> {}
-                R.id.nav_search ->{}
+                R.id.nav_search ->startActivity(Intent(this, SearchActivity::class.java))
                 R.id.nav_market -> {}
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {

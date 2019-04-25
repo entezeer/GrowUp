@@ -3,6 +3,7 @@ package com.example.growup
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -19,16 +20,28 @@ class VerifyPhoneActivity : AppCompatActivity() {
     private var loginBtn: Button? = null
     private var verifyPhone: EditText? = null
 
+    private var backButton: FloatingActionButton? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verify_phone)
 
-        loginBtn = findViewById(R.id.login_btn)
-        verifyPhone = findViewById(R.id.verify_phone)
+        init()
+
         val phoneNumber = intent.getStringExtra("phonenumber")
         fromActivity = intent.getStringExtra("fromActivity")
         Toast.makeText(this, phoneNumber, Toast.LENGTH_LONG).show()
         sendVerificationCode(phoneNumber)
+    }
+
+    private fun init(){
+        loginBtn = findViewById(R.id.login_btn)
+        verifyPhone = findViewById(R.id.verify_phone)
+        backButton = findViewById(R.id.back_button)
+
+        backButton?.setOnClickListener {
+            onBackPressed()
+        }
 
         loginBtn?.setOnClickListener {
             val code = verifyPhone?.text.toString().trim()
