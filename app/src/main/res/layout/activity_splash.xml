@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:background="@color/mainGreen"
-        tools:context="com.example.growup.SplashActivity">
+        tools:context="com.example.growup.ui.SplashActivity">
 
     <TextView
             android:textStyle="bold"

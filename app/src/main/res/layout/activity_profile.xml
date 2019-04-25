@@ -28,7 +28,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="30sp"
-                    android:text="@string/settings"
+                    android:text="@string/profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
         </LinearLayout>

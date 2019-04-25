@@ -18,33 +18,36 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SearchActivity">
+        <activity android:name=".ui.ProfileActivity">
         </activity>
-        <activity android:name=".SettingsActivity"
-                  android:theme="@style/MainTheme">
-        </activity>
-        <activity android:name=".VerifyPhoneActivity"
-                  android:theme="@style/MainTheme"
-        >
+        <activity android:name=".ui.SearchActivity">
         </activity>
         <activity
-                android:name=".StartActivity"
+                android:name=".ui.SettingsActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".RegisterActivity"
+                android:name=".ui.auth.VerifyPhoneActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".LoginActivity"
+                android:name=".ui.start.StartActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".ui.auth.RegisterActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".SplashActivity"
+                android:name=".ui.auth.LoginActivity"
+                android:theme="@style/MainTheme">
+        </activity>
+        <activity
+                android:name=".ui.main.MainActivity"
+                android:theme="@style/MainTheme">
+        </activity>
+        <activity
+                android:name=".ui.SplashActivity"
                 android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

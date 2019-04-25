@@ -1,9 +1,13 @@
-package com.example.growup
+package com.example.growup.ui
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.example.growup.GrowUpApplication
+import com.example.growup.R
+import com.example.growup.ui.main.MainActivity
+import com.example.growup.ui.start.StartActivity
 
 class SplashActivity : AppCompatActivity() {
 
