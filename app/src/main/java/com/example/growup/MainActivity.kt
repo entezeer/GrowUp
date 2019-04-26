@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,9 +34,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         init()
-
+        initUsersList()
     }
 
     @SuppressLint("NewApi")
@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         userName = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_name)
 
         setUserData()
-
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionbar: ActionBar? = supportActionBar
@@ -70,6 +69,21 @@ class MainActivity : AppCompatActivity() {
             drawerLayout?.closeDrawers()
             true
         }
+    }
+    private fun initUsersList(){
+        GrowUpApplication.mUserList = ArrayList()
+        GrowUpApplication.mUserRef.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@MainActivity,p0.message ,Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (data: DataSnapshot in dataSnapshot.children){
+                    val mUser = Gson().fromJson(data.value.toString(),User::class.java)
+                    GrowUpApplication.mUserList.add(mUser)
+                }
+            }
+        })
     }
 
     private fun setUserData() {
