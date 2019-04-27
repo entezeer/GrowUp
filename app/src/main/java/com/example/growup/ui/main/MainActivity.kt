@@ -2,6 +2,7 @@ package com.example.growup.ui.main
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -11,8 +12,10 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.growup.*
 import com.example.growup.models.User
 import com.example.growup.ui.ProfileActivity
@@ -25,6 +28,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.nav_header.*
+import java.io.File
 import kotlin.collections.ArrayList
 
 
@@ -34,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private var drawerLayout: DrawerLayout? = null
     private var toolbar: Toolbar? = null
     private var userName: TextView? = null
+    private var userImage: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         navigationDrawer = findViewById(R.id.navigation_drawer)
 
         userName = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_name)
-
+        userImage =navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
         setUserData()
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -59,9 +66,6 @@ class MainActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.menu_24_white)
         }
-
-
-
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.user_icon->startActivity(Intent(this, ProfileActivity::class.java))
@@ -97,6 +101,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUserData() {
+        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid).downloadUrl
+            .addOnSuccessListener { task ->
+                Glide.with(this@MainActivity).load(task).into(userImage!!)
+            }.addOnFailureListener {
+                userImage?.setImageResource(R.drawable.user_icon)
+            }
+
         GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).addValueEventListener(object :
             ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.*
+import com.example.growup.GrowUpApplication
 import com.example.growup.models.User
 import kotlinx.android.synthetic.main.recycler_view_search_item.*
 

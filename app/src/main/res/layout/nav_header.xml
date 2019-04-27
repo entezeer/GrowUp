@@ -9,7 +9,7 @@
               android:orientation="vertical"
               android:gravity="center_vertical">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_icon"
             android:src="@mipmap/ic_launcher_round"
             android:layout_width="wrap_content"
