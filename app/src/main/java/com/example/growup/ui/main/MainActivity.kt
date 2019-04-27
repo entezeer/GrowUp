@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         userName = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_name)
 
-        setUserData()
+//        setUserData()
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
