@@ -1,8 +1,9 @@
-package com.example.growup
+package com.example.growup.ui
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.growup.R
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView

@@ -1,4 +1,4 @@
-package com.example.growup
+package com.example.growup.ui.auth
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.widget.*
 import com.entezeer.tracking.utils.ValidUtils
+import com.example.growup.GrowUpApplication
+import com.example.growup.R
 import com.example.growup.models.CountryCodes
 import com.example.growup.models.Regions
 import com.example.growup.models.User

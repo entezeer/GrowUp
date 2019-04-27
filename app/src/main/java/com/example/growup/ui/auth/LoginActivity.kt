@@ -1,10 +1,12 @@
-package com.example.growup
+package com.example.growup.ui.auth
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.widget.*
+import com.example.growup.GrowUpApplication
+import com.example.growup.R
 import com.example.growup.models.CountryCodes
 import com.google.firebase.database.*
 
