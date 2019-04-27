@@ -18,6 +18,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed(
             {
                 checkUser()
+//                startActivity(Intent(this, MainActivity::class.java))
             }, SPLASH_TIME_OUT
         )
     }
