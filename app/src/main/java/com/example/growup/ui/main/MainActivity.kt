@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         navigationDrawer = findViewById(R.id.navigation_drawer)
 
         userName = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_name)
+
         userImage =navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
         setUserData()
         toolbar = findViewById(R.id.toolbar)
