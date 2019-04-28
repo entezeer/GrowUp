@@ -23,4 +23,12 @@
     <string name="log_out">Выйти</string>
     <string name="settings">Настройки</string>
     <string name="search">Поиск</string>
+    <string name="region">Область:</string>
+    <string name="district">Район:</string>
+    <string name="profile">Профиль</string>
+    <string name="entry_code">Код активации отправлен на Ваш телефон по SMS. Пожалуйста, введите его ниже.</string>
+    <string name="entry_login">Чтобы войти, выберите страну и введите свой номер телефона</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -20,12 +20,18 @@
             tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.ProfileActivity">
         </activity>
-        <activity android:name=".ui.SettingsActivity">
-        </activity>
-        <activity android:name=".ui.VerifyPhoneActivity">
+        <activity android:name=".ui.SearchActivity">
         </activity>
         <activity
-                android:name=".ui.StartActivity"
+                android:name=".ui.SettingsActivity"
+                android:theme="@style/MainTheme">
+        </activity>
+        <activity
+                android:name=".ui.auth.VerifyPhoneActivity"
+                android:theme="@style/MainTheme">
+        </activity>
+        <activity
+                android:name=".ui.start.StartActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
@@ -37,7 +43,7 @@
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".ui.MainActivity"
+                android:name=".ui.main.MainActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
