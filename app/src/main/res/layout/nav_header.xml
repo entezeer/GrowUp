@@ -3,17 +3,19 @@
               android:layout_width="match_parent"
               android:layout_height="150dp"
               android:background="@color/mainGreen"
-              android:padding="16dp"
               android:id="@+id/user"
               android:theme="@style/ThemeOverlay.AppCompat.Dark"
               android:orientation="vertical"
-              android:gravity="center_vertical">
+              android:gravity="center_vertical"
+              android:padding="16dp"
+              android:clickable="true"
+                >
 
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_icon"
-            android:src="@mipmap/ic_launcher_round"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:src="@drawable/user_icon"
+            android:layout_width="85dp"
+            android:layout_height="85dp"/>
     <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"

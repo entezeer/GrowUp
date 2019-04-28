@@ -110,7 +110,7 @@ class RegisterActivity : AppCompatActivity() {
                 email?.text.toString(),
                 password?.text.toString(),
                 userType,
-                ""
+                "1"
             )
             val intent = Intent(this, VerifyPhoneActivity::class.java)
             intent.putExtra("phonenumber", "+${code + mNumber}")

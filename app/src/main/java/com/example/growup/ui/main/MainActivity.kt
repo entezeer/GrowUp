@@ -2,7 +2,6 @@ package com.example.growup.ui.main
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -13,18 +12,15 @@ import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-<<<<<<< HEAD:app/src/main/java/com/example/growup/ui/main/MainActivity.kt
-=======
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.bumptech.glide.Glide
->>>>>>> van_dev:app/src/main/java/com/example/growup/ui/MainActivity.kt
-import com.example.growup.*
 import com.example.growup.models.User
 import com.example.growup.ui.ProfileActivity
-import com.example.growup.ui.SearchActivity
+import com.example.growup.ui.search.SearchActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
 import com.example.growup.ui.fragments.MarketFragment
@@ -33,16 +29,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.nav_header.*
-import java.io.File
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
     private var navigationDrawer: NavigationView? = null
     private var drawerLayout: DrawerLayout? = null
     private var toolbar: Toolbar? = null
+    private var userHeader: LinearLayout? = null
     private var userName: TextView? = null
     private var userImage: ImageView? = null
 
@@ -52,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         init()
 
-        setragment(StatisticFragment())
+        setFragment(StatisticFragment())
     }
 
     @SuppressLint("NewApi")
@@ -61,9 +54,12 @@ class MainActivity : AppCompatActivity() {
         navigationDrawer = findViewById(R.id.navigation_drawer)
 
         userName = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_name)
+        userImage = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
+        navigationDrawer?.getHeaderView(0)?.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
 
-
-//        setUserData()
+        setUserData()
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -72,19 +68,13 @@ class MainActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.menu_24_white)
         }
-<<<<<<< HEAD:app/src/main/java/com/example/growup/ui/main/MainActivity.kt
 
 
-
-=======
->>>>>>> van_dev:app/src/main/java/com/example/growup/ui/MainActivity.kt
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.user_icon->startActivity(Intent(this, ProfileActivity::class.java))
-                R.id.user_name->startActivity(Intent(this, ProfileActivity::class.java))
-                R.id.nav_main -> setragment(StatisticFragment())
-                R.id.nav_search ->startActivity(Intent(this, SearchActivity::class.java))
-                R.id.nav_market -> setragment(MarketFragment())
+                R.id.nav_main -> setFragment(StatisticFragment())
+                R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
+                R.id.nav_market -> setFragment(MarketFragment())
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {
                     GrowUpApplication.mAuth.signOut()
@@ -98,7 +88,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUserData() {
-        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid).downloadUrl
+        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid)
+            .downloadUrl
             .addOnSuccessListener { task ->
                 Glide.with(this@MainActivity).load(task).into(userImage!!)
             }.addOnFailureListener {
@@ -111,14 +102,15 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, databaseError.message, Toast.LENGTH_LONG).show()
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val mUserData = Gson().fromJson(dataSnapshot.value.toString(), User::class.java)
-                userName?.text = mUserData.name
+                userName?.text = "${mUserData.name} ${mUserData.lastName}"
             }
         })
     }
 
-    private fun setragment(fragment: Fragment){
+    private fun setFragment(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_container, fragment)
         fragmentTransaction.commit()

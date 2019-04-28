@@ -61,12 +61,12 @@ class LoginActivity : AppCompatActivity() {
 
         GrowUpApplication.mUserRef.orderByChild("phoneNumber").equalTo(phoneNumber)
             .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(this@LoginActivity, databaseError.message, Toast.LENGTH_LONG).show()
                 }
 
-                override fun onDataChange(p0: DataSnapshot) {
-                    if (p0.value != null) {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.value != null) {
                         // user with this number already exist
                         intent.putExtra("phonenumber", phoneNumber)
                         intent.putExtra("fromActivity", "login")

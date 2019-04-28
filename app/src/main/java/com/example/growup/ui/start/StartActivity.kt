@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.widget.Button
-import com.example.growup.LoginActivity
 import com.example.growup.R
+import com.example.growup.ui.auth.LoginActivity
 import com.example.growup.ui.auth.RegisterActivity
 import java.util.*
 

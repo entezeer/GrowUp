@@ -11,7 +11,7 @@
             android:layout_marginLeft="20dp"
             android:layout_height="40dp"
             android:id="@+id/user_image_list"
-            android:src="@drawable/ic_account_circle_black_24dp"/>
+            android:src="@drawable/user_icon_24"/>
     <TextView
             android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
