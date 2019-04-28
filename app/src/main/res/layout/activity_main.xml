@@ -17,11 +17,15 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/mainGreen"
         />
-
-        <FrameLayout
-                android:id="@+id/frame_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        <TextView
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:text="@string/main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

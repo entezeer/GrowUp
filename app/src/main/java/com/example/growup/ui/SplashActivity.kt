@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.ui.main.MainActivity
-import com.example.growup.ui.start.StartActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -20,13 +18,11 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed(
             {
                 checkUser()
+//                startActivity(Intent(this, MainActivity::class.java))
             }, SPLASH_TIME_OUT
         )
-
     }
-
     private fun checkUser() {
-
         if (GrowUpApplication.mAuth.currentUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
         } else startActivity(Intent(this, StartActivity::class.java))

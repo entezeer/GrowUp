@@ -1,11 +1,10 @@
-package com.example.growup.ui.main
+package com.example.growup.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
@@ -13,14 +12,9 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
-import com.example.growup.*
+import com.example.growup.GrowUpApplication
+import com.example.growup.R
 import com.example.growup.models.User
-import com.example.growup.ui.ProfileActivity
-import com.example.growup.ui.SearchActivity
-import com.example.growup.ui.SettingsActivity
-import com.example.growup.ui.SplashActivity
-import com.example.growup.ui.fragments.MarketFragment
-import com.example.growup.ui.fragments.StatisticFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -38,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         init()
-
-        setragment(StatisticFragment())
     }
 
     @SuppressLint("NewApi")
@@ -59,15 +51,11 @@ class MainActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.menu_24_white)
         }
 
-
-
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.user_icon->startActivity(Intent(this, ProfileActivity::class.java))
-                R.id.user_name->startActivity(Intent(this, ProfileActivity::class.java))
-                R.id.nav_main -> setragment(StatisticFragment())
-                R.id.nav_search ->startActivity(Intent(this, SearchActivity::class.java))
-                R.id.nav_market -> setragment(MarketFragment())
+                R.id.nav_main -> {}
+                R.id.nav_search ->{}
+                R.id.nav_market -> {}
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {
                     GrowUpApplication.mAuth.signOut()
@@ -92,12 +80,6 @@ class MainActivity : AppCompatActivity() {
                 userName?.text = mUserData.name
             }
         })
-    }
-
-    private fun setragment(fragment: Fragment){
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_container, fragment)
-        fragmentTransaction.commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

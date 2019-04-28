@@ -1,4 +1,4 @@
-package com.example.growup.ui.start
+package com.example.growup.ui
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
