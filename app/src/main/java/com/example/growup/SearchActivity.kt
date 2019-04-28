@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.*
-import kotlinx.android.synthetic.main.activity_search.*
+
 
 class SearchActivity : AppCompatActivity() {
     var adapter:RecyclerViewSearchAdapter? = null
@@ -42,8 +42,6 @@ class SearchActivity : AppCompatActivity() {
 
 
     inner class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable{
-
-
 
         private var list: ArrayList<String>? = null
         private var listFull: ArrayList<String>? = null
