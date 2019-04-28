@@ -73,19 +73,11 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                     } else {
                         // user with this number doesn't exist ->
-
-                        Toast.makeText(this@LoginActivity,"User with this phone number doesn't exist , please sign up",Toast.LENGTH_LONG).show()
-
                         Toast.makeText(this@LoginActivity,"Пользователь с таким номером не зарегистрирован, чтобы войти пожалуйста зарегистрируйтесь.",Toast.LENGTH_LONG).show()
-
 
                     }
                 }
 
             })
     }
-
 }
-
-
-

@@ -20,6 +20,7 @@ class GrowUpApplication: Application(){
         super.onCreate()
         mAuth = FirebaseAuth.getInstance()
         mUserRef = FirebaseDatabase.getInstance().getReference("users")
+
         mStorage = FirebaseStorage.getInstance().getReference()
 
     }

@@ -24,6 +24,7 @@ class SplashActivity : AppCompatActivity() {
         )
 
     }
+
     private fun checkUser() {
 
         if (GrowUpApplication.mAuth.currentUser != null) {

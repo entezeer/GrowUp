@@ -1,23 +1,18 @@
-package com.example.growup.ui
+package com.example.growup
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.growup.R
-
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.*
-import com.example.growup.GrowUpApplication
-import com.example.growup.models.User
-import kotlinx.android.synthetic.main.recycler_view_search_item.*
-
+import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
     var adapter:RecyclerViewSearchAdapter? = null
     var list:ArrayList<String> = ArrayList()
-
     private var recyclerView:RecyclerView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +27,23 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initList() {
-        for (user: User in GrowUpApplication.mUserList){
-            list.add(user.name +" "+user.lastName)
-        }
+        list.add("Вася")
+        list.add("Вас")
+        list.add("Ва")
+        list.add("Петя")
+        list.add("Пет")
+        list.add("Пе")
+        list.add("П")
+        list.add("Коля")
+        list.add("Кол")
+        list.add("Ко")
+        list.add("К")
     }
 
 
     inner class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable{
+
+
 
         private var list: ArrayList<String>? = null
         private var listFull: ArrayList<String>? = null
@@ -59,11 +64,8 @@ class SearchActivity : AppCompatActivity() {
         }
         inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
             var queryText: TextView? = null
-            var userImage: ImageView? = null
             init{
-                userImage = view.findViewById(R.id.user_image_list)
                 queryText = view.findViewById(R.id.query_text)
-
             }
 
         }
@@ -80,7 +82,6 @@ class SearchActivity : AppCompatActivity() {
         override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
           var holder: ViewHolder = p0 as ViewHolder
             holder.queryText?.text = list?.get(p1)
-
         }
 
 
@@ -121,20 +122,12 @@ class SearchActivity : AppCompatActivity() {
         var searchView: SearchView = searchItem?.actionView as SearchView
         searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if(query!!.isEmpty()){
-                    recyclerView?.visibility = View.GONE
-                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.equals("")){
-                    this.onQueryTextSubmit("")
-                    recyclerView?.visibility = View.GONE
-                }else{
                 adapter?.filter?.filter(newText)
                 recyclerView?.visibility = View.VISIBLE
-                }
                 return false
             }
 
@@ -143,5 +136,4 @@ class SearchActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 }
-
 
