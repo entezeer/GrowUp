@@ -8,7 +8,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.*
+<<<<<<< HEAD:app/src/main/java/com/example/growup/SearchActivity.kt
 import kotlinx.android.synthetic.main.activity_search.*
+=======
+import com.example.growup.GrowUpApplication
+import com.example.growup.models.User
+import kotlinx.android.synthetic.main.recycler_view_search_item.*
+
+>>>>>>> 50484cae6a2af01d50d4bf0e319e7157ae4af90e:app/src/main/java/com/example/growup/ui/SearchActivity.kt
 
 class SearchActivity : AppCompatActivity() {
     var adapter:RecyclerViewSearchAdapter? = null
