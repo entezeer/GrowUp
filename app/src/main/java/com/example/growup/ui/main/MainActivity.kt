@@ -23,8 +23,8 @@ import com.example.growup.ui.ProfileActivity
 import com.example.growup.ui.search.SearchActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
-import com.example.growup.ui.fragments.MarketFragment
-import com.example.growup.ui.fragments.StatisticFragment
+import com.example.growup.ui.market.MarketFragment
+import com.example.growup.ui.statistic.StatisticFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_container, fragment)
         fragmentTransaction.commit()
+        actionBar?.title = "ssdsadasd"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
