@@ -55,11 +55,11 @@ class EditProfileActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val data = Gson().fromJson(dataSnapshot.value.toString(),User::class.java)
-                    editProfileName?.setText(data.name)
-                    editProfileSurname?.setText(data.lastName)
-                    editProfileEmail?.setText(data.email)
-                    editProfileRegion?.setText(data.region)
+                    val data =dataSnapshot.getValue(User::class.java)
+                    editProfileName?.setText(data?.name)
+                    editProfileSurname?.setText(data?.lastName)
+                    editProfileEmail?.setText(data?.email)
+                    editProfileRegion?.setText(data?.region)
 
                 }
             })
