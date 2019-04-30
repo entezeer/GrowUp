@@ -24,7 +24,7 @@ import org.json.JSONArray
 class SearchActivity : AppCompatActivity() {
     var adapter: RecyclerViewSearchAdapter? = null
     var list: ArrayList<String> = ArrayList()
-
+    var userArray: ArrayList<User> = ArrayList()
     private var recyclerView: RecyclerView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,41 +44,39 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initList() {
-//        var userArray: ArrayList<User> = ArrayList()
-//        GrowUpApplication.mUserRef.addValueEventListener(object : ValueEventListener {
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                Toast.makeText(this@SearchActivity, databaseError.message, Toast.LENGTH_LONG).show()
-//            }
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val gson = Gson()
-//                val jsonArray = JSONArray(gson.toJson(dataSnapshot.value))
-//                val type = object : TypeToken<ArrayList<User>>() {}.type
-//
-//                userArray = gson.fromJson(jsonArray.toString(), type)
-//            }
-//        })
-//
-//        for (user: User in userArray) {
-//            list.add(user.name + " " + user.lastName)
-//        }
+        GrowUpApplication.mUserRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(this@SearchActivity, databaseError.message, Toast.LENGTH_LONG).show()
+            }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+               if(dataSnapshot.exists()){
+                   val children = dataSnapshot!!.children
+                   children.forEach {
+                       userArray.add(it.getValue(User::class.java)!!)
+                   }
+                   userArray.forEach {
+                       list.add(it.name + " "+ it.lastName)
+                   }
+               }
+            }
+        })
 
-        list.add("Вася")
-        list.add("Вас")
-        list.add("Ва")
-        list.add("Петя")
-        list.add("Пет")
-        list.add("Пе")
-        list.add("П")
-        list.add("Коля")
-        list.add("Кол")
-        list.add("Ко")
-        list.add("К")
+
+
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
         val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
         val searchView: SearchView = searchItem?.actionView as SearchView
+        searchItem.setOnMenuItemClickListener {
+            searchView.setIconifiedByDefault(true)
+            searchView.isFocusable = true
+            searchView.isIconified = false
+            searchView.requestFocusFromTouch()
+        }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query!!.isEmpty()) {

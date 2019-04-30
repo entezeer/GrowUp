@@ -61,13 +61,13 @@ class ProfileActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val userData = Gson().fromJson(dataSnapshot.value.toString(),User::class.java)
-                    profileName?.text = userData.name
-                    profileSurname?.text = userData.lastName
-                    profileUserType?.text = userData.userType
-                    profileEmail?.text = userData.email
-                    profilePhoneNumber?.text = userData.phoneNumber
-                    profileRegion?.text = userData.region
+                    val userData = dataSnapshot.getValue(User::class.java)
+                    profileName?.text = userData?.name
+                    profileSurname?.text = userData?.lastName
+                    profileUserType?.text = userData?.userType
+                    profileEmail?.text = userData?.email
+                    profilePhoneNumber?.text = userData?.phoneNumber
+                    profileRegion?.text = userData?.region
                 }
             })
     }
