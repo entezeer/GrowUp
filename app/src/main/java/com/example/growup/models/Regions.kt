@@ -1,21 +1,21 @@
 package com.example.growup.models
 
 object Regions {
-    val regions = arrayOf("Иссык-Кульская область","Чуйская область","Ошская область","Баткенская область","Нарынская область","Таласская область","Джалал-Абадская область")
+    val regions = arrayListOf("Иссык-Кульская область","Чуйская область","Ошская область","Баткенская область","Нарынская область","Таласская область","Джалал-Абадская область")
 
-    val issykKul = arrayOf("Ак-Суйский район","Джети-Огузский район","Тонский район","Тюпский район","Иссык-Кульский район","г. Каракол","г. Балыкчи")
+    val issykKul = arrayListOf("Ак-Суйский район","Джети-Огузский район","Тонский район","Тюпский район","Иссык-Кульский район","г. Каракол","г. Балыкчи")
 
-    val chuy = arrayOf("")
+    val chuy = arrayListOf("")
 
-    val osh = arrayOf("")
+    val osh = arrayListOf("")
 
-    val batken = arrayOf("")
+    val batken = arrayListOf("")
 
-    val naryn = arrayOf("")
+    val naryn = arrayListOf("")
 
-    val talas = arrayOf("")
+    val talas = arrayListOf("")
 
-    val jalalAbad = arrayOf("")
+    val jalalAbad = arrayListOf("")
 
-    val regionsList = arrayOf(issykKul, chuy, osh, batken, naryn, talas, jalalAbad)
+    val regionsList = arrayListOf(issykKul, chuy, osh, batken, naryn, talas, jalalAbad)
 }

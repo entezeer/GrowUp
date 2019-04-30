@@ -1,4 +1,4 @@
-package com.example.growup.ui.fragments
+package com.example.growup.ui.market
 
 
 import android.os.Bundle

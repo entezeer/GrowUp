@@ -19,14 +19,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
-import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.activity_profile.*
-import org.w3c.dom.Text
-import java.io.File
-import java.lang.Exception
+
 
 class ProfileActivity : AppCompatActivity() {
+
     private var userImage: Uri? = null
     private var editProfileButton: Button? = null
     private var backButton: FloatingActionButton? = null
@@ -78,6 +74,10 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun init(){
         backButton = findViewById(R.id.back_button)
+
+        backButton?.setOnClickListener {
+            onBackPressed()
+        }
         backButton?.setOnClickListener {
             onBackPressed()
         }
@@ -94,5 +94,6 @@ class ProfileActivity : AppCompatActivity() {
         profileRegion = findViewById(R.id.profile_user_region)
         profileEmail = findViewById(R.id.profile_email)
         profileUserType = findViewById(R.id.profile_user_type)
+
     }
 }

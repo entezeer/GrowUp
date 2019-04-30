@@ -12,6 +12,7 @@ import com.example.growup.R
 import com.example.growup.models.CountryCodes
 import com.example.growup.models.Regions
 import com.example.growup.models.User
+import kotlinx.android.synthetic.main.nav_header.*
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -27,6 +28,8 @@ class RegisterActivity : AppCompatActivity() {
     private var backButton: FloatingActionButton? = null
 
     private var userType = ""
+
+    private var userRegion = ""
 
     private var registerBtn: Button? = null
     private var spinnerCountries: Spinner? = null
@@ -110,7 +113,7 @@ class RegisterActivity : AppCompatActivity() {
                 email?.text.toString(),
                 password?.text.toString(),
                 userType,
-                ""
+                "${spinnerRegions?.selectedItem},${spinnerDistricts?.selectedItem}"
             )
             val intent = Intent(this, VerifyPhoneActivity::class.java)
             intent.putExtra("phonenumber", "+${code + mNumber}")
