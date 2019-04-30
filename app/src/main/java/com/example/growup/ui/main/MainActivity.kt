@@ -29,6 +29,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.stream.JsonReader
+import java.io.StringReader
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -104,8 +108,13 @@ class MainActivity : AppCompatActivity() {
 
             @SuppressLint("SetTextI18n")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val mUserData = Gson().fromJson(dataSnapshot.value.toString(), User::class.java)
-                userName?.text = "${mUserData.name} ${mUserData.lastName}"
+//                val jsonReader = JsonReader(StringReader(dataSnapshot.value.toString()))
+//                jsonReader.isLenient = true
+//                val mUserData = Gson().fromJson(jsonReader.toString(), User::class.java)
+
+                val mUserData: Map<*, *> = dataSnapshot.value as Map<*, *>
+                userName?.text = "${mUserData["name"]} ${mUserData["lastName"]}"
+
             }
         })
     }

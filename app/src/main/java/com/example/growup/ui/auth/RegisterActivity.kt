@@ -84,9 +84,6 @@ class RegisterActivity : AppCompatActivity() {
                         Regions.regionsList[spinnerRegions?.selectedItemPosition!!])
             }
         }
-//        userRegion = "${spinnerRegions?.selectedView.te},${}"
-
-//        Toast.makeText(this@RegisterActivity, userRegion, Toast.LENGTH_LONG).show()
 
         registerBtn?.setOnClickListener {
             register()
@@ -116,7 +113,7 @@ class RegisterActivity : AppCompatActivity() {
                 email?.text.toString(),
                 password?.text.toString(),
                 userType,
-                ""
+                "${spinnerRegions?.selectedItem},${spinnerDistricts?.selectedItem}"
             )
             val intent = Intent(this, VerifyPhoneActivity::class.java)
             intent.putExtra("phonenumber", "+${code + mNumber}")
