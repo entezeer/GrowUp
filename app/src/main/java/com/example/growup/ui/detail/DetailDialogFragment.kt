@@ -90,6 +90,7 @@ class DetailDialogFragment : DialogFragment() {
         detailUserPhone?.text = "Телефон: ${mData.userPhone}"
         detailLocation?.text = "Местоположение: ${mData.location}"
 
+
         detailUseBtn?.setOnClickListener {
             startActivity(Intent(activity,AddAnnouncementActivity::class.java))
         }
