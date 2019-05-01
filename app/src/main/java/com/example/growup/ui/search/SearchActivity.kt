@@ -1,10 +1,8 @@
 package com.example.growup.ui.search
 
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.growup.R
-
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
@@ -14,12 +12,6 @@ import com.example.growup.models.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.reflect.TypeToken
-import kotlinx.android.synthetic.main.nav_header.*
-import org.json.JSONArray
-
 
 class SearchActivity : AppCompatActivity() {
     var adapter: RecyclerViewSearchAdapter? = null
@@ -60,11 +52,6 @@ class SearchActivity : AppCompatActivity() {
                }
             }
         })
-
-
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

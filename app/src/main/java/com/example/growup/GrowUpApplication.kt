@@ -12,6 +12,8 @@ class GrowUpApplication: Application(){
     companion object {
         lateinit var mAuth: FirebaseAuth
         lateinit var mUserRef: DatabaseReference
+        lateinit var mMarketRef: DatabaseReference
+        lateinit var mStatisticRef: DatabaseReference
         lateinit var mStorage: StorageReference
         lateinit var mUserData: User
         lateinit var mUserList: ArrayList<User>
@@ -20,6 +22,8 @@ class GrowUpApplication: Application(){
         super.onCreate()
         mAuth = FirebaseAuth.getInstance()
         mUserRef = FirebaseDatabase.getInstance().getReference("users")
+        mMarketRef = FirebaseDatabase.getInstance().getReference("market")
+        mStatisticRef = FirebaseDatabase.getInstance().getReference("statistic")
         mStorage = FirebaseStorage.getInstance().getReference()
 
     }

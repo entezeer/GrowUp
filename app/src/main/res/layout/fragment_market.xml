@@ -3,17 +3,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="@color/profile_gray"
               tools:context="com.example.growup.ui.statistic.StatisticFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:text="@string/market"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/market_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 </LinearLayout>
