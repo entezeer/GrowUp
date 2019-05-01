@@ -14,7 +14,7 @@ class SubCategoryAdapter(
     var listener: Listener
 ) : RecyclerView.Adapter<SubCategoryAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.sub_category_list, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.sub_category_list_item, parent, false)
         return ViewHolder(itemView)
     }
 

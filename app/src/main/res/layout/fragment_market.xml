@@ -1,10 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="@color/profile_gray"
-              tools:context="com.example.growup.ui.statistic.StatisticFragment">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/profile_gray"
+                tools:context="com.example.growup.ui.statistic.StatisticFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
@@ -12,4 +12,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_announcement"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/add_button_white"
+            android:layout_margin="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</android.support.design.widget.CoordinatorLayout>

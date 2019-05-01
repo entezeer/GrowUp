@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.Products
+import com.example.growup.ui.detail.DetailDialogFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -57,11 +58,14 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val gson = Gson()
-                val jsonArray = JSONArray(gson.toJson(dataSnapshot.value))
-                val type = object : TypeToken<ArrayList<Products>>() {}.type
+//                val gson = Gson()
+//                val jsonArray = JSONArray(gson.toJson(dataSnapshot.value))
+//                val type = object : TypeToken<ArrayList<Products>>() {}.type
 
-                mData = gson.fromJson(jsonArray.toString(), type)
+//                mData = gson.fromJson(jsonArray.toString(), type)
+                dataSnapshot.children.forEach {
+                    mData.add(it.getValue(Products::class.java)!!)
+                }
                 updateUi()
             }
         })
@@ -71,7 +75,9 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
 
     override fun onItemSelectedAt(position: Int) {
-        Toast.makeText(activity, "Clicked$position",Toast.LENGTH_LONG).show()
+        GrowUpApplication.productsData = mData
+        val detailDialogFragment = DetailDialogFragment.newInstance(position)
+        detailDialogFragment.show(fragmentManager,"detailDialogFragment")
     }
 
 

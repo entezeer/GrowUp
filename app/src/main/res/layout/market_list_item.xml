@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-            android:padding="5dp"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -16,13 +15,16 @@
         <ImageView
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/product_image"
+                android:scaleType="fitXY"
                 android:src="@drawable/vegetables"
                 android:layout_width="200dp"
                 android:layout_height="200dp"/>
         <TextView
+                android:padding="5dp"
                 android:id="@+id/product_title"
                 android:gravity="center_horizontal"
                 android:text="title"
+                android:background="@color/mainGreen"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:layout_width="match_parent"

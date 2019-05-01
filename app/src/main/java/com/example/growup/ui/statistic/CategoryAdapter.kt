@@ -22,7 +22,7 @@ class CategoryAdapter(
 
     private var selectedPosition = -1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.category_list, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.category_list_item, parent, false)
         return ViewHolder(itemView)
     }
 

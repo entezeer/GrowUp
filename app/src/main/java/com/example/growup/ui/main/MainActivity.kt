@@ -18,7 +18,6 @@ import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.bumptech.glide.Glide
-import com.example.growup.models.User
 import com.example.growup.ui.ProfileActivity
 import com.example.growup.ui.search.SearchActivity
 import com.example.growup.ui.SettingsActivity
@@ -28,18 +27,6 @@ import com.example.growup.ui.statistic.StatisticFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
-
-import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.nav_header.*
-import java.io.File
-import kotlin.collections.ArrayList
-
-import com.google.gson.JsonSyntaxException
-import com.google.gson.stream.JsonReader
-import java.io.StringReader
-
-
 
 class MainActivity : AppCompatActivity() {
 
