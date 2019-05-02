@@ -39,6 +39,7 @@ class DetailDialogFragment : DialogFragment() {
     private var detailLocation: TextView? = null
     private var detailUserPhone: TextView? = null
     private var detailDate: TextView? = null
+    private var detailMessage: TextView? = null
     private var detailUseBtn: Button? = null
 
     override fun onCreateView(
@@ -65,6 +66,7 @@ class DetailDialogFragment : DialogFragment() {
         detailLocation = view.findViewById(R.id.detail_location)
         detailUserPhone = view.findViewById(R.id.detail_user_phone)
         detailUseBtn = view.findViewById(R.id.detail_use_btn)
+        detailMessage = view.findViewById(R.id.detail_message)
     }
 
     @SuppressLint("SetTextI18n")
@@ -72,24 +74,24 @@ class DetailDialogFragment : DialogFragment() {
         val id = arguments?.getInt(ARG_ID)
 
         val mData = GrowUpApplication.productsData[id!!]
-
-        if (mData.category == "vegetables") {
-            detailImage?.setImageResource(R.drawable.vegetables)
+        detailImage?.setImageResource(R.drawable.others)
+        if (mData.category == "Овощи") {
+            detailImage?.setImageResource(R.drawable.vegetables1)
         }
-        if (mData.category == "fruits") {
-            detailImage?.setImageResource(R.drawable.fruits)
+        if (mData.category == "Фрукты") {
+            detailImage?.setImageResource(R.drawable.fruits1)
         }
-        if (mData.category == "animals") {
+        if (mData.category == "Животные") {
             detailImage?.setImageResource(R.drawable.animals)
         }
-        detailProduct?.text = "${mData.category}, ${mData.subCategory}"
+        detailProduct?.text = "${mData.name}, ${mData.category}, ${mData.subCategory}"
         detailUnitPrice?.text = "Цена за 1 кг: ${mData.unitPrice}"
         detailTotalPrice?.text = "Общая стоимость: ${mData.totalPrice}"
         detailSize?.text = "Объем: ${mData.size}"
         detailUserName?.text = "Продавец: ${mData.user}"
         detailUserPhone?.text = "Телефон: ${mData.userPhone}"
         detailLocation?.text = "Местоположение: ${mData.location}"
-
+        detailMessage?.text = mData.message
 
         detailUseBtn?.setOnClickListener {
 

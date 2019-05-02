@@ -27,6 +27,5 @@ class GrowUpApplication: Application(){
         mMarketRef = FirebaseDatabase.getInstance().getReference("market")
         mStatisticRef = FirebaseDatabase.getInstance().getReference("statistic")
         mStorage = FirebaseStorage.getInstance().getReference()
-
     }
 }

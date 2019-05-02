@@ -34,5 +34,15 @@
     <string name="edit_profile">редактировать профиль</string>
     <string name="save">сохранить</string>
     <string name="calling">Связаться</string>
+    <string name="add_announcement">Добавить объявление</string>
+    <string name="name_of_product">Введите название товара</string>
+    <string name="category">Категория:</string>
+    <string name="subcategory">Подкатегория:</string>
+    <string name="unit_price">Цена за 1 кг(т)</string>
+    <string name="total_price">Общая стоимость</string>
+    <string name="message">Сообщение</string>
+    <string name="add">Добавить</string>
+    <string name="my_products">Мои объявления</string>
+    <string name="size">Объем</string>
 
 </resources>

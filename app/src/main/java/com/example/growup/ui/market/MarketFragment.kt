@@ -1,13 +1,16 @@
 package com.example.growup.ui.market
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
@@ -30,9 +33,11 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
-    private var mData: ArrayList<Products> = ArrayList()
 
+    private var mData: ArrayList<Products> = ArrayList()
     private var marketRecyclerView: RecyclerView? = null
+    private var addButton: FloatingActionButton? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +55,11 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     private fun init(view: View){
         marketRecyclerView = view.findViewById(R.id.market_recycler)
         marketRecyclerView?.layoutManager = GridLayoutManager(activity, 2)
+
+        addButton = view.findViewById(R.id.add_announcement)
+        addButton?.setOnClickListener {
+            startActivity(Intent(activity,AddAnnouncementActivity::class.java))
+        }
     }
     private fun initData(){
         GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener{

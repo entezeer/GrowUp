@@ -13,8 +13,8 @@
         <ImageView
                 android:id="@+id/detail_image"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="70dp"
-                android:layout_height="70dp"/>
+                android:layout_width="150dp"
+                android:layout_height="150dp"/>
         <TextView
                 android:id="@+id/detail_product"
                 android:layout_width="match_parent"
@@ -61,12 +61,18 @@
                 android:layout_marginTop="10dp"
         />
         <TextView
-                android:id="@+id/detail_date"
-                android:text="ofdf"
+                android:id="@+id/detail_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
         />
+        <!--<TextView-->
+                <!--android:id="@+id/detail_date"-->
+                <!--android:text="ofdf"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+        <!--/>-->
         <Button
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/detail_use_btn"

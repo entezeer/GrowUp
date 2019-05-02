@@ -1,6 +1,7 @@
 package com.example.growup.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -18,10 +19,12 @@ import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.bumptech.glide.Glide
+import com.example.growup.models.User
 import com.example.growup.ui.ProfileActivity
 import com.example.growup.ui.search.SearchActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
+import com.example.growup.ui.detail.DetailDialogFragment
 import com.example.growup.ui.market.MarketFragment
 import com.example.growup.ui.statistic.StatisticFragment
 import com.google.firebase.database.DataSnapshot
@@ -43,7 +46,9 @@ class MainActivity : AppCompatActivity() {
 
         init()
 
-        setFragment(StatisticFragment())
+        if (intent.getStringExtra(EXTRA_FRAGMENT) == "market") {
+            setFragment(MarketFragment())
+        } else setFragment(StatisticFragment())
     }
 
     @SuppressLint("NewApi")
@@ -59,15 +64,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        userImage =navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
+        userImage = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
         setUserData()
-
-//        setUserData()
-
-
-
-        setUserData()
-
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -76,7 +74,6 @@ class MainActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.menu_24_white)
         }
-
 
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -112,10 +109,7 @@ class MainActivity : AppCompatActivity() {
 
             @SuppressLint("SetTextI18n")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val jsonReader = JsonReader(StringReader(dataSnapshot.value.toString()))
-//                jsonReader.isLenient = true
-//                val mUserData = Gson().fromJson(jsonReader.toString(), User::class.java)
-
+                GrowUpApplication.mUserData = dataSnapshot.getValue(User::class.java)!!
                 val mUserData: Map<*, *> = dataSnapshot.value as Map<*, *>
                 userName?.text = "${mUserData["name"]} ${mUserData["lastName"]}"
 
@@ -137,6 +131,15 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    companion object {
+        private const val EXTRA_FRAGMENT = "fragment"
+        fun start(context: Context, fragment: String) {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT, fragment)
+            context.startActivity(intent)
         }
     }
 

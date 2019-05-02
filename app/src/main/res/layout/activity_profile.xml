@@ -45,6 +45,16 @@
                     android:layout_marginTop="30dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="300dp"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+            <Button
+                    android:id="@+id/my_products"
+                    android:background="@drawable/button_bg"
+                    android:text="@string/my_products"
+                    android:layout_marginTop="30dp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"/>
             <TextView
                     android:id="@+id/profile_user_name"

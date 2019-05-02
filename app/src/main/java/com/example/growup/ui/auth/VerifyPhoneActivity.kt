@@ -70,16 +70,16 @@ class VerifyPhoneActivity : AppCompatActivity() {
                         GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!)
                             .setValue(GrowUpApplication.mUserData).addOnCompleteListener { it1 ->
                             if (it1.isSuccessful) {
-                                val intent = Intent(this@VerifyPhoneActivity, MainActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                startActivity(intent)
+                                if (GrowUpApplication.mUserData.userType=="Оптовик"){
+                                    MainActivity.start(this,"market")
+                                }else MainActivity.start(this,"statistic")
                             }
                         }
                     }
                     else{
-                        val intent = Intent(this@VerifyPhoneActivity, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
+                        if (GrowUpApplication.mUserData.userType=="Оптовик"){
+                            MainActivity.start(this,"market")
+                        }else MainActivity.start(this, "statistic")
                     }
                 } else {
                     Toast.makeText(this@VerifyPhoneActivity, it.exception?.message, Toast.LENGTH_LONG).show()

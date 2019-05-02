@@ -1,6 +1,7 @@
 package com.example.growup.models
 
 class Products(
+    var name: String = "",
     var category: String = "",
     var subCategory: String = "",
     var size: String = "",
@@ -8,5 +9,7 @@ class Products(
     var totalPrice: String = "",
     var user: String = "",
     var userPhone: String = "",
-    var location: String = ""
+    var location: String = "",
+    var message: String = "",
+    var uid: String = ""
 )

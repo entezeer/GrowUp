@@ -14,10 +14,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class SearchActivity : AppCompatActivity() {
-    var adapter: RecyclerViewSearchAdapter? = null
-    var list: ArrayList<String> = ArrayList()
-    var userArray: ArrayList<User> = ArrayList()
+    private var adapter: RecyclerViewSearchAdapter? = null
+    private var list: ArrayList<String> = ArrayList()
     private var recyclerView: RecyclerView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
