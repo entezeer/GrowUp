@@ -58,11 +58,6 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val gson = Gson()
-//                val jsonArray = JSONArray(gson.toJson(dataSnapshot.value))
-//                val type = object : TypeToken<ArrayList<Products>>() {}.type
-
-//                mData = gson.fromJson(jsonArray.toString(), type)
                 dataSnapshot.children.forEach {
                     mData.add(it.getValue(Products::class.java)!!)
                 }
@@ -79,6 +74,4 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         val detailDialogFragment = DetailDialogFragment.newInstance(position)
         detailDialogFragment.show(fragmentManager,"detailDialogFragment")
     }
-
-
 }

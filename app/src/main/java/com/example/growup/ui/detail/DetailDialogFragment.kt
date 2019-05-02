@@ -92,7 +92,7 @@ class DetailDialogFragment : DialogFragment() {
 
 
         detailUseBtn?.setOnClickListener {
-            startActivity(Intent(activity,AddAnnouncementActivity::class.java))
+
         }
     }
 

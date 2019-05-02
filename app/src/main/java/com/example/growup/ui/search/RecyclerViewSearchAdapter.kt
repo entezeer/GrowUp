@@ -60,7 +60,7 @@ class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     inner class RecyclerFilter: Filter(){
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            var result: FilterResults = FilterResults()
+            val result: FilterResults = FilterResults()
             if(constraint != null && constraint.isNotEmpty()){
                 var localList: ArrayList<String> = ArrayList<String>()
                 for (i: Int in 0..listFull?.size?.minus(1) as Int){
@@ -82,7 +82,6 @@ class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
             list = results?.values as ArrayList<String>
             notifyDataSetChanged()
         }
-
     }
 
 

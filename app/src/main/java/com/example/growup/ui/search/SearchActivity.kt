@@ -42,12 +42,8 @@ class SearchActivity : AppCompatActivity() {
             }
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                if(dataSnapshot.exists()){
-                   val children = dataSnapshot!!.children
-                   children.forEach {
-                       userArray.add(it.getValue(User::class.java)!!)
-                   }
-                   userArray.forEach {
-                       list.add(it.name + " "+ it.lastName)
+                   dataSnapshot.children.forEach {
+                       list.add(it.getValue(User::class.java)!!.name+" "+it.getValue(User::class.java)!!.lastName)
                    }
                }
             }
