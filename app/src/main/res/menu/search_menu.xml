@@ -3,8 +3,7 @@
     <item
     android:id="@+id/action_search"
     android:title="@string/search"
-    android:iconTint="@color/white"
-    android:icon="@drawable/search_icon_24"
+    android:icon="@drawable/search_icon_24_white"
     app:showAsAction="ifRoom|collapseActionView"
     app:actionViewClass="android.widget.SearchView"/>
 </menu>

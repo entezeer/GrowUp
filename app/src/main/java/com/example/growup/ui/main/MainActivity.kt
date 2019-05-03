@@ -44,11 +44,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        init()
-
         if (intent.getStringExtra(EXTRA_FRAGMENT) == "market") {
-            setFragment(MarketFragment())
-        } else setFragment(StatisticFragment())
+            setFragment(MarketFragment(),"Маркет")
+        } else setFragment(StatisticFragment(),"Статистика")
+
+        init()
     }
 
     @SuppressLint("NewApi")
@@ -77,9 +77,9 @@ class MainActivity : AppCompatActivity() {
 
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_main -> setFragment(StatisticFragment())
+                R.id.nav_main -> setFragment(StatisticFragment(),"Статистика")
                 R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
-                R.id.nav_market -> setFragment(MarketFragment())
+                R.id.nav_market -> setFragment(MarketFragment(), "Маркет")
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {
                     GrowUpApplication.mAuth.signOut()
@@ -111,17 +111,20 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 GrowUpApplication.mUserData = dataSnapshot.getValue(User::class.java)!!
                 val mUserData: Map<*, *> = dataSnapshot.value as Map<*, *>
+                if (mUserData["userData"]=="Оптовик"){
+                    setFragment(MarketFragment(), "Маркет")
+                }
                 userName?.text = "${mUserData["name"]} ${mUserData["lastName"]}"
 
             }
         })
     }
 
-    private fun setFragment(fragment: Fragment) {
+    private fun setFragment(fragment: Fragment, title: String) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_container, fragment)
         fragmentTransaction.commit()
-        actionBar?.title = "ssdsadasd"
+        supportActionBar?.title = title
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

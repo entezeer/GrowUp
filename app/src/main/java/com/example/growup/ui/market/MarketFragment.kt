@@ -5,13 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Toast
+import com.entezeer.tracking.utils.InternetUtil
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.Products
@@ -19,9 +21,6 @@ import com.example.growup.ui.detail.DetailDialogFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import org.json.JSONArray
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,8 +34,10 @@ private const val ARG_PARAM2 = "param2"
 class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
 
     private var mData: ArrayList<Products> = ArrayList()
-    private var marketRecyclerView: RecyclerView? = null
-    private var addButton: FloatingActionButton? = null
+    private var mMarketRecyclerView: RecyclerView? = null
+    private var mAddButton: FloatingActionButton? = null
+    private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
+    private var mProgressBar: ProgressBar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,11 +54,18 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
 
     private fun init(view: View){
-        marketRecyclerView = view.findViewById(R.id.market_recycler)
-        marketRecyclerView?.layoutManager = GridLayoutManager(activity, 2)
+        mMarketRecyclerView = view.findViewById(R.id.market_recycler)
+        mMarketRecyclerView?.layoutManager = GridLayoutManager(activity, 2)
 
-        addButton = view.findViewById(R.id.add_announcement)
-        addButton?.setOnClickListener {
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
+        mSwipeRefreshLayout?.setOnRefreshListener {
+            mSwipeRefreshLayout?.isRefreshing = true
+            updateUi()
+        }
+        mProgressBar = view.findViewById(R.id.progress_bar)
+
+        mAddButton = view.findViewById(R.id.add_announcement)
+        mAddButton?.setOnClickListener {
             startActivity(Intent(activity,AddAnnouncementActivity::class.java))
         }
     }
@@ -76,7 +84,16 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         })
     }
     private fun updateUi(){
-        marketRecyclerView?.adapter = MarketRecyclerAdapter(mData,this,activity!!)
+        checkNetwork()
+        mProgressBar?.visibility = View.GONE
+        mMarketRecyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
+        mSwipeRefreshLayout?.isRefreshing = false
+    }
+
+    private fun checkNetwork(){
+        if (!InternetUtil.checkInternet(activity!!)){
+            Utils.showInternetAlert(activity!!)
+        }
     }
 
     override fun onItemSelectedAt(position: Int) {

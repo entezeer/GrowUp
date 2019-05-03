@@ -16,8 +16,8 @@
     <string name="products">Продукция</string>
     <string name="verify_code">Введите код</string>
 
-    <string name="nointernet_title">OOPS! NO INTERNET CONNECTION</string>
-    <string name="nointernet_text">Check your internet connection and try again</string>
+    <string name="nointernet_title">УПС! Подключение к Интернету отсутствует</string>
+    <string name="nointernet_text">Проверьте подключение к интернету и попробуйте снова</string>
     <string name="enter_number">Введите номер</string>
     <string name="main">Главная</string>
     <string name="log_out">Выйти</string>

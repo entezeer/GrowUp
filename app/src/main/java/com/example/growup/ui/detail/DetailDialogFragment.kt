@@ -15,8 +15,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.Products
-import com.example.growup.ui.market.AddAnnouncementActivity
+import android.widget.Toast
+import android.content.pm.PackageManager
+import android.net.Uri
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -94,8 +95,23 @@ class DetailDialogFragment : DialogFragment() {
         detailMessage?.text = mData.message
 
         detailUseBtn?.setOnClickListener {
-
+            openWhatsApp(mData.userPhone)
         }
+    }
+
+    private fun openWhatsApp(number:String){
+        val url = "https://api.whatsapp.com/send?phone=$number"
+        try {
+            val pm = context?.getPackageManager()
+            pm?.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+        } catch (e: PackageManager.NameNotFoundException) {
+            Toast.makeText(activity, "Whatsapp app not installed in your phone", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+
     }
 
     companion object {

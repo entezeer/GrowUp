@@ -12,6 +12,9 @@ import com.example.growup.models.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import android.widget.Toast
+
+
 
 class SearchActivity : AppCompatActivity() {
     private var adapter: RecyclerViewSearchAdapter? = null
@@ -27,6 +30,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun init() {
+        supportActionBar?.title = "Поиск"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
@@ -48,6 +54,13 @@ class SearchActivity : AppCompatActivity() {
                }
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

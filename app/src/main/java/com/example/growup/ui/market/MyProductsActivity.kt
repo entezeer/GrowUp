@@ -59,7 +59,6 @@ class MyProductsActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
 
     @SuppressLint("CommitTransaction")
     override fun onItemSelectedAt(position: Int) {
-        GrowUpApplication.productsData = mData
         val detailDialogFragment = DetailDialogFragment.newInstance(position)
         detailDialogFragment.show(supportFragmentManager.beginTransaction(),"detailDialogFragment")
     }

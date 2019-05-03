@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener
 
 class SplashActivity : AppCompatActivity() {
 
-    private val SPLASH_TIME_OUT: Long = 3000
+    private val SPLASH_TIME_OUT: Long = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,26 +29,11 @@ class SplashActivity : AppCompatActivity() {
                 checkUser()
             }, SPLASH_TIME_OUT
         )
-
     }
 
     private fun checkUser() {
         if (GrowUpApplication.mAuth.currentUser != null) {
-            GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).addValueEventListener(object :
-                ValueEventListener {
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Toast.makeText(this@SplashActivity, databaseError.message, Toast.LENGTH_LONG).show()
-                }
-
-                @SuppressLint("SetTextI18n")
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val mUserData: Map<String, String> = dataSnapshot.value as Map<String, String>
-                    if (mUserData["userType"] == "Оптовик") {
-                        MainActivity.start(this@SplashActivity, "market")
-                    } else MainActivity.start(this@SplashActivity, "statistic")
-
-                }
-            })
+            startActivity(Intent(this, MainActivity::class.java))
         } else startActivity(Intent(this, StartActivity::class.java))
         finish()
     }
