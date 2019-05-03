@@ -44,13 +44,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun register() {
         val code = CountryCodes.countryAreaCodes[spinner?.selectedItemPosition!!]
-        val mNumber = number?.text.toString().trim()
+        var mNumber = number?.text.toString().trim()
 
 
         if (mNumber.isEmpty() || mNumber.length < 9) {
             number?.error = "Valid number is required"
             number?.requestFocus()
             return
+        }
+        if (mNumber[0].equals('0') && code.equals("996")) {
+            mNumber = mNumber.substring(1, mNumber.length)
         }
 
         checkUserExist("+${code + mNumber}")
@@ -64,7 +67,6 @@ class LoginActivity : AppCompatActivity() {
                 override fun onCancelled(databaseError: DatabaseError) {
                     Toast.makeText(this@LoginActivity, databaseError.message, Toast.LENGTH_LONG).show()
                 }
-
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.value != null) {
                         // user with this number already exist
