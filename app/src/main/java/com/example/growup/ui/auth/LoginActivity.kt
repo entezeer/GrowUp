@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.value != null) {
                         // user with this number already exist
-                        intent.putExtra("phonenumber", phoneNumber)
+                        intent.putExtra("phoneNumber", phoneNumber)
                         intent.putExtra("fromActivity", "login")
                         startActivity(intent)
                     } else {
