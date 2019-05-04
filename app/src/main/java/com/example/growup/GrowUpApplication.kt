@@ -1,6 +1,7 @@
 package com.example.growup
 
 import android.app.Application
+import com.example.growup.models.Products
 import com.example.growup.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -17,6 +18,7 @@ class GrowUpApplication: Application(){
         lateinit var mStorage: StorageReference
         lateinit var mUserData: User
         lateinit var mUserList: ArrayList<User>
+        var productsData: ArrayList<Products> = ArrayList()
     }
     override fun onCreate() {
         super.onCreate()
@@ -25,6 +27,5 @@ class GrowUpApplication: Application(){
         mMarketRef = FirebaseDatabase.getInstance().getReference("market")
         mStatisticRef = FirebaseDatabase.getInstance().getReference("statistic")
         mStorage = FirebaseStorage.getInstance().getReference()
-
     }
 }

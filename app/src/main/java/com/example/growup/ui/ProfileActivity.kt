@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.User
+import com.example.growup.ui.market.MyProductsActivity
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,6 +26,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private var userImage: Uri? = null
     private var editProfileButton: Button? = null
+    private var getMyProducts: Button? = null
     private var backButton: FloatingActionButton? = null
     private var profileImage: ImageView? = null
     private var profileName: TextView? = null
@@ -78,13 +80,15 @@ class ProfileActivity : AppCompatActivity() {
         backButton?.setOnClickListener {
             onBackPressed()
         }
-        backButton?.setOnClickListener {
-            onBackPressed()
-        }
 
         editProfileButton = findViewById(R.id.edit_profile_btn)
         editProfileButton?.setOnClickListener{
             startActivity(Intent(this,EditProfileActivity::class.java))
+        }
+
+        getMyProducts = findViewById(R.id.my_products)
+        getMyProducts?.setOnClickListener {
+            startActivity(Intent(this,MyProductsActivity::class.java))
         }
 
         profileImage = findViewById(R.id.profileImage)

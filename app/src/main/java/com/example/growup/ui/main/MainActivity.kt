@@ -1,6 +1,7 @@
 package com.example.growup.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -23,23 +24,12 @@ import com.example.growup.ui.ProfileActivity
 import com.example.growup.ui.search.SearchActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
+import com.example.growup.ui.detail.DetailDialogFragment
 import com.example.growup.ui.market.MarketFragment
 import com.example.growup.ui.statistic.StatisticFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
-
-import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.nav_header.*
-import java.io.File
-import kotlin.collections.ArrayList
-
-import com.google.gson.JsonSyntaxException
-import com.google.gson.stream.JsonReader
-import java.io.StringReader
-
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,9 +44,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        init()
+        if (intent.getStringExtra(EXTRA_FRAGMENT) == "market") {
+            setFragment(MarketFragment(),"Маркет")
+        } else setFragment(StatisticFragment(),"Статистика")
 
-        setFragment(StatisticFragment())
+        init()
     }
 
     @SuppressLint("NewApi")
@@ -72,15 +64,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        userImage =navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
+        userImage = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
         setUserData()
-
-//        setUserData()
-
-
-
-        setUserData()
-
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -90,12 +75,11 @@ class MainActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.menu_24_white)
         }
 
-
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_main -> setFragment(StatisticFragment())
+                R.id.nav_main -> setFragment(StatisticFragment(),"Статистика")
                 R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
-                R.id.nav_market -> setFragment(MarketFragment())
+                R.id.nav_market -> setFragment(MarketFragment(), "Маркет")
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {
                     GrowUpApplication.mAuth.signOut()
@@ -125,22 +109,22 @@ class MainActivity : AppCompatActivity() {
 
             @SuppressLint("SetTextI18n")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val jsonReader = JsonReader(StringReader(dataSnapshot.value.toString()))
-//                jsonReader.isLenient = true
-//                val mUserData = Gson().fromJson(jsonReader.toString(), User::class.java)
-
+                GrowUpApplication.mUserData = dataSnapshot.getValue(User::class.java)!!
                 val mUserData: Map<*, *> = dataSnapshot.value as Map<*, *>
+                if (mUserData["userData"]=="Оптовик"){
+                    setFragment(MarketFragment(), "Маркет")
+                }
                 userName?.text = "${mUserData["name"]} ${mUserData["lastName"]}"
 
             }
         })
     }
 
-    private fun setFragment(fragment: Fragment) {
+    private fun setFragment(fragment: Fragment, title: String) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_container, fragment)
         fragmentTransaction.commit()
-        actionBar?.title = "ssdsadasd"
+        supportActionBar?.title = title
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -150,6 +134,15 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    companion object {
+        private const val EXTRA_FRAGMENT = "fragment"
+        fun start(context: Context, fragment: String) {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra(EXTRA_FRAGMENT, fragment)
+            context.startActivity(intent)
         }
     }
 

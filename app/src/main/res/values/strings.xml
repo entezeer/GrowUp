@@ -16,8 +16,8 @@
     <string name="products">Продукция</string>
     <string name="verify_code">Введите код</string>
 
-    <string name="nointernet_title">OOPS! NO INTERNET CONNECTION</string>
-    <string name="nointernet_text">Check your internet connection and try again</string>
+    <string name="nointernet_title">УПС! Подключение к Интернету отсутствует</string>
+    <string name="nointernet_text">Проверьте подключение к интернету и попробуйте снова</string>
     <string name="enter_number">Введите номер</string>
     <string name="main">Главная</string>
     <string name="log_out">Выйти</string>
@@ -33,5 +33,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_profile">редактировать профиль</string>
     <string name="save">сохранить</string>
+    <string name="calling">Связаться</string>
+    <string name="add_announcement">Добавить объявление</string>
+    <string name="name_of_product">Введите название товара</string>
+    <string name="category">Категория:</string>
+    <string name="subcategory">Подкатегория:</string>
+    <string name="unit_price">Цена за 1 кг(т)</string>
+    <string name="total_price">Общая стоимость</string>
+    <string name="message">Сообщение</string>
+    <string name="add">Добавить</string>
+    <string name="my_products">Мои объявления</string>
+    <string name="size">Объем</string>
 
 </resources>
