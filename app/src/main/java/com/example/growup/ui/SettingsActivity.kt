@@ -83,7 +83,7 @@ class SettingsActivity : AppCompatActivity() {
 
         userInfo = findViewById(R.id.settigs_user_info)
         userInfo?.setOnClickListener {
-            startActivity(Intent(this@SettingsActivity,EditProfileActivity::class.java))
+            startActivity(Intent(this@SettingsActivity,ProfileActivity::class.java))
         }
         buttonRate = findViewById(R.id.button_rate_app)
         buttonRate?.setOnClickListener {

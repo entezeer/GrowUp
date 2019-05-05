@@ -25,7 +25,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 //        init()
-        initList()
+//        initList()
     }
 
 //    fun init() {
@@ -40,58 +40,58 @@ class SearchActivity : AppCompatActivity() {
 //        recyclerView?.adapter = adapter
 //    }
 
-    private fun initList() {
-        GrowUpApplication.mUserRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@SearchActivity, databaseError.message, Toast.LENGTH_LONG).show()
-            }
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-               if(dataSnapshot.exists()){
-                   dataSnapshot.children.forEach {
-                       list.add(it.getValue(User::class.java)!!.name+" "+it.getValue(User::class.java)!!.lastName)
-                   }
-               }
-            }
-        })
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> finish()
-        }
-        return true
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.search_menu, menu)
-        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
-        val searchView: SearchView = searchItem?.actionView as SearchView
-        searchItem.setOnMenuItemClickListener {
-            searchView.setIconifiedByDefault(true)
-            searchView.isFocusable = true
-            searchView.isIconified = false
-            searchView.requestFocusFromTouch()
-        }
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query!!.isEmpty()) {
-                    recyclerView?.visibility = View.GONE
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.equals("")) {
-                    this.onQueryTextSubmit("")
-                    recyclerView?.visibility = View.GONE
-                } else {
-                    adapter?.filter?.filter(newText)
-                    recyclerView?.visibility = View.VISIBLE
-                }
-                return false
-            }
-        })
-
-        return super.onCreateOptionsMenu(menu)
-    }
+//    private fun initList() {
+//        GrowUpApplication.mUserRef.addValueEventListener(object : ValueEventListener {
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                Toast.makeText(this@SearchActivity, databaseError.message, Toast.LENGTH_LONG).show()
+//            }
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//               if(dataSnapshot.exists()){
+//                   dataSnapshot.children.forEach {
+//                       list.add(it.getValue(User::class.java)!!.name+" "+it.getValue(User::class.java)!!.lastName)
+//                   }
+//               }
+//            }
+//        })
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            android.R.id.home -> finish()
+//        }
+//        return true
+//    }
+//
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.search_menu, menu)
+//        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
+//        val searchView: SearchView = searchItem?.actionView as SearchView
+//        searchItem.setOnMenuItemClickListener {
+//            searchView.setIconifiedByDefault(true)
+//            searchView.isFocusable = true
+//            searchView.isIconified = false
+//            searchView.requestFocusFromTouch()
+//        }
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                if (query!!.isEmpty()) {
+//                    recyclerView?.visibility = View.GONE
+//                }
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                if (newText.equals("")) {
+//                    this.onQueryTextSubmit("")
+//                    recyclerView?.visibility = View.GONE
+//                } else {
+//                    adapter?.filter?.filter(newText)
+//                    recyclerView?.visibility = View.VISIBLE
+//                }
+//                return false
+//            }
+//        })
+//
+//        return super.onCreateOptionsMenu(menu)
+//    }
 }
