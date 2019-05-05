@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.entezeer.tracking.utils.ValidUtils
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.User
@@ -72,39 +73,9 @@ class EditProfileActivity : AppCompatActivity() {
         }
         buttonSaveChanges = findViewById(R.id.save_user_data_btn)
         buttonSaveChanges?.setOnClickListener {
-            if(editProfileName?.text!!.isEmpty() || editProfileSurname?.text!!.isEmpty() || editProfileEmail?.text!!.isEmpty() || editProfileRegion?.text!!.isEmpty()){
-                Toast.makeText(this@EditProfileActivity,"Введите данные корректно", Toast.LENGTH_SHORT).show()
-            }else{
-                if (imageUri != null){
-                    val dialog: ProgressDialog = ProgressDialog(this)
-                    dialog.setCancelable(false)
-                    dialog.setTitle("Изображение загружается")
-                    dialog.show()
-                    GrowUpApplication.mStorage.child("UsersProfileImages/"+GrowUpApplication.mAuth.currentUser!!.uid)
-                        .putFile(imageUri!!).addOnSuccessListener{ task ->
-                            dialog.dismiss()
-                            onBackPressed()
-                        }.addOnFailureListener{task ->
-                            dialog.dismiss()
-                            Toast.makeText(this@EditProfileActivity, task.message.toString() ,Toast.LENGTH_SHORT).show()
-                        }.addOnProgressListener {
-                            val progress = 100.0 * it.bytesTransferred/it.totalByteCount
-                            dialog.setMessage("Загружено " + progress.toInt() + "%")
-                        }
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("lastName").setValue(editProfileSurname?.text.toString())
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("name").setValue(editProfileName?.text.toString())
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("email").setValue(editProfileEmail?.text.toString())
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("region").setValue(editProfileRegion?.text.toString())
-                }else{
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("lastName").setValue(editProfileSurname?.text.toString())
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("name").setValue(editProfileName?.text.toString())
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("email").setValue(editProfileEmail?.text.toString())
-                    GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("region").setValue(editProfileRegion?.text.toString())
-                    onBackPressed()
-                }
-
+            if (ValidUtils.checkEditProfileChanges(editProfileName!! , editProfileSurname!!, editProfileRegion!!, editProfileEmail!!)){
+                saveChanges()
             }
-
         }
         editProfileImage = findViewById(R.id.edit_profile_image)
         editProfileImage?.setOnClickListener {
@@ -118,6 +89,33 @@ class EditProfileActivity : AppCompatActivity() {
         editProfileEmail = findViewById(R.id.edit_profile_email)
         editProfileRegion = findViewById(R.id.edit_profile_region)
     }
+    private fun saveChanges(){
+            if (imageUri != null){
+                val dialog: ProgressDialog = ProgressDialog(this)
+                dialog.setCancelable(false)
+                dialog.setTitle("Изображение загружается")
+                dialog.show()
+                GrowUpApplication.mStorage.child("UsersProfileImages/"+GrowUpApplication.mAuth.currentUser!!.uid)
+                    .putFile(imageUri!!).addOnSuccessListener{ task ->
+                        dialog.dismiss()
+                        onBackPressed()
+                    }.addOnFailureListener{task ->
+                        dialog.dismiss()
+                        Toast.makeText(this@EditProfileActivity, task.message.toString() ,Toast.LENGTH_SHORT).show()
+                    }.addOnProgressListener {
+                        val progress = 100.0 * it.bytesTransferred/it.totalByteCount
+                        dialog.setMessage("Загружено " + progress.toInt() + "%")
+                    }
+            }
+                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("lastName").setValue(editProfileSurname?.text.toString())
+                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("name").setValue(editProfileName?.text.toString())
+                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("email").setValue(editProfileEmail?.text.toString())
+                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("region").setValue(editProfileRegion?.text.toString())
+                onBackPressed()
+            }
+
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
