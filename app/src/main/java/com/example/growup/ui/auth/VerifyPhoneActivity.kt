@@ -31,7 +31,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
         init()
 
-        val phoneNumber = intent.getStringExtra("phonenumber")
+        val phoneNumber = intent.getStringExtra("phoneNumber")
         fromActivity = intent.getStringExtra("fromActivity")
         Toast.makeText(this, phoneNumber, Toast.LENGTH_LONG).show()
         sendVerificationCode(phoneNumber)
@@ -70,16 +70,12 @@ class VerifyPhoneActivity : AppCompatActivity() {
                         GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!)
                             .setValue(GrowUpApplication.mUserData).addOnCompleteListener { it1 ->
                             if (it1.isSuccessful) {
-                                if (GrowUpApplication.mUserData.userType=="Оптовик"){
-                                    MainActivity.start(this,"market")
-                                }else MainActivity.start(this,"statistic")
+                                startActivity(Intent(this, MainActivity::class.java))
                             }
                         }
                     }
                     else{
-                        if (GrowUpApplication.mUserData.userType=="Оптовик"){
-                            MainActivity.start(this,"market")
-                        }else MainActivity.start(this, "statistic")
+                            startActivity(Intent(this,MainActivity::class.java))
                     }
                 } else {
                     Toast.makeText(this@VerifyPhoneActivity, it.exception?.message, Toast.LENGTH_LONG).show()

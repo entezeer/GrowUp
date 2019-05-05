@@ -10,15 +10,16 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.growup.R
+import com.example.growup.models.Products
 
 class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
-    private var list: ArrayList<String>? = null
-    private var listFull: ArrayList<String>? = null
+    private var list: ArrayList<Products>? = null
+    private var listFull: ArrayList<Products>? = null
     private var context: Context? = null
 
     private var recyclerFilter: RecyclerFilter? = null
-    constructor(context: Context, list: ArrayList<String>): this(){
+    constructor(context: Context, list: ArrayList<Products>): this(){
         this.listFull = list
         this.list = list
         this.context = context
@@ -51,12 +52,10 @@ class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        var holder: ViewHolder = p0 as ViewHolder
-        holder.queryText?.text = list?.get(p1)
+        val holder: ViewHolder = p0 as ViewHolder
+        holder.queryText?.text = list?.get(p1).toString()
 
     }
-
-
 
     inner class RecyclerFilter: Filter(){
         override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -64,9 +63,9 @@ class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(constraint != null && constraint.isNotEmpty()){
                 var localList: ArrayList<String> = ArrayList<String>()
                 for (i: Int in 0..listFull?.size?.minus(1) as Int){
-                    if (listFull?.get(i)?.toLowerCase()?.contains(constraint.toString().toLowerCase()) as Boolean){
-                        localList.add(listFull?.get(i) as String)
-                    }
+
+                        localList.add(listFull?.get(i).toString())
+
                 }
                 result.values = localList
                 result.count  = localList.size
@@ -79,7 +78,7 @@ class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            list = results?.values as ArrayList<String>
+            list = results?.values as ArrayList<Products>
             notifyDataSetChanged()
         }
     }

@@ -19,18 +19,18 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
 
+
         <activity android:name=".ui.AboutUsActivity"
                   android:theme="@style/MainTheme">
-
         </activity>
+
 
         <activity android:name=".ui.market.MyProductsActivity">
         </activity>
         <activity
                 android:name=".ui.market.AddAnnouncementActivity"
-                android:theme="@style/MainTheme">
+                android:theme="@style/MainTheme"/>
 
-        </activity>
         <activity
                 android:name=".ui.EditProfileActivity"
                 android:theme="@style/MainTheme">

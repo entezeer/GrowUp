@@ -24,22 +24,21 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        init()
+//        init()
         initList()
-
     }
 
-    fun init() {
-        supportActionBar?.title = "Поиск"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        adapter = RecyclerViewSearchAdapter(this@SearchActivity, list)
-        adapter!!.notifyDataSetChanged()
-        recyclerView?.adapter = adapter
-    }
+//    fun init() {
+//        supportActionBar?.title = "Поиск"
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
+//        recyclerView = findViewById(R.id.recyclerView)
+//        recyclerView?.setHasFixedSize(true)
+//        recyclerView?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+//        adapter = RecyclerViewSearchAdapter(this@SearchActivity, list)
+//        adapter!!.notifyDataSetChanged()
+//        recyclerView?.adapter = adapter
+//    }
 
     private fun initList() {
         GrowUpApplication.mUserRef.addValueEventListener(object : ValueEventListener {

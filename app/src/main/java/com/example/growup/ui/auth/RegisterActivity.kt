@@ -130,7 +130,7 @@ class RegisterActivity : AppCompatActivity() {
                             "${spinnerRegions?.selectedItem},${spinnerDistricts?.selectedItem}"
                         )
                         val intent = Intent(this, VerifyPhoneActivity::class.java)
-                        intent.putExtra("phonenumber", "+${code + mNumber}")
+                        intent.putExtra("phoneNumber", "+${code + mNumber}")
                         intent.putExtra("fromActivity", "register")
                         startActivity(intent)
                     }
