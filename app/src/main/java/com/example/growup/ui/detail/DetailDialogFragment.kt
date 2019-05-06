@@ -41,7 +41,8 @@ class DetailDialogFragment : DialogFragment() {
     private var detailUserPhone: TextView? = null
     private var detailDate: TextView? = null
     private var detailMessage: TextView? = null
-    private var detailUseBtn: Button? = null
+    private var whatsappBtn: Button? = null
+    private var dialerBtn: Button? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +67,8 @@ class DetailDialogFragment : DialogFragment() {
         detailUserName = view.findViewById(R.id.detail_user)
         detailLocation = view.findViewById(R.id.detail_location)
         detailUserPhone = view.findViewById(R.id.detail_user_phone)
-        detailUseBtn = view.findViewById(R.id.detail_use_btn)
+        whatsappBtn = view.findViewById(R.id.whatsapp_btn)
+        dialerBtn = view.findViewById(R.id.call_btn)
         detailMessage = view.findViewById(R.id.detail_message)
     }
 
@@ -94,8 +96,12 @@ class DetailDialogFragment : DialogFragment() {
         detailLocation?.text = "Местоположение: ${mData.location}"
         detailMessage?.text = mData.message
 
-        detailUseBtn?.setOnClickListener {
+        whatsappBtn?.setOnClickListener {
             openWhatsApp(mData.userPhone)
+        }
+
+        dialerBtn?.setOnClickListener {
+                openDialer(mData.userPhone)
         }
     }
 
@@ -111,9 +117,13 @@ class DetailDialogFragment : DialogFragment() {
             Toast.makeText(activity, "Whatsapp app not installed in your phone", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
         }
-
     }
 
+    private fun openDialer(number: String){
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:$number")
+        startActivity(intent)
+    }
     companion object {
         private const val ARG_ID = "id"
         private const val ARG_KEY = "DETAIL_DATA"
