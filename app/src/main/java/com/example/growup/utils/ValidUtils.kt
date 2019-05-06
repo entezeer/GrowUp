@@ -93,4 +93,36 @@ object ValidUtils {
         return valid
     }
 
+    fun checkAddProductData(
+        name: EditText,
+        unitPrice: EditText,
+        size: EditText,
+        totalPrice: EditText,
+        message: EditText
+    ): Boolean {
+        var valid = true
+        if (name.text.trim().isEmpty() && name.text.trim().length < 4){
+            name.error =  "Input Product Name Correct"
+            valid = false
+        }
+        if (message.text.trim().isEmpty() && message.text.trim().length < 4){
+            message.error =  "Input Message Correct"
+            valid = false
+        }
+        if(unitPrice.text.trim().isEmpty() ){
+            unitPrice.error =  "Input Unit Price Correct"
+            valid = false
+        }
+        if(size.text.trim().isEmpty() ){
+            size.error =  "Input Size Correct"
+            valid = false
+        }
+        if(totalPrice.text.trim().isEmpty() ){
+            totalPrice.error =  "Input Total Price Correct"
+            valid = false
+        }
+
+        return valid
+    }
+
 }

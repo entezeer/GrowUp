@@ -26,7 +26,6 @@ class MyProductsActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
         setContentView(R.layout.activity_my_products)
 
         init()
-
         initData()
     }
 
