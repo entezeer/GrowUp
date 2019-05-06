@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkUser() {
-        if (GrowUpApplication.mAuth.currentUser != null) {
+        if (GrowUpApplication.mAuth.currentUser != null ) {
             startActivity(Intent(this, MainActivity::class.java))
         } else startActivity(Intent(this, StartActivity::class.java))
         finish()

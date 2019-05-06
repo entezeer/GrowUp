@@ -4,8 +4,11 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
+import com.entezeer.tracking.utils.ValidUtils
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.Products
@@ -43,7 +46,39 @@ class AddAnnouncementActivity : AppCompatActivity() {
 
         name = findViewById(R.id.name)
         unitPrice = findViewById(R.id.unit_price)
+
         size = findViewById(R.id.size)
+        size?.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                calculator()
+            }
+
+        })
+
+        unitPrice?.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+               calculator()
+            }
+
+        })
+
+
         totalPrice = findViewById(R.id.total_price)
         message = findViewById(R.id.message)
 
@@ -93,25 +128,41 @@ class AddAnnouncementActivity : AppCompatActivity() {
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.sizeType)
     }
 
-    private fun addAnnouncement() {
-        val product = Products(
-            name?.text.toString(),
-            spinnerCategories?.selectedItem.toString(),
-            spinnerSubCategories?.selectedItem.toString(),
-            size?.text.toString() + " " + spinnerSize?.selectedItem.toString(),
-            unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
-            totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
-            GrowUpApplication.mUserData.name,
-            GrowUpApplication.mUserData.phoneNumber,
-            GrowUpApplication.mUserData.region,
-            message?.text.toString(),
-            GrowUpApplication.mAuth.currentUser?.uid!!
-        )
-        GrowUpApplication.mMarketRef.push().setValue(product)
-            .addOnCompleteListener {
-                if (it.isSuccessful){
-                    MainActivity.start(this,"market")
-                }
+    private fun calculator(){
+        if(spinnerSize?.selectedItem.toString() == ProductsCategories.sizeType[0]){
+            if(unitPrice?.text.toString().trim().isNotEmpty() && size?.text.toString().trim().isNotEmpty()){
+                totalPrice?.setText( (unitPrice?.text?.toString()?.toInt()!! * size?.text?.toString()?.toInt()!!).toString())
             }
+        }
+        if(spinnerSize?.selectedItem.toString() == ProductsCategories.sizeType[1]){
+            if(unitPrice?.text.toString().trim().isNotEmpty() && size?.text.toString().trim().isNotEmpty()){
+                totalPrice?.setText( (unitPrice?.text?.toString()?.toInt()!! * (size?.text?.toString()?.toInt()!! * 1000)).toString())
+            }
+        }
+    }
+
+    private fun addAnnouncement() {
+        if (ValidUtils.checkAddProductData(name!!,unitPrice!!,size!!,totalPrice!!,message!!)){
+            val product = Products(
+                name?.text.toString(),
+                spinnerCategories?.selectedItem.toString(),
+                spinnerSubCategories?.selectedItem.toString(),
+                size?.text.toString() + " " + spinnerSize?.selectedItem.toString(),
+                unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
+                totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
+                GrowUpApplication.mUserData.name,
+                GrowUpApplication.mUserData.phoneNumber,
+                GrowUpApplication.mUserData.region,
+                message?.text.toString(),
+                GrowUpApplication.mAuth.currentUser?.uid!!
+            )
+            GrowUpApplication.mMarketRef.push().setValue(product)
+                .addOnCompleteListener {
+                    if (it.isSuccessful){
+                        MainActivity.start(this,"market")
+                    }
+                }
+        }
+
     }
 }

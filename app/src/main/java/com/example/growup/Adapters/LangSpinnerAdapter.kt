@@ -10,13 +10,13 @@ import com.example.growup.R
 import kotlinx.android.synthetic.main.lang_spinner_item.view.*
 
 class LangSpinnerAdapter(val context:Context, val country: Array<String>, val flag: Array<Int>) : BaseAdapter() {
-    val mInflater: LayoutInflater = LayoutInflater.from(context)
+    private val mInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
-        var convertView = mInflater.inflate(R.layout.lang_spinner_item, parent, false)
-        var countryName: TextView = convertView.findViewById(R.id.country_name) as TextView
-        var countryFlag: ImageView = convertView.findViewById(R.id.country_flag) as ImageView
+        val convertView = mInflater.inflate(R.layout.lang_spinner_item, parent, false)
+        val countryName: TextView = convertView.findViewById(R.id.country_name) as TextView
+        val countryFlag: ImageView = convertView.findViewById(R.id.country_flag) as ImageView
 
         countryName.text =  country[position]
         countryFlag.setImageResource(flag[position])

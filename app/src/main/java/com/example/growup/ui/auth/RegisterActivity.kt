@@ -92,7 +92,10 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         registerBtn?.setOnClickListener {
-            register()
+            if(ValidUtils.checkRegisterInputData(name!!,lastName!!,email!!,number!!,password!!,radioGroup!! , this)){
+                register()
+            }
+
         }
     }
 

@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 GrowUpApplication.mUserData = dataSnapshot.getValue(User::class.java)!!
                 val mUserData: Map<*, *> = dataSnapshot.value as Map<*, *>
-                if (mUserData["userData"]=="Оптовик"){
+                if (mUserData["userType"]=="Оптовик"){
                     setFragment(MarketFragment(), "Маркет")
                 }
                 userName?.text = "${mUserData["name"]} ${mUserData["lastName"]}"

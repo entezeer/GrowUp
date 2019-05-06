@@ -69,6 +69,9 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         mProgressBar = view.findViewById(R.id.progress_bar)
 
         mAddButton = view.findViewById(R.id.add_announcement)
+        if(GrowUpApplication.mUserData.userType == "Оптовик"){
+            mAddButton?.hide()
+        }
         mAddButton?.setOnClickListener {
             startActivity(Intent(activity,AddAnnouncementActivity::class.java))
         }
