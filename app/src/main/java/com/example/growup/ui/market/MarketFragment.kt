@@ -36,7 +36,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     private var mData: ArrayList<Products> = ArrayList()
     private var mMarketRecyclerView: RecyclerView? = null
     private var mAddButton: FloatingActionButton? = null
-    private var adapter: RecyclerViewSearchAdapter? = null
+    private var adapter: MarketRecyclerAdapter? = null
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
     private var mProgressBar: ProgressBar? = null
 
@@ -75,7 +75,6 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         mAddButton?.setOnClickListener {
             startActivity(Intent(activity,AddAnnouncementActivity::class.java))
         }
-        adapter = RecyclerViewSearchAdapter(activity!!, mData)
     }
     private fun initData(){
         GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener{
@@ -93,8 +92,9 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
     private fun updateUi(){
         checkNetwork()
+        adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
         mProgressBar?.visibility = View.GONE
-        mMarketRecyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
+        mMarketRecyclerView?.adapter = adapter
         mSwipeRefreshLayout?.isRefreshing = false
     }
 
@@ -126,8 +126,8 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
                 return false
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                    adapter?.filter?.filter(newText)
+            override fun onQueryTextChange(newText: String): Boolean {
+                adapter?.filter(newText)
                 return false
             }
         })

@@ -23,7 +23,6 @@ class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.listFull = list
         this.list = list
         this.context = context
-
     }
     override fun getFilter(): Filter {
         if(recyclerFilter == null){
