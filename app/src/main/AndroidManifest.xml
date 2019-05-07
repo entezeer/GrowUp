@@ -19,7 +19,7 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.user.UserActivity"
-                  android:theme="@style/MainTheme">
+                  >
         </activity>
         <activity
                 android:name=".ui.AboutUsActivity"
