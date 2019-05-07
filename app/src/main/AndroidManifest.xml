@@ -18,25 +18,24 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-
-
-        <activity android:name=".ui.AboutUsActivity"
+        <activity android:name=".ui.user.UserActivity"
                   android:theme="@style/MainTheme">
         </activity>
-
-
+        <activity
+                android:name=".ui.AboutUsActivity"
+                android:theme="@style/MainTheme">
+        </activity>
         <activity android:name=".ui.market.MyProductsActivity">
         </activity>
         <activity
                 android:name=".ui.market.AddAnnouncementActivity"
                 android:theme="@style/MainTheme"/>
-
         <activity
-                android:name=".ui.EditProfileActivity"
+                android:name=".ui.profile.EditProfileActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".ui.ProfileActivity"
+                android:name=".ui.profile.ProfileActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity android:name=".ui.search.SearchActivity">

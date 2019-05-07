@@ -11,10 +11,10 @@ import com.example.growup.Adapters.LangSpinnerAdapter
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.User
+import com.example.growup.ui.profile.ProfileActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import org.w3c.dom.Text
 
 class SettingsActivity : AppCompatActivity() {
     private var userInfo: RelativeLayout? = null
@@ -83,7 +83,7 @@ class SettingsActivity : AppCompatActivity() {
 
         userInfo = findViewById(R.id.settigs_user_info)
         userInfo?.setOnClickListener {
-            startActivity(Intent(this@SettingsActivity,ProfileActivity::class.java))
+            startActivity(Intent(this@SettingsActivity, ProfileActivity::class.java))
         }
         buttonRate = findViewById(R.id.button_rate_app)
         buttonRate?.setOnClickListener {

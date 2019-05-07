@@ -1,7 +1,6 @@
-package com.example.growup.ui
+package com.example.growup.ui.profile
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -16,11 +15,9 @@ import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.User
 import com.example.growup.ui.market.MyProductsActivity
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
 
 
 class ProfileActivity : AppCompatActivity() {
@@ -84,7 +81,7 @@ class ProfileActivity : AppCompatActivity() {
 
         editProfileButton = findViewById(R.id.edit_profile_btn)
         editProfileButton?.setOnClickListener{
-            startActivity(Intent(this,EditProfileActivity::class.java))
+            startActivity(Intent(this, EditProfileActivity::class.java))
         }
 
         getMyProducts = findViewById(R.id.my_products)

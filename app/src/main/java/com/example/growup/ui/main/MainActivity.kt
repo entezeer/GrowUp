@@ -20,11 +20,9 @@ import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.bumptech.glide.Glide
 import com.example.growup.models.User
-import com.example.growup.ui.ProfileActivity
-import com.example.growup.ui.search.SearchActivity
+import com.example.growup.ui.profile.ProfileActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
-import com.example.growup.ui.detail.DetailDialogFragment
 import com.example.growup.ui.market.MarketFragment
 import com.example.growup.ui.statistic.StatisticFragment
 import com.google.firebase.database.DataSnapshot

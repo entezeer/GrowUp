@@ -1,4 +1,4 @@
-package com.example.growup.ui
+package com.example.growup.ui.profile
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -13,13 +13,9 @@ import com.entezeer.tracking.utils.ValidUtils
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.User
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.core.SyncTree
-import com.google.firebase.storage.UploadTask
-import com.google.gson.Gson
 
 class EditProfileActivity : AppCompatActivity() {
     private val GET_IMAGE_GALLERY: Int = 1
@@ -82,7 +78,7 @@ class EditProfileActivity : AppCompatActivity() {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent,"Выбирите изображение"),GET_IMAGE_GALLERY)
+            startActivityForResult(Intent.createChooser(intent,"Выберите изображение"),GET_IMAGE_GALLERY)
         }
         editProfileName = findViewById(R.id.edit_profile_name)
         editProfileSurname = findViewById(R.id.edit_profile_surname)
