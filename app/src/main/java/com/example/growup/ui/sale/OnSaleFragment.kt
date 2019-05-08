@@ -97,12 +97,9 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
 
     companion object {
-        private const val ARG_PAGE = "ARG_FREE"
-        private const val ARG_STATUS_CODE = 0
         private const val ARG_POSITION = "position"
         private const val ARG_UID = "uid"
         const val TITLE = "Продажа"
-        var INSTANCE: Fragment? = null
         fun newInstance(position: Int, uid: String): Fragment {
             val fragment = OnSaleFragment()
             val bundle = Bundle()

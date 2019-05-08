@@ -53,6 +53,7 @@ class DetailDialogFragment : DialogFragment() {
 
     private var whatsappBtn: Button? = null
     private var dialerBtn: Button? = null
+    private var soldBtn: Button? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,6 +86,7 @@ class DetailDialogFragment : DialogFragment() {
         whatsappBtn = view.findViewById(R.id.whatsapp_btn)
         dialerBtn = view.findViewById(R.id.call_btn)
         detailMessage = view.findViewById(R.id.detail_message)
+        soldBtn = view.findViewById(R.id.sold_btn)
     }
 
     @SuppressLint("SetTextI18n")
@@ -130,6 +132,10 @@ class DetailDialogFragment : DialogFragment() {
                 detailLocation?.text = "Местоположение: ${userData?.region}"
             }
         })
+
+        if (mData.uid!=GrowUpApplication.mAuth.currentUser?.uid){
+            soldBtn?.visibility = View.GONE
+        }
 
         whatsappBtn?.setOnClickListener {
             openWhatsApp(mData.userPhone)
