@@ -14,6 +14,7 @@ class GrowUpApplication: Application(){
         lateinit var mAuth: FirebaseAuth
         lateinit var mUserRef: DatabaseReference
         lateinit var mMarketRef: DatabaseReference
+        lateinit var mSoldRef: DatabaseReference
         lateinit var mStatisticRef: DatabaseReference
         lateinit var mStorage: StorageReference
         lateinit var mUserData: User
@@ -25,6 +26,7 @@ class GrowUpApplication: Application(){
         mAuth = FirebaseAuth.getInstance()
         mUserRef = FirebaseDatabase.getInstance().getReference("users")
         mMarketRef = FirebaseDatabase.getInstance().getReference("market")
+        mSoldRef = FirebaseDatabase.getInstance().getReference("sold")
         mStatisticRef = FirebaseDatabase.getInstance().getReference("statistic")
         mStorage = FirebaseStorage.getInstance().getReference()
     }

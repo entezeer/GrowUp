@@ -37,6 +37,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
     private var adapter: MarketRecyclerAdapter? = null
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
     private var mProgressBar: ProgressBar? = null
+    private var mDataKeys: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +47,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
         val view = inflater.inflate(R.layout.fragment_on_sale, container, false)
 
         init(view)
-
         initData()
-
         return view
     }
 
@@ -65,9 +64,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
 
     private fun initData() {
-
         val uid = arguments?.getString(ARG_UID)
-
         GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()
@@ -77,6 +74,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
                 dataSnapshot.children.forEach {
                     if (it.getValue(Products::class.java)!!.uid == uid) {
                         mData.add(it.getValue(Products::class.java)!!)
+                        mDataKeys.add(it.key.toString())
                     }
                 }
                 updateUi()
@@ -84,7 +82,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
         })
     }
 
-    private fun updateUi() {
+    private fun updateUi(){
         adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
 //        mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter
@@ -92,8 +90,9 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
 
     override fun onItemSelectedAt(position: Int) {
-        val detailDialogFragment = DetailDialogFragment.newInstance(position)
+        val detailDialogFragment = DetailDialogFragment.newInstance(position, mDataKeys[position] , "OnSalesFragment", mData[position])
         detailDialogFragment.show(fragmentManager, "detailDialogFragment")
+
     }
 
     companion object {

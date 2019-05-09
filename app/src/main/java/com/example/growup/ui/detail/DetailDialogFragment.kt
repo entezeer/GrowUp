@@ -2,6 +2,7 @@ package com.example.growup.ui.detail
 
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -18,6 +19,7 @@ import android.net.Uri
 import android.view.Window
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.example.growup.models.Products
 import com.example.growup.models.User
 import com.example.growup.ui.user.UserActivity
 import com.google.firebase.database.DataSnapshot
@@ -54,7 +56,9 @@ class DetailDialogFragment : DialogFragment() {
     private var whatsappBtn: Button? = null
     private var dialerBtn: Button? = null
     private var soldBtn: Button? = null
-
+    private lateinit var productKey: String
+    private lateinit var from: String
+    private lateinit var mData: Products
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,9 +95,7 @@ class DetailDialogFragment : DialogFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun showData() {
-        val id = arguments?.getInt(ARG_ID)
 
-        val mData = GrowUpApplication.productsData[id!!]
         detailImage?.setImageResource(R.drawable.others)
         if (mData.category == "Овощи") {
             detailImage?.setImageResource(R.drawable.vegetables1)
@@ -133,8 +135,11 @@ class DetailDialogFragment : DialogFragment() {
             }
         })
 
-        if (mData.uid!=GrowUpApplication.mAuth.currentUser?.uid){
+        if (mData.uid!=GrowUpApplication.mAuth.currentUser?.uid || from == "SalesFragment"){
             soldBtn?.visibility = View.GONE
+        }
+        soldBtn?.setOnClickListener {
+            Utils.confirmationForSold(context!!,mData,productKey)
         }
 
         whatsappBtn?.setOnClickListener {
@@ -172,9 +177,12 @@ class DetailDialogFragment : DialogFragment() {
     companion object {
         private const val ARG_ID = "id"
         private const val ARG_KEY = "DETAIL_DATA"
-        fun newInstance(id: Int): DetailDialogFragment = DetailDialogFragment().apply {
+        fun newInstance(id: Int , key: String, from: String, mData: Products): DetailDialogFragment = DetailDialogFragment().apply {
             val bundle = Bundle()
             bundle.putInt(ARG_ID, id)
+            this.productKey = key
+            this.from = from
+            this.mData = mData
             this.arguments = bundle
         }
     }

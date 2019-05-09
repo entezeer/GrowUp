@@ -17,7 +17,6 @@ import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.Products
 import com.example.growup.ui.detail.DetailDialogFragment
-import com.example.growup.ui.search.RecyclerViewSearchAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -39,6 +38,8 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     private var adapter: MarketRecyclerAdapter? = null
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
     private var mProgressBar: ProgressBar? = null
+    private var mDataKeys: ArrayList<String> = ArrayList(
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +48,6 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true)
         val view = inflater.inflate(R.layout.fragment_market, container, false)
-
-
         init(view)
 
         initData()
@@ -85,6 +84,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
                     mData.add(it.getValue(Products::class.java)!!)
+                    mDataKeys.add(it.key.toString())
                 }
                 updateUi()
             }
@@ -99,14 +99,14 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
 
     private fun checkNetwork(){
-        if (!InternetUtil.checkInternet(activity!!)){
-            Utils.showInternetAlert(activity!!)
+        if (!activity?.let { InternetUtil.checkInternet(it) }!!){
+            activity?.let { Utils.showInternetAlert(it) }
         }
     }
 
     override fun onItemSelectedAt(position: Int) {
         GrowUpApplication.productsData = mData
-        val detailDialogFragment = DetailDialogFragment.newInstance(position)
+        val detailDialogFragment = DetailDialogFragment.newInstance(position, mDataKeys[position] , "Market", mData[position])
         detailDialogFragment.show(fragmentManager,"detailDialogFragment")
     }
 

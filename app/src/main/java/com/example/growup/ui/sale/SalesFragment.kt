@@ -66,7 +66,7 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener {
 
         val uid = arguments?.getString(ARG_UID)
 
-        GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener {
+        GrowUpApplication.mSoldRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()
             }
@@ -88,11 +88,10 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener {
         mSwipeRefreshLayout?.isRefreshing = false
     }
     override fun onItemSelectedAt(position: Int) {
-        val detailDialogFragment = DetailDialogFragment.newInstance(position)
+        val detailDialogFragment = DetailDialogFragment.newInstance(position, "null" , "SalesFragment" , mData[position])
         detailDialogFragment.show(fragmentManager, "detailDialogFragment")
     }
-
-
+    
     companion object {
         private const val ARG_POSITION = "position"
         private const val ARG_UID = "uid"
