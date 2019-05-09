@@ -66,25 +66,25 @@ object ValidUtils {
     }
 
     fun checkEditProfileChanges(
-        editProfileName: EditText,
-        editProfileSurname: EditText,
-        editProfileRegion: EditText,
-        editProfileEmail: EditText
+        editProfileName: EditText?,
+        editProfileSurname: EditText?,
+        editProfileRegion: EditText?,
+        editProfileEmail: EditText?
     ): Boolean {
         var valid = true
-        if(editProfileName.text.trim().isEmpty() && editProfileName.text.trim().length < 2){
+        if(editProfileName?.text?.trim()!!.isEmpty() && editProfileName.text.trim().length < 2){
             editProfileName.error =  "Input Name Correct"
             valid = false
         }
-        if(editProfileSurname.text.trim().isEmpty() && editProfileSurname.text.trim().length < 2){
+        if(editProfileSurname?.text?.trim()!!.isEmpty() && editProfileSurname.text.trim().length < 2){
             editProfileSurname.error =  "Input Name Correct"
             valid = false
         }
-        if(editProfileRegion.text.trim().isEmpty() ){
+        if(editProfileRegion?.text?.trim()!!.isEmpty() ){
             editProfileRegion.error =  "Input Name Correct"
             valid = false
         }
-        if (editProfileEmail.text.trim().isEmpty() && editProfileEmail.text.trim().length < 9){
+        if (editProfileEmail?.text?.trim()!!.isEmpty() && editProfileEmail.text.trim().length < 9){
             editProfileEmail.error =  "Input Email Correct"
             valid = false
         }

@@ -27,13 +27,20 @@ class EditProfileActivity : AppCompatActivity() {
     private var editProfileSurname: EditText? = null
     private var editProfileEmail: EditText? = null
     private var editProfileRegion: EditText?= null
+    private var dialog: ProgressDialog? = null
 
 //    private var editProfilePhoneNumber: EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
+        dialog = ProgressDialog(this)
         init()
         getUserData()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        dialog?.dismiss()
     }
 
     private fun getUserData() {
@@ -69,7 +76,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
         buttonSaveChanges = findViewById(R.id.save_user_data_btn)
         buttonSaveChanges?.setOnClickListener {
-            if (ValidUtils.checkEditProfileChanges(editProfileName!! , editProfileSurname!!, editProfileRegion!!, editProfileEmail!!)){
+            if (ValidUtils.checkEditProfileChanges(editProfileName , editProfileSurname, editProfileRegion, editProfileEmail)){
                 saveChanges()
             }
         }
@@ -87,20 +94,18 @@ class EditProfileActivity : AppCompatActivity() {
     }
     private fun saveChanges(){
             if (imageUri != null){
-                val dialog: ProgressDialog = ProgressDialog(this)
-                dialog.setCancelable(false)
-                dialog.setTitle("Изображение загружается")
-                dialog.show()
+                dialog?.setCancelable(false)
+                dialog?.setTitle("Изображение загружается")
+                dialog?.show()
                 GrowUpApplication.mStorage.child("UsersProfileImages/"+GrowUpApplication.mAuth.currentUser!!.uid)
                     .putFile(imageUri!!).addOnSuccessListener{ task ->
-                        dialog.dismiss()
-                        onBackPressed()
+                        dialog?.dismiss()
                     }.addOnFailureListener{task ->
-                        dialog.dismiss()
+                        dialog?.dismiss()
                         Toast.makeText(this@EditProfileActivity, task.message.toString() ,Toast.LENGTH_SHORT).show()
                     }.addOnProgressListener {
                         val progress = 100.0 * it.bytesTransferred/it.totalByteCount
-                        dialog.setMessage("Загружено " + progress.toInt() + "%")
+                        dialog?.setMessage("Загружено " + progress.toInt() + "%")
                     }
             }
                 GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("lastName").setValue(editProfileSurname?.text.toString())

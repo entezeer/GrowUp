@@ -139,7 +139,7 @@ class DetailDialogFragment : DialogFragment() {
             soldBtn?.visibility = View.GONE
         }
         soldBtn?.setOnClickListener {
-            Utils.confirmationForSold(context!!,mData,productKey)
+            activity?.let { it1 -> Utils.confirmationForSold(it1,mData,productKey) }
         }
 
         whatsappBtn?.setOnClickListener {

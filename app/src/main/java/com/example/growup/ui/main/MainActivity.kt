@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     private var navigationDrawer: NavigationView? = null
     private var drawerLayout: DrawerLayout? = null
     private var toolbar: Toolbar? = null
-    private var userHeader: LinearLayout? = null
     private var userName: TextView? = null
     private var userImage: ImageView? = null
 
@@ -47,7 +46,10 @@ class MainActivity : AppCompatActivity() {
             setFragment(MarketFragment(),"Маркет")
         } else setFragment(StatisticFragment(),"Статистика")
 
+        setUserData()
+
         init()
+
     }
 
     @SuppressLint("NewApi")
@@ -64,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
 
         userImage = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
-        setUserData()
+
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -77,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_main -> setFragment(StatisticFragment(),"Статистика")
-                R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
+//                R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
                 R.id.nav_market -> setFragment(MarketFragment(), "Маркет")
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {
@@ -136,7 +138,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     companion object {
         private const val EXTRA_FRAGMENT = "fragment"
         fun start(context: Context, fragment: String) {
@@ -145,5 +146,4 @@ class MainActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
     }
-
 }
