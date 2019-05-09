@@ -1,86 +1,85 @@
 package com.example.growup.ui.search
 
 import android.content.Context
+
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
+
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.Products
+import com.example.growup.models.User
+import com.example.growup.ui.market.MarketRecyclerAdapter
+import org.w3c.dom.Text
+import java.util.*
+import kotlin.collections.ArrayList
 
-class RecyclerViewSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class RecyclerViewSearchAdapter(private val users: ArrayList<User>, private val userImages: ArrayList<String>,
+                                var listener: Listener , var context: Context ) :
+        RecyclerView.Adapter<RecyclerViewSearchAdapter.ViewHolder>(){
 
-    private var list: ArrayList<Products>? = null
-    private var listFull: ArrayList<Products>? = null
-    private var context: Context? = null
-
-    private var recyclerFilter: RecyclerFilter? = null
-    constructor(context: Context, list: ArrayList<Products>): this(){
-        this.listFull = list
-        this.list = list
-        this.context = context
-    }
-    override fun getFilter(): Filter {
-        if(recyclerFilter == null){
-            recyclerFilter = RecyclerFilter()
-        }
-        return recyclerFilter as RecyclerFilter
-    }
-    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        var queryText: TextView? = null
-        var userImage: ImageView? = null
-        init{
-            userImage = view.findViewById(R.id.user_image_list)
-            queryText = view.findViewById(R.id.query_text)
-
-        }
-
+    private var usersList: ArrayList<User> = ArrayList()
+    init {
+        usersList.addAll(users)
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_view_search_item,p0,false))
-
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
+        return ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.recycler_view_search_item,p0,false))
     }
 
     override fun getItemCount(): Int {
-        return list?.size as Int
+        return users.size
     }
 
-    override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        val holder: ViewHolder = p0 as ViewHolder
-        holder.queryText?.text = list?.get(p1).toString()
-
+    override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
+        viewHolder.bindData(users[i] , userImages[i])
     }
 
-    inner class RecyclerFilter: Filter(){
-        override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val result: FilterResults = FilterResults()
-            if(constraint != null && constraint.isNotEmpty()){
-                var localList: ArrayList<String> = ArrayList<String>()
-                for (i: Int in 0..listFull?.size?.minus(1) as Int){
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private val userImage = itemView.findViewById<ImageView>(R.id.user_image_list)
+        private val userNameSurname= itemView.findViewById<TextView>(R.id.user_name_surname)
+        private val userType= itemView.findViewById<TextView>(R.id.user_type)
 
-                        localList.add(listFull?.get(i).toString())
-
+        fun bindData(data: User , imagePath: String) {
+            GrowUpApplication.mStorage.child("UsersProfileImages").child(imagePath)
+                .downloadUrl
+                .addOnSuccessListener { task ->
+                    Glide.with(context).load(task).into(userImage!!)
+                }.addOnFailureListener {
+                    userImage?.setImageResource(R.drawable.user_icon)
                 }
-                result.values = localList
-                result.count  = localList.size
-            }else{
-                result.values = listFull
-                result.count  = listFull?.size as Int
 
+            userNameSurname.text = data.name + " " + data.lastName
+            userType.text = data.userType
+            itemView.setOnClickListener{
+                listener.onItemSelectedAt(adapterPosition)
             }
-            return result
-        }
-
-        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            list = results?.values as ArrayList<Products>
-            notifyDataSetChanged()
         }
     }
 
-
+    fun filter(text: String) {
+        var text = text
+        text = text.toLowerCase(Locale.getDefault())
+        users.clear()
+        if (text.isEmpty()) {
+            users.addAll(usersList)
+        } else {
+            for (u in usersList) {
+                if ((u.name.toLowerCase(Locale.getDefault()) + " " + u.name.toLowerCase(Locale.getDefault())).contains(text)) {
+                    users.add(u)
+                }
+            }
+        }
+        notifyDataSetChanged()
+    }
+    interface Listener {
+        fun onItemSelectedAt(position: Int)
+    }
 }
+
+

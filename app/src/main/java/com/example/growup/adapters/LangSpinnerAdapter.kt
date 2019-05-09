@@ -1,4 +1,4 @@
-package com.example.growup.Adapters
+package com.example.growup.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,6 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.growup.R
-import kotlinx.android.synthetic.main.lang_spinner_item.view.*
 
 class LangSpinnerAdapter(val context:Context, val country: Array<String>, val flag: Array<Int>) : BaseAdapter() {
     private val mInflater: LayoutInflater = LayoutInflater.from(context)

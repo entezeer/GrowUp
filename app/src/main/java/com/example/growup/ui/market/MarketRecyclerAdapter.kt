@@ -15,9 +15,9 @@ import kotlin.collections.ArrayList
 
 class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener: Listener, var context: Context) :
     RecyclerView.Adapter<MarketRecyclerAdapter.ViewHolder>() {
-    private var arraylist: ArrayList<Products> = ArrayList()
+    private var arrayList: ArrayList<Products> = ArrayList()
     init {
-        arraylist.addAll(items)
+        arrayList.addAll(items)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -65,9 +65,9 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
         text = text.toLowerCase(Locale.getDefault())
         items.clear()
         if (text.isEmpty()) {
-            items.addAll(arraylist)
+            items.addAll(arrayList)
         } else {
-            for (wp in arraylist) {
+            for (wp in arrayList) {
                 if (wp.subCategory.toLowerCase(Locale.getDefault()).contains(text)) {
                     items.add(wp)
                 }

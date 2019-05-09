@@ -38,8 +38,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     private var adapter: MarketRecyclerAdapter? = null
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
     private var mProgressBar: ProgressBar? = null
-    private var mDataKeys: ArrayList<String> = ArrayList(
-    )
+    private var mDataKeys: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +48,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         setHasOptionsMenu(true)
         val view = inflater.inflate(R.layout.fragment_market, container, false)
         init(view)
-
         initData()
-
         return view
     }
 

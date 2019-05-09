@@ -24,6 +24,7 @@ import com.example.growup.ui.profile.ProfileActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
 import com.example.growup.ui.market.MarketFragment
+import com.example.growup.ui.search.SearchActivity
 import com.example.growup.ui.statistic.StatisticFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_main -> setFragment(StatisticFragment(),"Статистика")
-//                R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
+                R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
                 R.id.nav_market -> setFragment(MarketFragment(), "Маркет")
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {

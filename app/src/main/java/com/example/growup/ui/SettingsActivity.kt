@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.widget.*
 import com.bumptech.glide.Glide
-import com.example.growup.Adapters.LangSpinnerAdapter
+import com.example.growup.adapters.LangSpinnerAdapter
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.User
