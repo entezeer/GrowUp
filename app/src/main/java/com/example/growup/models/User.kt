@@ -8,4 +8,5 @@ class User(
     var password: String = "",
     var userType: String = "",
     var region: String = ""
+
 )

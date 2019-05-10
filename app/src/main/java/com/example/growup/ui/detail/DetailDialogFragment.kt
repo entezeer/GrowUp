@@ -21,6 +21,7 @@ import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.growup.models.Products
 import com.example.growup.models.User
+import com.example.growup.ui.market.MarketFragment
 import com.example.growup.ui.user.UserActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -53,22 +54,26 @@ class DetailDialogFragment : DialogFragment() {
 
     private var detailUserIcon: ImageView? = null
 
+    private var favoriteBtn: CheckBox? = null
+
     private var whatsappBtn: Button? = null
     private var dialerBtn: Button? = null
     private var soldBtn: Button? = null
+    private var favoritesList: ArrayList<String> = ArrayList()
     private lateinit var productKey: String
     private lateinit var from: String
     private lateinit var mData: Products
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_detail_dialog, container, false)
-        if (dialog!=null && dialog.window!=null){
-            dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.window.requestFeature(Window.FEATURE_NO_TITLE)
-        }
+
+        getData()
+
         init(view)
 
         showData()
@@ -91,11 +96,11 @@ class DetailDialogFragment : DialogFragment() {
         dialerBtn = view.findViewById(R.id.call_btn)
         detailMessage = view.findViewById(R.id.detail_message)
         soldBtn = view.findViewById(R.id.sold_btn)
+        favoriteBtn = view.findViewById(R.id.favorite_btn)
     }
 
     @SuppressLint("SetTextI18n")
     private fun showData() {
-
         detailImage?.setImageResource(R.drawable.others)
         if (mData.category == "Овощи") {
             detailImage?.setImageResource(R.drawable.vegetables1)
@@ -113,14 +118,13 @@ class DetailDialogFragment : DialogFragment() {
             }.addOnFailureListener {
                 detailUserIcon?.setImageResource(R.drawable.user_icon)
             }
-
         detailProduct?.text = "${mData.name}, ${mData.category}, ${mData.subCategory}"
         detailUnitPrice?.text = "Цена за 1 кг: ${mData.unitPrice}"
         detailTotalPrice?.text = "Общая стоимость: ${mData.totalPrice}"
         detailSize?.text = "Объем: ${mData.size}"
         detailMessage?.text = mData.message
 
-        GrowUpApplication.mUserRef.child(mData.uid).addValueEventListener(object : ValueEventListener{
+        GrowUpApplication.mUserRef.child(mData.uid).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 detailUserName?.text = "${mData.user}"
                 detailUserPhone?.text = "Телефон: ${mData.userPhone}"
@@ -135,11 +139,11 @@ class DetailDialogFragment : DialogFragment() {
             }
         })
 
-        if (mData.uid!=GrowUpApplication.mAuth.currentUser?.uid || from == "SalesFragment"){
+        if (mData.uid != GrowUpApplication.mAuth.currentUser?.uid || from == "SalesFragment") {
             soldBtn?.visibility = View.GONE
         }
         soldBtn?.setOnClickListener {
-            activity?.let { it1 -> Utils.confirmationForSold(it1,mData,productKey) }
+            activity?.let { it1 -> Utils.confirmationForSold(it1, mData, productKey) }
         }
 
         whatsappBtn?.setOnClickListener {
@@ -147,15 +151,63 @@ class DetailDialogFragment : DialogFragment() {
         }
 
         dialerBtn?.setOnClickListener {
-                openDialer(mData.userPhone)
+            openDialer(mData.userPhone)
         }
 
         detailGetUser?.setOnClickListener {
             activity?.let { it1 -> UserActivity.start(it1, mData.uid) }
         }
+
+        favoriteBtn?.setOnClickListener {
+            if (!favoriteBtn?.isChecked!!) {
+                    GrowUpApplication.mUserRef
+                        .child(GrowUpApplication.mAuth.currentUser?.uid!!)
+                        .child("favorites")
+                        .child(productKey)
+                        .removeValue()
+                Toast.makeText(activity, "Удалено в Избранное", Toast.LENGTH_LONG).show()
+            }
+            else {
+                Toast.makeText(activity, "Добавлено в Избранное", Toast.LENGTH_LONG).show()
+                if (!favoritesList.contains(productKey)) {
+                    favoritesList.add(productKey)
+                }
+                favoritesList.forEach {
+                    GrowUpApplication.mUserRef
+                        .child(GrowUpApplication.mAuth.currentUser?.uid!!)
+                        .child("favorites")
+                        .child(it)
+                        .setValue(true)
+                }
+            }
+        }
     }
 
-    private fun openWhatsApp(number:String){
+    private fun getData() {
+        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).child("favorites")
+            .addValueEventListener(object :
+                ValueEventListener {
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()
+                }
+
+                @SuppressLint("SetTextI18n")
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    dataSnapshot.children.forEach {
+                        it.key?.let { it1 ->
+                            if (!favoritesList.contains(it1)) {
+                                favoritesList.add(it1)
+                            }
+                        }
+                        if (favoritesList.contains(productKey)) {
+                            favoriteBtn?.isChecked = true
+                        }
+                    }
+                }
+            })
+    }
+
+    private fun openWhatsApp(number: String) {
         val url = "https://api.whatsapp.com/send?phone=$number"
         try {
             val pm = context?.getPackageManager()
@@ -169,22 +221,21 @@ class DetailDialogFragment : DialogFragment() {
         }
     }
 
-    private fun openDialer(number: String){
+    private fun openDialer(number: String) {
         val intent = Intent(Intent.ACTION_DIAL)
         intent.data = Uri.parse("tel:$number")
         startActivity(intent)
     }
+
     companion object {
         private const val ARG_ID = "id"
         private const val ARG_KEY = "DETAIL_DATA"
-        fun newInstance(id: Int , key: String, from: String, mData: Products): DetailDialogFragment = DetailDialogFragment().apply {
-            val bundle = Bundle()
-            bundle.putInt(ARG_ID, id)
-            this.productKey = key
-            this.from = from
-            this.mData = mData
-            this.arguments = bundle
-        }
+        fun newInstance(key: String, from: String, mData: Products): DetailDialogFragment =
+            DetailDialogFragment().apply {
+                this.productKey = key
+                this.from = from
+                this.mData = mData
+            }
     }
 
 }

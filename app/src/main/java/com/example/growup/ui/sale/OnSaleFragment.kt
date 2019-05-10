@@ -90,9 +90,8 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
 
     override fun onItemSelectedAt(position: Int) {
-        val detailDialogFragment = DetailDialogFragment.newInstance(position, mDataKeys[position] , "OnSalesFragment", mData[position])
+        val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position] , "OnSalesFragment", mData[position])
         detailDialogFragment.show(fragmentManager, "detailDialogFragment")
-
     }
 
     companion object {

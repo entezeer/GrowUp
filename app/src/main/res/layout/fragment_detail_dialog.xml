@@ -9,17 +9,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <LinearLayout
-                android:layout_margin="20dp"
+
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             <ImageView
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/detail_image"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="150dp"
                     android:layout_height="150dp"/>
             <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/detail_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -28,18 +33,24 @@
                     android:textStyle="bold"
             />
             <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/detail_unit_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
             />
             <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/detail_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
             />
             <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/detail_total_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -47,18 +58,24 @@
             />
 
             <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/detail_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
             />
             <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/detail_user_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
             />
             <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/detail_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,25 +114,25 @@
 
             </LinearLayout>
             <LinearLayout
-                    android:padding="10dp"
-                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/mainGreen"
+            >
 
                 <Button
                         android:drawableLeft="@drawable/whatsapp_icon_24"
                         android:layout_gravity="center_horizontal"
                         android:id="@+id/whatsapp_btn"
-                        android:layout_marginTop="10dp"
                         android:layout_marginRight="3dp"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:text="@string/messaging"
                         android:padding="6dp"
-                        android:background="@drawable/rounded_button"
+                        android:background="@android:color/transparent"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp" tools:ignore="RtlHardcoded,SmallSp"/>
+                        android:layout_height="wrap_content" tools:ignore="RtlHardcoded,SmallSp"/>
                 <Button
                         android:layout_marginLeft="10dp"
                         android:drawableLeft="@drawable/call_icon_24"
@@ -126,27 +143,28 @@
                         android:textColor="@color/white"
                         android:text="@string/calling"
                         android:padding="6dp"
-                        android:background="@drawable/rounded_button"
+                        android:background="@android:color/transparent"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp" tools:ignore="RtlHardcoded,SmallSp"/>
-
+                        android:layout_height="wrap_content" tools:ignore="RtlHardcoded,SmallSp"/>
+                <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/favorite_btn"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        android:button="@drawable/favorite_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <Button
-                    android:layout_marginLeft="10dp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/sold_btn"
                     android:textSize="12sp"
-                    android:layout_marginTop="3dp"
                     android:textColor="@color/white"
                     android:text="@string/sold"
                     android:padding="6dp"
-                    android:background="@drawable/rounded_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp" tools:ignore="RtlHardcoded,SmallSp"/>
-
-
-
+                    android:background="@color/mainGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" tools:ignore="RtlHardcoded,SmallSp"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

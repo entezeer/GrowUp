@@ -18,8 +18,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.user.UserActivity"
-                  >
+        <activity android:name=".ui.market.FavoritesActivity">
+        </activity>
+        <activity android:name=".ui.user.UserActivity">
         </activity>
         <activity
                 android:name=".ui.AboutUsActivity"

@@ -46,7 +46,6 @@ class LoginActivity : AppCompatActivity() {
         val code = CountryCodes.countryAreaCodes[spinner?.selectedItemPosition!!]
         var mNumber = number?.text.toString().trim()
 
-
         if (mNumber.isEmpty() || mNumber.length < 9) {
             number?.error = "Valid number is required"
             number?.requestFocus()
@@ -76,10 +75,8 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         // user with this number doesn't exist ->
                         Toast.makeText(this@LoginActivity,"Пользователь с таким номером не зарегистрирован, чтобы войти пожалуйста зарегистрируйтесь.",Toast.LENGTH_LONG).show()
-
                     }
                 }
-
             })
     }
 }

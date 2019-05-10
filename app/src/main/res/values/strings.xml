@@ -46,5 +46,7 @@
     <string name="my_products">Мои объявления</string>
     <string name="size">Объем</string>
     <string name="sold">Продано</string>
+    <string name="favorite">Избранное</string>
+    <string name="statistic">Статистика</string>
 
 </resources>

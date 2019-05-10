@@ -24,7 +24,6 @@ import com.example.growup.ui.profile.ProfileActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
 import com.example.growup.ui.market.MarketFragment
-import com.example.growup.ui.search.SearchActivity
 import com.example.growup.ui.statistic.StatisticFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -42,9 +41,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (intent.getStringExtra(EXTRA_FRAGMENT) == "market") {
-            setFragment(MarketFragment(),"Маркет")
-        } else setFragment(StatisticFragment(),"Статистика")
+        setFragment(StatisticFragment(),"Статистика")
 
         setUserData()
 
@@ -78,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_main -> setFragment(StatisticFragment(),"Статистика")
+                R.id.nav_statistic -> setFragment(StatisticFragment(),"Статистика")
 //                R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
                 R.id.nav_market -> setFragment(MarketFragment(), "Маркет")
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
@@ -111,11 +108,11 @@ class MainActivity : AppCompatActivity() {
             @SuppressLint("SetTextI18n")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 GrowUpApplication.mUserData = dataSnapshot.getValue(User::class.java)!!
-                val mUserData: Map<*, *> = dataSnapshot.value as Map<*, *>
-                if (mUserData["userType"]=="Оптовик"){
+
+                if (GrowUpApplication.mUserData.userType=="Оптовик"){
                     setFragment(MarketFragment(), "Маркет")
                 }
-                userName?.text = "${mUserData["name"]} ${mUserData["lastName"]}"
+                userName?.text = "${GrowUpApplication.mUserData.name} ${GrowUpApplication.mUserData.lastName}"
 
             }
         })

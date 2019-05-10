@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.User
+import com.example.growup.ui.market.FavoritesActivity
 import com.example.growup.ui.market.MyProductsActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,6 +26,7 @@ class ProfileActivity : AppCompatActivity() {
     private var userImage: Uri? = null
     private var editProfileButton: Button? = null
     private var getMyProducts: Button? = null
+    private var getMyFavorite: Button? = null
     private var backButton: FloatingActionButton? = null
     private var profileImage: ImageView? = null
     private var profileName: TextView? = null
@@ -32,7 +34,7 @@ class ProfileActivity : AppCompatActivity() {
     private var profileSurname: TextView? = null
     private var profileEmail: TextView? = null
     private var profilePhoneNumber: TextView? = null
-    private var profileRegion: TextView?= null
+    private var profileRegion: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -47,7 +49,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun getUserData() {
-        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid).downloadUrl
+        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid)
+            .downloadUrl
             .addOnSuccessListener { task ->
                 Glide.with(this@ProfileActivity).load(task).into(profileImage!!)
             }.addOnFailureListener {
@@ -55,7 +58,7 @@ class ProfileActivity : AppCompatActivity() {
             }
 
         GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid)
-            .addListenerForSingleValueEvent(object : ValueEventListener{
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     Toast.makeText(this@ProfileActivity, p0.message, Toast.LENGTH_SHORT).show()
                 }
@@ -72,7 +75,7 @@ class ProfileActivity : AppCompatActivity() {
             })
     }
 
-    private fun init(){
+    private fun init() {
         backButton = findViewById(R.id.back_button)
 
         backButton?.setOnClickListener {
@@ -80,16 +83,22 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         editProfileButton = findViewById(R.id.edit_profile_btn)
-        editProfileButton?.setOnClickListener{
+        editProfileButton?.setOnClickListener {
             startActivity(Intent(this, EditProfileActivity::class.java))
         }
 
         getMyProducts = findViewById(R.id.my_products)
-        if(GrowUpApplication.mUserData.userType == "Оптовик"){
-            getMyProducts?.visibility = View.GONE
+//        if (GrowUpApplication.mUserData.userType == "Оптовик") {
+//            getMyProducts?.visibility = View.GONE
+//        }
+
+        getMyFavorite = findViewById(R.id.favorite)
+        getMyFavorite?.setOnClickListener {
+            startActivity(Intent(this, FavoritesActivity::class.java))
         }
+
         getMyProducts?.setOnClickListener {
-            startActivity(Intent(this,MyProductsActivity::class.java))
+            startActivity(Intent(this, MyProductsActivity::class.java))
         }
 
         profileImage = findViewById(R.id.profileImage)

@@ -5,9 +5,9 @@
     android:checkableBehavior="none"
     >
         <item
-                android:icon="@drawable/main_icon_48"
-                android:id="@+id/nav_main"
-                android:title="@string/main"/>
+                android:icon="@drawable/statistic_icon_48"
+                android:id="@+id/nav_statistic"
+                android:title="@string/statistic"/>
         <!--<item-->
                 <!--android:id="@+id/nav_search"-->
                 <!--android:title="@string/search"/>-->

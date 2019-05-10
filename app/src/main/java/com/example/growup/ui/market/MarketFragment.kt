@@ -103,7 +103,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
 
     override fun onItemSelectedAt(position: Int) {
         GrowUpApplication.productsData = mData
-        val detailDialogFragment = DetailDialogFragment.newInstance(position, mDataKeys[position] , "Market", mData[position])
+        val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position] , "Market", mData[position])
         detailDialogFragment.show(fragmentManager,"detailDialogFragment")
     }
 
