@@ -18,6 +18,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.statistic.DetailStatisticActivity">
+        </activity>
+        <activity android:name=".ui.statistic.AnimalStatisticActivity">
+        </activity>
         <activity android:name=".ui.market.FavoritesActivity">
         </activity>
         <activity android:name=".ui.user.UserActivity">

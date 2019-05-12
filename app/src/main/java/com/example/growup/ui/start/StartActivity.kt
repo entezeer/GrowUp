@@ -26,13 +26,13 @@ class StartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start)
 
         init()
-        setImages()
-
-        viewPager?.adapter = ViewPagerAdapter(this, listImages)
-        indicator?.setupWithViewPager(viewPager,true)
-
-        val timer = Timer()
-        timer.scheduleAtFixedRate(SliderTimer(),2000,4000)
+//        setImages()
+//
+//        viewPager?.adapter = ViewPagerAdapter(this, listImages)
+//        indicator?.setupWithViewPager(viewPager,true)
+//
+//        val timer = Timer()
+//        timer.scheduleAtFixedRate(SliderTimer(),2000,4000)
     }
 
     private fun init() {
@@ -49,11 +49,11 @@ class StartActivity : AppCompatActivity() {
 
     }
 
-    private fun setImages() {
-        listImages.add(resources.getDrawable(R.drawable.grow1))
-        listImages.add(resources.getDrawable(R.drawable.grow2))
-        listImages.add(resources.getDrawable(R.drawable.grow3))
-    }
+//    private fun setImages() {
+//        listImages.add(resources.getDrawable(R.drawable.grow1))
+//        listImages.add(resources.getDrawable(R.drawable.grow2))
+//        listImages.add(resources.getDrawable(R.drawable.grow3))
+//    }
 
     inner class SliderTimer: TimerTask(){
         override fun run() {

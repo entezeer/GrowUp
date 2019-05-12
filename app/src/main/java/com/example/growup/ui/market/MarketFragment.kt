@@ -1,6 +1,5 @@
 package com.example.growup.ui.market
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -48,7 +47,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         setHasOptionsMenu(true)
         val view = inflater.inflate(R.layout.fragment_market, container, false)
         init(view)
-        initData()
+        checkNetwork()
         return view
     }
 
@@ -65,14 +64,15 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         mProgressBar = view.findViewById(R.id.progress_bar)
 
         mAddButton = view.findViewById(R.id.add_announcement)
-        if(GrowUpApplication.mUserData.userType == "Оптовик"){
-            mAddButton?.hide()
-        }
+
         mAddButton?.setOnClickListener {
             startActivity(Intent(activity,AddAnnouncementActivity::class.java))
         }
     }
     private fun initData(){
+        if(GrowUpApplication.mUserData.userType == "Оптовик"){
+            mAddButton?.hide()
+        }
         GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(activity,databaseError.message,Toast.LENGTH_LONG).show()
@@ -88,7 +88,6 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         })
     }
     private fun updateUi(){
-        checkNetwork()
         adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
         mProgressBar?.visibility = View.GONE
         mMarketRecyclerView?.adapter = adapter
@@ -98,7 +97,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     private fun checkNetwork(){
         if (!activity?.let { InternetUtil.checkInternet(it) }!!){
             activity?.let { Utils.showInternetAlert(it) }
-        }
+        }else initData()
     }
 
     override fun onItemSelectedAt(position: Int) {

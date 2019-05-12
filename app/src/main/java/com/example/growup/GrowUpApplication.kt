@@ -16,6 +16,7 @@ class GrowUpApplication: Application(){
         lateinit var mMarketRef: DatabaseReference
         lateinit var mSoldRef: DatabaseReference
         lateinit var mStatisticRef: DatabaseReference
+        lateinit var mAnimalStatisticRef: DatabaseReference
         lateinit var mStorage: StorageReference
         lateinit var mUserData: User
         lateinit var mUserList: ArrayList<User>
@@ -28,6 +29,7 @@ class GrowUpApplication: Application(){
         mMarketRef = FirebaseDatabase.getInstance().getReference("market")
         mSoldRef = FirebaseDatabase.getInstance().getReference("sold")
         mStatisticRef = FirebaseDatabase.getInstance().getReference("statistic")
+        mAnimalStatisticRef = FirebaseDatabase.getInstance().getReference("animalStatistic")
         mStorage = FirebaseStorage.getInstance().getReference()
     }
 }

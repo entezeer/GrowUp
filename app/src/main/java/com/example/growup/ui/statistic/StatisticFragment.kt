@@ -1,10 +1,13 @@
 package com.example.growup.ui.statistic
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.KeyCharacterMap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,9 +29,9 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class StatisticFragment : Fragment() {
+class StatisticFragment : Fragment()     {
 
-
+    private var animalStatistic: CardView? = null
     private var statisticRecycler: RecyclerView? = null
 
     override fun onCreateView(
@@ -48,6 +51,11 @@ class StatisticFragment : Fragment() {
         statisticRecycler = view.findViewById(R.id.statistic_recycler)
         statisticRecycler?.layoutManager = LinearLayoutManager(activity)
 //        statisticRecycler?.adapter = activity?.let { CategoryAdapter(Regions.regions, it) }
+
+        animalStatistic = view.findViewById(R.id.animal_statistic)
+        animalStatistic?.setOnClickListener {
+            startActivity(Intent(activity,AnimalStatisticActivity::class.java))
+        }
     }
 
     private fun showData(){
@@ -60,7 +68,13 @@ class StatisticFragment : Fragment() {
                 val parentList = ArrayList<ParentList>()
                 dataSnapshot.children.forEach {
                     val parentKey = it.key.toString()
-                    GrowUpApplication.mStatisticRef.child(parentKey).addValueEventListener(object : ValueEventListener{
+                    GrowUpApplication.mStatisticRef.child(parentKey).addValueEventListener(object : ValueEventListener,
+                        ExpandableRecyclerAdapter.Listener {
+                        override fun onItemSelectedAt(key: String, childKey: String?) {
+                            activity?.let { it1 -> DetailStatisticActivity.start(it1,key, childKey!!) }
+                        }
+
+
                         override fun onCancelled(databaseError: DatabaseError) {
 
                         }
@@ -71,7 +85,7 @@ class StatisticFragment : Fragment() {
                                     childList.add(ChildList(it.key.toString()))
                                 }
                             parentList.add(ParentList(parentKey,childList))
-                            val adapter = activity?.let { it1 -> ExpandableRecyclerAdapter(parentList, it1) }
+                            val adapter = activity?.let { it1 -> ExpandableRecyclerAdapter(parentList, it1, this) }
                             statisticRecycler?.adapter = adapter
                         }
 
