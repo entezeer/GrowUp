@@ -2,7 +2,6 @@ package com.example.growup.ui.detail
 
 
 import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -13,19 +12,16 @@ import android.view.ViewGroup
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.view.Window
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.growup.models.Products
 import com.example.growup.models.User
-import com.example.growup.ui.market.MarketFragment
 import com.example.growup.ui.user.UserActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -49,13 +45,9 @@ class DetailDialogFragment : DialogFragment() {
     private var detailUserPhone: TextView? = null
     private var detailDate: TextView? = null
     private var detailMessage: TextView? = null
-
     private var detailGetUser: LinearLayout? = null
-
     private var detailUserIcon: ImageView? = null
-
     private var favoriteBtn: CheckBox? = null
-
     private var whatsappBtn: Button? = null
     private var dialerBtn: Button? = null
     private var soldBtn: Button? = null
@@ -71,13 +63,9 @@ class DetailDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_detail_dialog, container, false)
-
         getData()
-
         init(view)
-
         showData()
-
         return view
     }
 
@@ -159,33 +147,33 @@ class DetailDialogFragment : DialogFragment() {
         }
 
         favoriteBtn?.setOnClickListener {
-            if (!favoriteBtn?.isChecked!!) {
+                if (!favoriteBtn?.isChecked!!) {
                     GrowUpApplication.mUserRef
                         .child(GrowUpApplication.mAuth.currentUser?.uid!!)
                         .child("favorites")
                         .child(productKey)
                         .removeValue()
-                Toast.makeText(activity, "Удалено в Избранное", Toast.LENGTH_LONG).show()
-            }
-            else {
-                Toast.makeText(activity, "Добавлено в Избранное", Toast.LENGTH_LONG).show()
-                if (!favoritesList.contains(productKey)) {
-                    favoritesList.add(productKey)
+                    Toast.makeText(activity, "Удалено из Избранного", Toast.LENGTH_LONG).show()
                 }
-                favoritesList.forEach {
-                    GrowUpApplication.mUserRef
-                        .child(GrowUpApplication.mAuth.currentUser?.uid!!)
-                        .child("favorites")
-                        .child(it)
-                        .setValue(true)
+                else {
+                    Toast.makeText(activity, "Добавлено в Избранное", Toast.LENGTH_LONG).show()
+                    if (!favoritesList.contains(productKey)) {
+                        favoritesList.add(productKey)
+                    }
+                    favoritesList.forEach {
+                        GrowUpApplication.mUserRef
+                            .child(GrowUpApplication.mAuth.currentUser?.uid!!)
+                            .child("favorites")
+                            .child(it)
+                            .setValue(true)
+                    }
                 }
-            }
         }
     }
 
     private fun getData() {
         GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).child("favorites")
-            .addValueEventListener(object :
+            .addListenerForSingleValueEvent(object :
                 ValueEventListener {
                 override fun onCancelled(databaseError: DatabaseError) {
                     Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()

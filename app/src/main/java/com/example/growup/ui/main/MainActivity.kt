@@ -43,10 +43,10 @@ class MainActivity : AppCompatActivity() {
 
         setFragment(StatisticFragment(),"Статистика")
 
-        setUserData()
+
 
         init()
-
+        setUserData()
     }
 
     @SuppressLint("NewApi")
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
     private fun setFragment(fragment: Fragment, title: String) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_container, fragment)
-        fragmentTransaction.commit()
+        fragmentTransaction.commitAllowingStateLoss()
         supportActionBar?.title = title
     }
 

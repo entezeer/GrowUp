@@ -96,9 +96,9 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     }
 
     private fun checkNetwork(){
-        if (!activity?.let { InternetUtil.checkInternet(it) }!!){
-            activity?.let { Utils.showInternetAlert(it) }
-        }
+//        if (!activity?.let { InternetUtil.checkInternet(it) }!!){
+//            activity?.let { Utils.showInternetAlert(it) }
+//        }
     }
 
     override fun onItemSelectedAt(position: Int) {
