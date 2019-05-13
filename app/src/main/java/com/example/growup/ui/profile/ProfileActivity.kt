@@ -68,9 +68,12 @@ class ProfileActivity : AppCompatActivity() {
                     profileName?.text = userData?.name
                     profileSurname?.text = userData?.lastName
                     profileUserType?.text = userData?.userType
-                    profileEmail?.text = userData?.email
                     profilePhoneNumber?.text = userData?.phoneNumber
                     profileRegion?.text = userData?.region
+                    if(userData?.email!!.isEmpty() || userData.email.length <= 5){
+                        profileEmail?.visibility = View.GONE
+                    }
+                    profileEmail?.text = userData?.email
                 }
             })
     }

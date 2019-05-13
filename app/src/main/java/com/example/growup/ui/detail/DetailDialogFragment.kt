@@ -98,6 +98,11 @@ class DetailDialogFragment : DialogFragment() {
         }
         if (mData.category == "Животные") {
             detailImage?.setImageResource(R.drawable.animals)
+            detailUnitPrice?.text = "Цена за 1 шт: ${mData.unitPrice}"
+            detailSize?.text = "Количество: ${mData.size}"
+        }else{
+            detailUnitPrice?.text = "Цена за 1 кг: ${mData.unitPrice}"
+            detailSize?.text = "Объем: ${mData.size}"
         }
 
         GrowUpApplication.mStorage.child("UsersProfileImages").child(mData.uid).downloadUrl
@@ -107,9 +112,7 @@ class DetailDialogFragment : DialogFragment() {
                 detailUserIcon?.setImageResource(R.drawable.user_icon)
             }
         detailProduct?.text = "${mData.name}, ${mData.category}, ${mData.subCategory}"
-        detailUnitPrice?.text = "Цена за 1 кг: ${mData.unitPrice}"
         detailTotalPrice?.text = "Общая стоимость: ${mData.totalPrice}"
-        detailSize?.text = "Объем: ${mData.size}"
         detailMessage?.text = mData.message
 
         GrowUpApplication.mUserRef.child(mData.uid).addValueEventListener(object : ValueEventListener {

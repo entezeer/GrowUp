@@ -76,7 +76,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
         buttonSaveChanges = findViewById(R.id.save_user_data_btn)
         buttonSaveChanges?.setOnClickListener {
-            if (ValidUtils.checkEditProfileChanges(editProfileName , editProfileSurname, editProfileRegion, editProfileEmail)){
+            if (ValidUtils.checkEditProfileChanges(editProfileName , editProfileSurname, editProfileRegion)){
                 saveChanges()
             }
         }

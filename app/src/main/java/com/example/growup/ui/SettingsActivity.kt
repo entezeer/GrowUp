@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.widget.*
 import com.bumptech.glide.Glide
-import com.example.growup.adapters.LangSpinnerAdapter
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.User
@@ -61,11 +60,8 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun init(){
         val country = arrayOf("Русский","Кыргызский")
-        val flag = arrayOf(R.drawable.russia,R.drawable.kyrgyzstan)
         spinner = findViewById(R.id.settings_lang_spinner)
-        val langSpinnerAdapter = LangSpinnerAdapter(this,country,flag)
-        spinner?.adapter = langSpinnerAdapter
-
+        spinner?.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,country)
         buttonAboutUs = findViewById(R.id.button_about_us)
         buttonAboutUs?.setOnClickListener {
             startActivity(Intent(this@SettingsActivity,AboutUsActivity::class.java))

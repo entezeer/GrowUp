@@ -36,19 +36,23 @@
             android:layout_width="100dp"
             android:layout_height="100dp"/>
     <EditText
+            android:hint="@string/name"
             android:layout_marginTop="10dp"
             android:id="@+id/edit_profile_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <EditText
+            android:hint="@string/last_name"
             android:id="@+id/edit_profile_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <EditText
+            android:hint="@string/emailRegistration"
             android:id="@+id/edit_profile_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <EditText
+            android:hint="@string/region"
             android:id="@+id/edit_profile_region"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

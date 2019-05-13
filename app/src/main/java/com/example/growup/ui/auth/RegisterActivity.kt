@@ -92,7 +92,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         registerBtn?.setOnClickListener {
-            if(ValidUtils.checkRegisterInputData(name!!,lastName!!,email!!,number!!,password!!,radioGroup!! , this)){
+            if(ValidUtils.checkRegisterInputData(name!!,lastName!!,number!!,password!!,radioGroup!! , this)){
                 register()
             }
 
@@ -105,7 +105,6 @@ class RegisterActivity : AppCompatActivity() {
         Toast.makeText(this, userType, Toast.LENGTH_LONG).show()
         val code = CountryCodes.countryAreaCodes[spinnerCountries?.selectedItemPosition!!]
         var mNumber = number?.text.toString().trim()
-        val mEmail = email?.text.toString()
         val mPassword = password?.text.toString()
         if (mNumber[0].equals('0') && code.equals("996")) {
             mNumber = mNumber.substring(1, mNumber.length)
@@ -119,7 +118,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (it){
                     Toast.makeText(this@RegisterActivity, "Пользователь с таким номером уже существует", Toast.LENGTH_LONG).show()
                 }else{
-                    if (ValidUtils.validCredentials(mEmail, mPassword, email!!, password!!)) {
+                    if (ValidUtils.validCredentials( mPassword, password!!)) {
                         GrowUpApplication.mUserData = User(
                             name?.text.toString(),
                             lastName?.text.toString(),
