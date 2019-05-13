@@ -9,7 +9,7 @@ import com.example.growup.R
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 
 
-class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context) :
+class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context,var listener: Listener) :
     ExpandableRecyclerViewAdapter<ParentViewHolder, ChildViewHolder>(groups) {
 
     override fun onCreateGroupViewHolder(parent: ViewGroup, viewType: Int): ParentViewHolder {
@@ -32,7 +32,8 @@ class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context) 
         val childItem = (group as ParentList).items[childIndex]
         childItem.title?.let { holder.onBind(it) }
         val TitleChild = group.getTitle()
-        holder.listChild.setOnClickListener {
+        holder.itemView.setOnClickListener {
+            listener.onItemSelectedAt(TitleChild,childItem.title)
             val toast = Toast.makeText(context, TitleChild, Toast.LENGTH_SHORT)
             toast.show()
         }
@@ -43,14 +44,15 @@ class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context) 
 
         if (group.items == null) {
             holder.listGroup.setOnClickListener {
-
                 val toast = Toast.makeText(context, group.toString(), Toast.LENGTH_SHORT)
                 toast.show()
             }
         }
     }
 
-
+    interface Listener {
+        fun onItemSelectedAt(key: String, childKey: String?)
+    }
 }
 
 
