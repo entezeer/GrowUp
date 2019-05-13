@@ -7,18 +7,14 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.KeyCharacterMap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.Regions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DatabaseReference
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +46,6 @@ class StatisticFragment : Fragment()     {
     fun init(view: View){
         statisticRecycler = view.findViewById(R.id.statistic_recycler)
         statisticRecycler?.layoutManager = LinearLayoutManager(activity)
-//        statisticRecycler?.adapter = activity?.let { CategoryAdapter(Regions.regions, it) }
 
         animalStatistic = view.findViewById(R.id.animal_statistic)
         animalStatistic?.setOnClickListener {
@@ -73,8 +68,6 @@ class StatisticFragment : Fragment()     {
                         override fun onItemSelectedAt(key: String, childKey: String?) {
                             activity?.let { it1 -> DetailStatisticActivity.start(it1,key, childKey!!) }
                         }
-
-
                         override fun onCancelled(databaseError: DatabaseError) {
 
                         }

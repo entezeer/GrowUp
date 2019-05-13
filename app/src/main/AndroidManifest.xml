@@ -18,6 +18,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.statistic.LineChartActivity">
+        </activity>
         <activity android:name=".ui.statistic.DetailStatisticActivity">
         </activity>
         <activity android:name=".ui.statistic.AnimalStatisticActivity">

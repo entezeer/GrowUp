@@ -1,7 +1,6 @@
 package com.example.growup.ui.statistic
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +18,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import android.graphics.Color
 import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.formatter.PercentFormatter
 
 
 class DetailStatisticActivity : AppCompatActivity() {
@@ -66,19 +66,20 @@ class DetailStatisticActivity : AppCompatActivity() {
                         chartDataName.add(it.key.toString())
                         index++
                     }
-                    var dataSet = PieDataSet(chartData, mKey)
+                    val dataSet = PieDataSet(chartData, mKey)
                     val pieData = PieData(dataSet)
+
+                    pieData.setValueFormatter(PercentFormatter(pieChart))
                     val colors: MutableList<Int> =
-                        arrayOf(Color.GRAY, Color.BLUE, Color.RED, Color.GREEN, Color.CYAN).toMutableList()
+                        arrayOf(Color.GRAY, Color.YELLOW, Color.RED, Color.GREEN, Color.CYAN).toMutableList()
 
-                    dataSet.setColors(colors)
+                    dataSet.colors = colors
 
-                    val legend = pieChart?.getLegend()
-                    legend?.form = Legend.LegendForm.CIRCLE
+                    pieChart?.legend?.form = Legend.LegendForm.CIRCLE
 
-                    pieChart?.setData(pieData)
+                    pieChart?.data = pieData
                     pieChart?.invalidate()
-                    pieChart?.animateXY(5000, 5000)
+                    pieChart?.animateXY(2000, 2000)
                 }
 
             })

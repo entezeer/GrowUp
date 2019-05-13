@@ -32,7 +32,7 @@ class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context,v
         val childItem = (group as ParentList).items[childIndex]
         childItem.title?.let { holder.onBind(it) }
         val TitleChild = group.getTitle()
-        holder.listChild.setOnClickListener {
+        holder.itemView.setOnClickListener {
             listener.onItemSelectedAt(TitleChild,childItem.title)
             val toast = Toast.makeText(context, TitleChild, Toast.LENGTH_SHORT)
             toast.show()
