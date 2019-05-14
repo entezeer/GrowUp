@@ -40,20 +40,21 @@
                     android:id="@+id/type_radio_group"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
                 <RadioButton
+                        android:layout_weight="1"
                         android:id="@+id/farmer"
                         android:layout_marginRight="50dp"
                         android:text="@string/farmer"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
                 <RadioButton
                         android:id="@+id/wholesaler"
                         android:layout_marginLeft="50dp"
                         android:text="@string/wholesaler"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
             </RadioGroup>
 

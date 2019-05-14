@@ -35,6 +35,28 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="100dp"
             android:layout_height="100dp"/>
+    <RadioGroup
+            android:id="@+id/edit_profile_radio_group"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RadioButton
+                android:layout_weight="1"
+                android:id="@+id/edit_profile_farmer"
+                android:layout_marginRight="50dp"
+                android:text="@string/farmer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+        <RadioButton
+                android:id="@+id/edit_profile_wholesaler"
+                android:layout_marginLeft="50dp"
+                android:text="@string/wholesaler"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+    </RadioGroup>
     <EditText
             android:hint="@string/name"
             android:layout_marginTop="10dp"
@@ -51,11 +73,44 @@
             android:id="@+id/edit_profile_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    <EditText
-            android:hint="@string/region"
-            android:id="@+id/edit_profile_region"
+
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_marginLeft="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="@string/region"
+        />
+        <Spinner
+                android:id="@+id/edit_profile_spinner_regions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_marginLeft="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="@string/district"
+        />
+        <Spinner
+                android:id="@+id/edit_profile_spinner_districts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
     <Button
             android:id="@+id/save_user_data_btn"
             android:layout_marginTop="10dp"

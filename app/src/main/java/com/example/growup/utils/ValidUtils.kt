@@ -58,8 +58,7 @@ object ValidUtils {
 
     fun checkEditProfileChanges(
         editProfileName: EditText?,
-        editProfileSurname: EditText?,
-        editProfileRegion: EditText?
+        editProfileSurname: EditText?
     ): Boolean {
         var valid = true
         if(editProfileName?.text?.trim()!!.isEmpty() && editProfileName.text.trim().length < 2){
@@ -70,13 +69,6 @@ object ValidUtils {
             editProfileSurname.error =  "Input Surname Correct"
             valid = false
         }
-        if(editProfileRegion?.text?.trim()!!.isEmpty() ){
-            editProfileRegion.error =  "Input Region Correct"
-            valid = false
-        }
-
-
-
         return valid
     }
 
