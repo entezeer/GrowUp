@@ -1,4 +1,4 @@
-package com.example.growup.ui.statistic
+package com.example.growup.data.statistic.model
 
 import android.os.Parcel
 import android.os.Parcelable.Creator

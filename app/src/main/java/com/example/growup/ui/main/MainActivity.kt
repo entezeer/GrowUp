@@ -6,31 +6,34 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.bumptech.glide.Glide
+import com.example.core.extensions.setFragment
+import com.example.growup.data.RepositoryProvider
 import com.example.growup.models.User
 import com.example.growup.ui.profile.ProfileActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
 import com.example.growup.ui.market.MarketFragment
+import com.example.growup.ui.statistic.StatisticContract
 import com.example.growup.ui.statistic.StatisticFragment
+import com.example.growup.ui.statistic.StatisticPresenter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class MainActivity : AppCompatActivity() {
 
+    private var mPresenter: StatisticContract.Presenter? = null
     private var navigationDrawer: NavigationView? = null
     private var drawerLayout: DrawerLayout? = null
     private var toolbar: Toolbar? = null
@@ -41,7 +44,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setFragment(StatisticFragment(),"Статистика")
+        val statisticFragment = StatisticFragment.newInstance()
+        mPresenter = StatisticPresenter(RepositoryProvider.getStatisticDataSource())
+        mPresenter?.attachView(statisticFragment)
+        setFragment(statisticFragment, R.id.frame_container, "Статистика")
 
         setUserData()
 
@@ -75,9 +81,9 @@ class MainActivity : AppCompatActivity() {
 
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_statistic -> setFragment(StatisticFragment(),"Статистика")
+                R.id.nav_statistic -> setFragment(StatisticFragment(),R.id.frame_container,"Статистика")
 //                R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
-                R.id.nav_market -> setFragment(MarketFragment(), "Маркет")
+                R.id.nav_market -> setFragment(MarketFragment(), R.id.frame_container,"Маркет")
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {
                     GrowUpApplication.mAuth.signOut()
@@ -110,19 +116,12 @@ class MainActivity : AppCompatActivity() {
                 GrowUpApplication.mUserData = dataSnapshot.getValue(User::class.java)!!
 
                 if (GrowUpApplication.mUserData.userType=="Оптовик"){
-                    setFragment(MarketFragment(), "Маркет")
+                    setFragment(MarketFragment(), R.id.frame_container, "Маркет")
                 }
                 userName?.text = "${GrowUpApplication.mUserData.name} ${GrowUpApplication.mUserData.lastName}"
 
             }
         })
-    }
-
-    private fun setFragment(fragment: Fragment, title: String) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_container, fragment)
-        fragmentTransaction.commit()
-        supportActionBar?.title = title
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
+import com.example.growup.data.statistic.model.ChildList
+import com.example.growup.data.statistic.model.ParentList
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -56,7 +58,7 @@ class AnimalStatisticActivity : AppCompatActivity() {
                             dataSnapshot1.children.forEach {
                                 childList.add(ChildList(it.key.toString()))
                             }
-                            parentList.add(ParentList(parentKey,childList))
+                            parentList.add(ParentList(parentKey, childList))
                             val adapter = ExpandableRecyclerAdapter(parentList, this@AnimalStatisticActivity, this)
                             statisticRecycler?.adapter = adapter
                         }

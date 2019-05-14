@@ -10,11 +10,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.growup.GrowUpApplication
+import android.widget.ProgressBar
+import com.entezeer.tracking.utils.InternetUtil
+import com.example.core.extensions.slideRightOut
 import com.example.growup.R
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.example.growup.data.statistic.model.ParentList
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,10 +26,12 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class StatisticFragment : Fragment()     {
+class StatisticFragment : Fragment(), StatisticContract.View, ExpandableRecyclerAdapter.Listener {
 
     private var animalStatistic: CardView? = null
+    private var mPresenter: StatisticContract.Presenter? = null
     private var statisticRecycler: RecyclerView? = null
+    private var progressBar: ProgressBar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,8 @@ class StatisticFragment : Fragment()     {
         val rootView = inflater.inflate(R.layout.fragment_statistic, container, false)
 
         init(rootView)
-        showData()
+
+        mPresenter?.getData()
 
         return rootView
     }
@@ -47,45 +51,50 @@ class StatisticFragment : Fragment()     {
         statisticRecycler = view.findViewById(R.id.statistic_recycler)
         statisticRecycler?.layoutManager = LinearLayoutManager(activity)
 
+        progressBar = view.findViewById(R.id.progress_bar)
+
         animalStatistic = view.findViewById(R.id.animal_statistic)
         animalStatistic?.setOnClickListener {
             startActivity(Intent(activity,AnimalStatisticActivity::class.java))
         }
     }
 
-    private fun showData(){
-        GrowUpApplication.mStatisticRef.addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(databaseError: DatabaseError) {
+    override fun showLoading() {
+        animalStatistic?.visibility = View.GONE
+        progressBar?.visibility = View.VISIBLE
+    }
 
-            }
+    override fun hideLoading() {
+        animalStatistic?.visibility = View.VISIBLE
+        progressBar?.visibility = View.GONE
+    }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val parentList = ArrayList<ParentList>()
-                dataSnapshot.children.forEach {
-                    val parentKey = it.key.toString()
-                    GrowUpApplication.mStatisticRef.child(parentKey).addValueEventListener(object : ValueEventListener,
-                        ExpandableRecyclerAdapter.Listener {
-                        override fun onItemSelectedAt(key: String, childKey: String?) {
-                            activity?.let { it1 -> DetailStatisticActivity.start(it1,key, childKey!!) }
-                        }
-                        override fun onCancelled(databaseError: DatabaseError) {
+    override fun showNetworkAlert() {
+        activity?.let { InternetUtil.showInternetAlert(it) }
+    }
 
-                        }
+    override fun showData(data: ArrayList<ParentList>) {
+        statisticRecycler?.adapter = activity?.let { ExpandableRecyclerAdapter(data, it,this) }
+    }
 
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val childList = ArrayList<ChildList>()
-                                dataSnapshot.children.forEach {
-                                    childList.add(ChildList(it.key.toString()))
-                                }
-                            parentList.add(ParentList(parentKey,childList))
-                            val adapter = activity?.let { it1 -> ExpandableRecyclerAdapter(parentList, it1, this) }
-                            statisticRecycler?.adapter = adapter
-                        }
+    override fun openDetail(parentKey: String, childKey: String) {
+        activity?.let { DetailStatisticActivity.start(it,parentKey,childKey) }
+    }
 
-                    })
-                }
-            }
+    override fun finishView() {
+        activity?.finish()
+        activity?.slideRightOut()
+    }
 
-        })
+    override fun attachPresenter(presenter: StatisticContract.Presenter) {
+        mPresenter = presenter
+    }
+
+    override fun onItemSelectedAt(key: String, childKey: String?) {
+        childKey?.let { mPresenter?.onStatisticItemClick(key, it) }
+    }
+
+    companion object {
+        fun newInstance():StatisticFragment = StatisticFragment()
     }
 }

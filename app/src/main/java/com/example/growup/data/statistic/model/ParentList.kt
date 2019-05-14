@@ -1,4 +1,4 @@
-package com.example.growup.ui.statistic
+package com.example.growup.data.statistic.model
 
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 

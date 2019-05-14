@@ -6,10 +6,11 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.growup.R
+import com.example.growup.data.statistic.model.ParentList
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 
 
-class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context,var listener: Listener) :
+class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context, var listener: Listener) :
     ExpandableRecyclerViewAdapter<ParentViewHolder, ChildViewHolder>(groups) {
 
     override fun onCreateGroupViewHolder(parent: ViewGroup, viewType: Int): ParentViewHolder {

@@ -20,20 +20,7 @@ object Utils {
         progress?.show()
     }
 
-    fun showInternetAlert(context: Context){
 
-        val factory = LayoutInflater.from(context)
-        val view = factory.inflate(R.layout.network_alert_dialog,null)
-        val gifImageView = view.findViewById<ImageView>(R.id.gif_image_view)
-
-
-        Glide.with(context).load(R.drawable.nointernet).into(gifImageView)
-
-        val dialog = AlertDialog.Builder(context)
-        dialog.setPositiveButton("Try again",null)
-        dialog.setView(view)
-        dialog.show()
-    }
 
     fun confirmationForSold (
         context: Context,

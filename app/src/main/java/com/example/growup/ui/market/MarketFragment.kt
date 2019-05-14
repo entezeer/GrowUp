@@ -96,7 +96,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
 
     private fun checkNetwork(){
         if (!activity?.let { InternetUtil.checkInternet(it) }!!){
-            activity?.let { Utils.showInternetAlert(it) }
+            activity?.let { InternetUtil.showInternetAlert(it) }
         }else initData()
     }
 
