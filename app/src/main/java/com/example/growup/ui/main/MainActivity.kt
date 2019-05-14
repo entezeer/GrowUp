@@ -1,6 +1,7 @@
 package com.example.growup.ui.main
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -49,10 +50,10 @@ class MainActivity : AppCompatActivity() {
         mPresenter?.attachView(statisticFragment)
         setFragment(statisticFragment, R.id.frame_container, "Статистика")
 
-        setUserData()
+
 
         init()
-
+        setUserData()
     }
 
     @SuppressLint("NewApi")
@@ -122,6 +123,21 @@ class MainActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle("Вы уже уходите ?")
+        builder.setMessage("Вы действительно хотите выйти ?")
+        builder.setCancelable(true)
+        builder.setPositiveButton("Да"){dialog, which ->
+            finish()
+        }
+        builder.setNegativeButton("Нет"){dialog, which ->
+            dialog.cancel()
+        }
+        val dialog : AlertDialog = builder.create()
+        dialog.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

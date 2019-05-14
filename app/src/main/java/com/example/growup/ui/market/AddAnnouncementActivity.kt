@@ -30,7 +30,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
     private var spinnerSize: Spinner? = null
     private var spinnerCurrencyTotal: Spinner? = null
     private var addBtn: Button? = null
-
+    private var animalCountView: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_announcement)
@@ -43,7 +43,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
         backButton?.setOnClickListener {
             onBackPressed()
         }
-
+        animalCountView = findViewById(R.id.animalCount)
         name = findViewById(R.id.name)
         unitPrice = findViewById(R.id.unit_price)
 
@@ -112,6 +112,18 @@ class AddAnnouncementActivity : AppCompatActivity() {
                         android.R.layout.simple_spinner_dropdown_item,
                         ProductsCategories.categoryList[spinnerCategories?.selectedItemPosition!!]
                     )
+                if(spinnerCategories?.selectedItemPosition == 2){
+                    size?.hint = getString(R.string.count_animal)
+                    unitPrice?.hint = getString(R.string.unit_price_animal)
+                    spinnerSize?.visibility = View.GONE
+                    animalCountView?.visibility = View.VISIBLE
+                }else{
+                    size?.hint = getString(R.string.size)
+                    unitPrice?.hint = getString(R.string.unit_price)
+                    spinnerSize?.visibility = View.VISIBLE
+                    animalCountView?.visibility = View.GONE
+                }
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -147,7 +159,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
                 name?.text.toString(),
                 spinnerCategories?.selectedItem.toString(),
                 spinnerSubCategories?.selectedItem.toString(),
-                size?.text.toString() + " " + spinnerSize?.selectedItem.toString(),
+                size?.text.toString() + " " + if(spinnerCategories?.selectedItemPosition == 2){"Шт."} else{spinnerSize?.selectedItem.toString()} ,
                 unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
                 totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
                 GrowUpApplication.mUserData.name,

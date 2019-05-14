@@ -5,6 +5,7 @@
     <string name="preview_text">Thus much I thought proper to tell you in relation to yourself</string>
     <string name="register">Регистрация</string>
     <string name="email">Email</string>
+    <string name="emailRegistration">Email (можно не указывать)</string>
     <string name="password">Пароль</string>
     <string name="name">Имя</string>
     <string name="last_name">Фамилия</string>
@@ -40,6 +41,7 @@
     <string name="category">Категория:</string>
     <string name="subcategory">Подкатегория:</string>
     <string name="unit_price">Цена за 1 кг(т)</string>
+    <string name="unit_price_animal">Цена за 1 шт</string>
     <string name="total_price">Общая стоимость</string>
     <string name="message">Сообщение</string>
     <string name="add">Добавить</string>
@@ -48,5 +50,6 @@
     <string name="sold">Продано</string>
     <string name="favorite">Избранное</string>
     <string name="statistic">Статистика</string>
+    <string name="count_animal">штук</string>
 
 </resources>
