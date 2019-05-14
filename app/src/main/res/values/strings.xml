@@ -5,7 +5,7 @@
     <string name="preview_text">Thus much I thought proper to tell you in relation to yourself</string>
     <string name="register">Регистрация</string>
     <string name="email">Email</string>
-    <string name="emailRegistration">Email (можно не указывать)</string>
+    <string name="emailRegistration">Email (необязательно)</string>
     <string name="password">Пароль</string>
     <string name="name">Имя</string>
     <string name="last_name">Фамилия</string>

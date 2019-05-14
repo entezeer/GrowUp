@@ -168,7 +168,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
                 message?.text.toString(),
                 GrowUpApplication.mAuth.currentUser?.uid!!
             )
-            GrowUpApplication.mMarketRef.push().setValue(product)
+            GrowUpApplication.mMarketRef.child("onSale").push().setValue(product)
                 .addOnCompleteListener {
                     if (it.isSuccessful){
                         MainActivity.start(this,"market")

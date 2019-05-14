@@ -73,7 +73,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         if(GrowUpApplication.mUserData.userType == "Оптовик"){
             mAddButton?.hide()
         }
-        GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener{
+        GrowUpApplication.mMarketRef.child("onSale").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(activity,databaseError.message,Toast.LENGTH_LONG).show()
             }

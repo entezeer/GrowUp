@@ -27,7 +27,7 @@ class GrowUpApplication: Application(){
         mAuth = FirebaseAuth.getInstance()
         mUserRef = FirebaseDatabase.getInstance().getReference("users")
         mMarketRef = FirebaseDatabase.getInstance().getReference("market")
-        mSoldRef = FirebaseDatabase.getInstance().getReference("sold")
+        mSoldRef = mMarketRef.child("sold")
         mStatisticRef = FirebaseDatabase.getInstance().getReference("statistic")
         mAnimalStatisticRef = FirebaseDatabase.getInstance().getReference("animalStatistic")
         mStorage = FirebaseStorage.getInstance().getReference()
