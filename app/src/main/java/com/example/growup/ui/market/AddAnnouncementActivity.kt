@@ -1,6 +1,5 @@
 package com.example.growup.ui.market
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -11,9 +10,8 @@ import android.widget.*
 import com.entezeer.tracking.utils.ValidUtils
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.Products
+import com.example.growup.data.market.model.Products
 import com.example.growup.models.ProductsCategories
-import com.example.growup.models.Regions
 import com.example.growup.ui.main.MainActivity
 
 class AddAnnouncementActivity : AppCompatActivity() {
@@ -159,7 +157,11 @@ class AddAnnouncementActivity : AppCompatActivity() {
                 name?.text.toString(),
                 spinnerCategories?.selectedItem.toString(),
                 spinnerSubCategories?.selectedItem.toString(),
-                size?.text.toString() + " " + if(spinnerCategories?.selectedItemPosition == 2){"Шт."} else{spinnerSize?.selectedItem.toString()} ,
+                size?.text.toString() + " " + if (spinnerCategories?.selectedItemPosition == 2) {
+                    "Шт."
+                } else {
+                    spinnerSize?.selectedItem.toString()
+                },
                 unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
                 totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
                 GrowUpApplication.mUserData.name,
@@ -171,7 +173,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
             GrowUpApplication.mMarketRef.child("onSale").push().setValue(product)
                 .addOnCompleteListener {
                     if (it.isSuccessful){
-                        MainActivity.start(this,"market")
+                        MainActivity.start(this@AddAnnouncementActivity,"Марткет")
                     }
                 }
         }

@@ -45,8 +45,11 @@ class StatisticFragment : Fragment(), StatisticContract.View, ExpandableRecycler
         mPresenter = StatisticPresenter(RepositoryProvider.getStatisticDataSource())
         mPresenter?.attachView(this)
 
-        init(rootView)
 
+        mPresenter = StatisticPresenter(RepositoryProvider.getStatisticDataSource())
+        mPresenter?.attachView(this)
+
+        init(rootView)
         mPresenter?.getData()
 
         return rootView

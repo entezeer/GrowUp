@@ -10,9 +10,8 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.Products
+import com.example.growup.data.market.model.Products
 import com.example.growup.ui.detail.DetailDialogFragment
-import com.example.growup.ui.sale.OnSaleFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

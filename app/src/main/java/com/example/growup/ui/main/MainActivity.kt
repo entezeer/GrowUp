@@ -23,6 +23,7 @@ import com.example.growup.data.user.model.User
 import com.example.growup.ui.profile.ProfileActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
+import com.example.growup.ui.market.MarketContract
 import com.example.growup.ui.market.MarketFragment
 import com.example.growup.ui.statistic.StatisticContract
 import com.example.growup.ui.statistic.StatisticFragment
@@ -33,6 +34,7 @@ import com.google.firebase.database.ValueEventListener
 class MainActivity : AppCompatActivity() {
 
     private var mPresenter: StatisticContract.Presenter? = null
+    private var mMarketPresenter: MarketContract.Presenter? = null
     private var navigationDrawer: NavigationView? = null
     private var drawerLayout: DrawerLayout? = null
     private var toolbar: Toolbar? = null
@@ -44,6 +46,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setFragment(StatisticFragment.newInstance(), R.id.frame_container, "Статистика")
+
+        val statisticFragment = StatisticFragment.newInstance()
+        val marketFragment = MarketFragment.newInstance()
 
         init()
         setUserData()
@@ -111,6 +116,8 @@ class MainActivity : AppCompatActivity() {
 
                 if (GrowUpApplication.mUserData.userType=="Оптовик"){
                     setFragment(MarketFragment(), R.id.frame_container, "Маркет")
+                }else{
+                    setFragment(StatisticFragment(), R.id.frame_container, "Статистика")
                 }
                 userName?.text = "${GrowUpApplication.mUserData.name} ${GrowUpApplication.mUserData.lastName}"
 

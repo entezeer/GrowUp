@@ -10,15 +10,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.SearchView
-import android.widget.Toast
 import com.entezeer.tracking.utils.InternetUtil
+import com.example.core.extensions.slideRightOut
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.Products
+import com.example.growup.data.RepositoryProvider
+import com.example.growup.data.market.model.Products
 import com.example.growup.ui.detail.DetailDialogFragment
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,8 +27,8 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
-
+class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
+    private var mMarketPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var mMarketRecyclerView: RecyclerView? = null
     private var mAddButton: FloatingActionButton? = null
@@ -39,15 +37,21 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
     private var mProgressBar: ProgressBar? = null
     private var mDataKeys: ArrayList<String> = ArrayList()
 
+    companion object{
+        fun newInstance(): MarketFragment = MarketFragment()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         setHasOptionsMenu(true)
         val view = inflater.inflate(R.layout.fragment_market, container, false)
         init(view)
-        checkNetwork()
+        mMarketPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
+        mMarketPresenter?.attachView(this)
+        mMarketPresenter?.getMarketData()
+
         return view
     }
 
@@ -64,29 +68,14 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         mProgressBar = view.findViewById(R.id.progress_bar)
 
         mAddButton = view.findViewById(R.id.add_announcement)
-
+//        if (GrowUpApplication.mUserData.userType == "Оптовик"){
+//            mAddButton?.hide()
+//        }
         mAddButton?.setOnClickListener {
             startActivity(Intent(activity,AddAnnouncementActivity::class.java))
         }
     }
-    private fun initData(){
-        if(GrowUpApplication.mUserData.userType == "Оптовик"){
-            mAddButton?.hide()
-        }
-        GrowUpApplication.mMarketRef.child("onSale").addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(activity,databaseError.message,Toast.LENGTH_LONG).show()
-            }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.forEach {
-                    mData.add(it.getValue(Products::class.java)!!)
-                    mDataKeys.add(it.key.toString())
-                }
-                updateUi()
-            }
-        })
-    }
     private fun updateUi(){
         adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
         mProgressBar?.visibility = View.GONE
@@ -94,21 +83,41 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener {
         mSwipeRefreshLayout?.isRefreshing = false
     }
 
-    private fun checkNetwork(){
-//        if (!activity?.let { InternetUtil.checkInternet(it) }!!){
-//            activity?.let { Utils.showInternetAlert(it) }
-//        }
-
-        if (!activity?.let { InternetUtil.checkInternet(it) }!!){
-            activity?.let { InternetUtil.showInternetAlert(it) }
-        }else initData()
-
-    }
 
     override fun onItemSelectedAt(position: Int) {
         GrowUpApplication.productsData = mData
         val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position] , "Market", mData[position])
         detailDialogFragment.show(fragmentManager,"detailDialogFragment")
+    }
+
+
+    override fun showNetworkAlert() {
+        activity?.let { InternetUtil.showInternetAlert(it) }
+    }
+
+    override fun showAlert() {
+
+    }
+
+    override fun showData(data: HashMap<String, Products>) {
+        mData.addAll(data.values)
+        mDataKeys.addAll(data.keys)
+        mMarketRecyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
+        mProgressBar?.visibility = View.GONE
+        updateUi()
+    }
+
+    override fun openDetail(data: HashMap<String, Products>) {
+        mDataKeys.addAll(data.keys)
+    }
+
+    override fun finishView() {
+        activity?.finish()
+        activity?.slideRightOut()
+    }
+
+    override fun attachPresenter(presenter: MarketContract.Presenter) {
+        mMarketPresenter = presenter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater){
