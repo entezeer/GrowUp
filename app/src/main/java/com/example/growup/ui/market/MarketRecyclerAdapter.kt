@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.growup.R
-import com.example.growup.models.Products
+import com.example.growup.data.market.model.Products
 import java.util.*
 import kotlin.collections.ArrayList
 

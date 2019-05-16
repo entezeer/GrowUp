@@ -1,7 +1,7 @@
 package com.example.growup
 
 import android.app.Application
-import com.example.growup.models.Products
+import com.example.growup.data.market.model.Products
 import com.example.growup.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -15,6 +15,7 @@ class GrowUpApplication: Application(){
         lateinit var mUserRef: DatabaseReference
         lateinit var mMarketRef: DatabaseReference
         lateinit var mSoldRef: DatabaseReference
+        lateinit var mSailRef: DatabaseReference
         lateinit var mStatisticRef: DatabaseReference
         lateinit var mAnimalStatisticRef: DatabaseReference
         lateinit var mStorage: StorageReference
@@ -27,7 +28,8 @@ class GrowUpApplication: Application(){
         mAuth = FirebaseAuth.getInstance()
         mUserRef = FirebaseDatabase.getInstance().getReference("users")
         mMarketRef = FirebaseDatabase.getInstance().getReference("market")
-        mSoldRef = mMarketRef.child("sold")
+        mSoldRef = mMarketRef.child("onSold")
+        mSailRef = mMarketRef.child("onSail")
         mStatisticRef = FirebaseDatabase.getInstance().getReference("statistic")
         mAnimalStatisticRef = FirebaseDatabase.getInstance().getReference("animalStatistic")
         mStorage = FirebaseStorage.getInstance().getReference()

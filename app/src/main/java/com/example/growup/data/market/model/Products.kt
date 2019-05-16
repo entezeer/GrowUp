@@ -1,4 +1,4 @@
-package com.example.growup.models
+package com.example.growup.data.market.model
 
 class Products(
     var name: String = "",

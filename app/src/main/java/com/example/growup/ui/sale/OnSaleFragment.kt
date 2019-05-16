@@ -10,16 +10,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
-import com.example.growup.GrowUpApplication
+import com.entezeer.tracking.utils.InternetUtil
+import com.example.core.extensions.slideRightOut
 
 import com.example.growup.R
-import com.example.growup.models.Products
+import com.example.growup.data.RepositoryProvider
+import com.example.growup.ui.market.MarketPresenter
+import com.example.growup.data.market.model.Products
 import com.example.growup.ui.detail.DetailDialogFragment
+import com.example.growup.ui.market.MarketContract
 import com.example.growup.ui.market.MarketRecyclerAdapter
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,8 +30,9 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
+class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener , MarketContract.View{
 
+    private var mOnSalesPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var recyclerView: RecyclerView? = null
     private var adapter: MarketRecyclerAdapter? = null
@@ -45,9 +46,10 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_on_sale, container, false)
-
         init(view)
-        initData()
+        mOnSalesPresenter= MarketPresenter(RepositoryProvider.getMarketDataSource())
+        mOnSalesPresenter?.attachView(this)
+        mOnSalesPresenter?.getMarketData()
         return view
     }
 
@@ -63,23 +65,38 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
 //        mProgressBar = view.findViewById(R.id.progress_bar)
     }
 
-    private fun initData() {
-        val uid = arguments?.getString(ARG_UID)
-        GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()
-            }
+    override fun showNetworkAlert() {
+        activity?.let { InternetUtil.showInternetAlert(it) }
+    }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.forEach {
-                    if (it.getValue(Products::class.java)!!.uid == uid) {
-                        mData.add(it.getValue(Products::class.java)!!)
-                        mDataKeys.add(it.key.toString())
-                    }
-                }
-                updateUi()
+    override fun showAlert() {
+
+    }
+
+    override fun showData(data: HashMap<String, Products>) {
+        val uid = arguments?.getString(ARG_UID)
+        for(entry: Map.Entry<String, Products> in data.entries ){
+            if (entry.value.uid == uid){
+                mData.add(entry.value)
+                mDataKeys.add(entry.key)
             }
-        })
+        }
+        recyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
+        mProgressBar?.visibility = View.GONE
+        updateUi()
+    }
+
+    override fun openDetail(data: HashMap<String, Products>) {
+        mDataKeys.addAll(data.keys)
+    }
+
+    override fun finishView() {
+        activity?.finish()
+        activity?.slideRightOut()
+    }
+
+    override fun attachPresenter(presenter: MarketContract.Presenter) {
+        mOnSalesPresenter = presenter
     }
 
     private fun updateUi(){

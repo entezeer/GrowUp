@@ -99,6 +99,7 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/user_icon"
+                        android:layout_marginLeft="7dp"
                         android:textColor="@color/white"
                         android:layout_width="50dp"
                         android:layout_height="50dp"/>

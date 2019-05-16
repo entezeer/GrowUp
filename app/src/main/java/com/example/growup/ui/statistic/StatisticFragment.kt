@@ -14,6 +14,7 @@ import android.widget.ProgressBar
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
 import com.example.growup.R
+import com.example.growup.data.RepositoryProvider
 import com.example.growup.data.statistic.model.ParentList
 
 
@@ -39,9 +40,9 @@ class StatisticFragment : Fragment(), StatisticContract.View, ExpandableRecycler
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_statistic, container, false)
-
+        mPresenter = StatisticPresenter(RepositoryProvider.getStatisticDataSource())
+        mPresenter?.attachView(this)
         init(rootView)
-
         mPresenter?.getData()
 
         return rootView

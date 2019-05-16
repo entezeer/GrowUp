@@ -1,17 +1,13 @@
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
-import android.view.LayoutInflater
-import android.widget.ImageView
-import android.widget.Toast
-import com.bumptech.glide.Glide
-import com.example.growup.GrowUpApplication
-import com.example.growup.R
-import com.example.growup.models.Products
+import com.example.core.firebase.FirebaseClient
+import com.example.growup.data.market.remote.MarketRemoteContains
+import com.example.growup.data.market.model.Products
 import com.example.growup.ui.main.MainActivity
 
 
-object Utils {
+object Utils : FirebaseClient(){
     fun progressShow(progress: ProgressDialog?){
         progress?.setMessage("Loading")
         progress?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
@@ -31,9 +27,9 @@ object Utils {
         builder.setTitle("Вы уверены ? ")
         builder.setMessage("Вы действительно хотите отметить товар как проданное ?")
         builder.setPositiveButton("Да"){dialog, which ->
-            GrowUpApplication.mSoldRef.push().setValue(mData)
-            GrowUpApplication.mMarketRef.child(keyOfProduct!!).removeValue()
-            MainActivity.start(context,"market")
+            getRef(MarketRemoteContains.MARKET_REF).child(MarketRemoteContains.MARKET_SOLD).push().setValue(mData)
+            getRef(MarketRemoteContains.MARKET_REF).child(MarketRemoteContains.MARKER_SALE).child(keyOfProduct!!).removeValue()
+            MainActivity.start(context,"Марткет")
         }
         builder.setNegativeButton("Нет"){dialog, which ->
 

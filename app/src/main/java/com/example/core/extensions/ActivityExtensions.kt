@@ -8,7 +8,7 @@ import com.example.growup.R
 fun AppCompatActivity.setFragment(fragment: Fragment, frameId: Int, title: String) {
     supportFragmentManager.beginTransaction()
         .replace(frameId, fragment)
-        .commit()
+        .commitAllowingStateLoss()
     supportActionBar?.title = title
 }
 
