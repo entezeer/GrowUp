@@ -14,7 +14,7 @@ import com.entezeer.tracking.utils.ValidUtils
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.models.Regions
-import com.example.growup.models.User
+import com.example.growup.data.user.model.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -138,6 +138,13 @@ class EditProfileActivity : AppCompatActivity() {
                 dialog?.show()
                 GrowUpApplication.mStorage.child("UsersProfileImages/"+GrowUpApplication.mAuth.currentUser!!.uid)
                     .putFile(imageUri!!).addOnSuccessListener{ task ->
+                        GrowUpApplication.mStorage.child("UsersProfileImages")
+                            .child(GrowUpApplication.mAuth.currentUser!!.uid).downloadUrl
+                            .addOnSuccessListener { task ->
+                                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid)
+                                    .child("profileImage").setValue(task.toString())
+
+                            }
                         dialog?.dismiss()
                     }.addOnFailureListener{task ->
                         dialog?.dismiss()
@@ -148,6 +155,7 @@ class EditProfileActivity : AppCompatActivity() {
                     }
             }
                 checkUserType()
+
                 GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("lastName").setValue(editProfileSurname?.text.toString())
                 GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("name").setValue(editProfileName?.text.toString())
                 GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("email").setValue(editProfileEmail?.text.toString())

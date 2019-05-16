@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
+<android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:cardCornerRadius="12dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     <TextView
+            android:drawableLeft="@drawable/parent_list_24"
             android:id="@+id/listParent"
             android:text="text"
             android:textSize="17sp"
@@ -31,4 +28,4 @@
             android:layout_marginBottom="35dp"
             android:textColor="@color/black"
     />
-</android.support.v7.widget.CardView>
+</android.support.design.widget.CoordinatorLayout>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.CardView
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.widget.ProgressBar
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
 import com.example.growup.R
+import com.example.growup.data.RepositoryProvider
 import com.example.growup.data.statistic.model.ParentList
 
 
@@ -40,6 +42,9 @@ class StatisticFragment : Fragment(), StatisticContract.View, ExpandableRecycler
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_statistic, container, false)
 
+        mPresenter = StatisticPresenter(RepositoryProvider.getStatisticDataSource())
+        mPresenter?.attachView(this)
+
         init(rootView)
 
         mPresenter?.getData()
@@ -50,6 +55,7 @@ class StatisticFragment : Fragment(), StatisticContract.View, ExpandableRecycler
     fun init(view: View){
         statisticRecycler = view.findViewById(R.id.statistic_recycler)
         statisticRecycler?.layoutManager = LinearLayoutManager(activity)
+        statisticRecycler?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
 
         progressBar = view.findViewById(R.id.progress_bar)
 

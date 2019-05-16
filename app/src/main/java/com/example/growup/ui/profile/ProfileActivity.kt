@@ -13,7 +13,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.User
+import com.example.growup.data.user.model.User
 import com.example.growup.ui.market.FavoritesActivity
 import com.example.growup.ui.market.MyProductsActivity
 import com.google.firebase.database.DataSnapshot

@@ -1,20 +1,13 @@
 package com.example.growup.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.Products
-import com.example.growup.models.User
 import com.example.growup.ui.main.MainActivity
 import com.example.growup.ui.start.StartActivity
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 
 class SplashActivity : AppCompatActivity() {
 

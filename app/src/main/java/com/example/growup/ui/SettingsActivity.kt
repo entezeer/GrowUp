@@ -9,7 +9,7 @@ import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.User
+import com.example.growup.data.user.model.User
 import com.example.growup.ui.profile.ProfileActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

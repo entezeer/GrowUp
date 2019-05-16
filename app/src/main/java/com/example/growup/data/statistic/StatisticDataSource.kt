@@ -5,6 +5,7 @@ import com.example.growup.data.statistic.model.ParentList
 
 interface StatisticDataSource {
     fun getStatistic(callback: RequestCallback)
+
     fun setStatistic()
 
     interface RequestCallback: BaseCallback<ArrayList<ParentList>>

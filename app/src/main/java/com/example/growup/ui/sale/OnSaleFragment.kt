@@ -65,7 +65,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener {
 
     private fun initData() {
         val uid = arguments?.getString(ARG_UID)
-        GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener {
+        GrowUpApplication.mMarketRef.child("onSale").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()
             }

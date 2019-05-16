@@ -6,15 +6,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="@color/mainGreen"
+        android:background="@color/white"
         tools:context="com.example.growup.ui.SplashActivity">
 
-    <TextView
-            android:textStyle="bold"
-            android:fontFamily="@font/acme_regular"
-            android:textSize="50sp"
-            android:textColor="@color/white"
-            android:text="@string/app_name"
+    <ImageView
+            android:src="@drawable/splash"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+               android:layout_height="wrap_content"/>
+
+    <!--<TextView-->
+            <!--android:textStyle="bold"-->
+            <!--android:fontFamily="@font/acme_regular"-->
+            <!--android:textSize="50sp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:text="@string/app_name"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"/>-->
 </RelativeLayout>

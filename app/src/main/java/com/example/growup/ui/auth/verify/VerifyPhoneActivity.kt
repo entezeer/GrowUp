@@ -1,5 +1,6 @@
-package com.example.growup.ui.auth
+package com.example.growup.ui.auth.verify
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -31,8 +32,8 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
         init()
 
-        val phoneNumber = intent.getStringExtra("phoneNumber")
-        fromActivity = intent.getStringExtra("fromActivity")
+        val phoneNumber = intent.getStringExtra(EXTRA_PHONENUMBER)
+        fromActivity = intent.getStringExtra(EXTRA_ACTIVITY)
         Toast.makeText(this, phoneNumber, Toast.LENGTH_LONG).show()
         sendVerificationCode(phoneNumber)
     }
@@ -109,6 +110,16 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
         override fun onVerificationFailed(e: FirebaseException?) {
             Toast.makeText(this@VerifyPhoneActivity, e?.message, Toast.LENGTH_LONG).show()
+        }
+    }
+    companion object {
+        private const val EXTRA_ACTIVITY = "fromActivity"
+        private const val EXTRA_PHONENUMBER = "phoneNumber"
+        fun start(context: Context,phoneNumber:String, fragment: String) {
+            val intent = Intent(context, VerifyPhoneActivity::class.java)
+            intent.putExtra(EXTRA_ACTIVITY, fragment)
+            intent.putExtra(EXTRA_PHONENUMBER, phoneNumber)
+            context.startActivity(intent)
         }
     }
 }

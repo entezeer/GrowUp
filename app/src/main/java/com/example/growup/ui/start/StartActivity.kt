@@ -8,8 +8,8 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.widget.Button
 import com.example.growup.R
-import com.example.growup.ui.auth.LoginActivity
-import com.example.growup.ui.auth.RegisterActivity
+import com.example.growup.ui.auth.login.LoginActivity
+import com.example.growup.ui.auth.register.RegisterActivity
 import java.util.*
 
 class StartActivity : AppCompatActivity() {

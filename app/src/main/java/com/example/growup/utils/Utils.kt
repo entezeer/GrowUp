@@ -32,7 +32,7 @@ object Utils {
         builder.setMessage("Вы действительно хотите отметить товар как проданное ?")
         builder.setPositiveButton("Да"){dialog, which ->
             GrowUpApplication.mSoldRef.push().setValue(mData)
-            GrowUpApplication.mMarketRef.child(keyOfProduct!!).removeValue()
+            GrowUpApplication.mMarketRef.child("onSale").child(keyOfProduct!!).removeValue()
             MainActivity.start(context,"market")
         }
         builder.setNegativeButton("Нет"){dialog, which ->
