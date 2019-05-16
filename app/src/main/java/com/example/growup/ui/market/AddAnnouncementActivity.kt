@@ -1,8 +1,21 @@
 package com.example.growup.ui.market
 
+import android.app.Activity
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.os.Environment.getExternalStoragePublicDirectory
+import android.provider.MediaStore
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityCompat.startActivityForResult
+import android.support.v4.content.FileProvider
+import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -13,12 +26,21 @@ import com.example.growup.R
 import com.example.growup.data.market.model.Products
 import com.example.growup.models.ProductsCategories
 import com.example.growup.ui.main.MainActivity
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddAnnouncementActivity : AppCompatActivity() {
-
+    private val GET_IMAGE_GALLERY = 1
+    private val GET_IMAGE_CAMERA = 2
+    private val REQUEST_PERMISSION = 3
+    private var photoPath: String ? = null
+    private var imageUri: Uri? = null
     private var backButton: FloatingActionButton? = null
     private var name: EditText? = null
     private var unitPrice: EditText? = null
+    private var productImage:ImageView? = null
     private var size: EditText? = null
     private var totalPrice: EditText? = null
     private var message: EditText? = null
@@ -37,6 +59,10 @@ class AddAnnouncementActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        productImage = findViewById(R.id.add_product_image)
+        productImage?.setOnClickListener {
+            getImageFrom()
+        }
         backButton = findViewById(R.id.back_button)
         backButton?.setOnClickListener {
             onBackPressed()
@@ -93,6 +119,70 @@ class AddAnnouncementActivity : AppCompatActivity() {
 
         initSpinners()
     }
+    private fun getImageFrom() {
+        val items = arrayOf("Камера","Галерея")
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Выбор")
+        builder.setCancelable(true)
+        builder.setItems(items, DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                0 -> getImageFromCamera()
+                1 -> getImageFromGallery()
+            }
+        })
+        val dialog: android.app.AlertDialog = builder.create()
+        dialog.show()
+    }
+    private fun getImageFromCamera(){
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE),REQUEST_PERMISSION)
+        }else{
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if(intent.resolveActivity(packageManager )!= null){
+                val photoFile = createPhotoFile()
+                photoPath = photoFile.absolutePath
+                imageUri = FileProvider.getUriForFile(this@AddAnnouncementActivity,
+                    "com.example.growup.fileprovider", photoFile)
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+                startActivityForResult(intent, GET_IMAGE_CAMERA)
+            }
+
+        }
+
+    }
+
+    private fun createPhotoFile(): File{
+        val name = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
+        val storageDirectory: File = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        var image: File? = null
+        try {
+            image = File.createTempFile(name, ".jpeg", storageDirectory);
+        } catch (e: IOException) {
+            Toast.makeText(this@AddAnnouncementActivity,e.toString(),Toast.LENGTH_SHORT).show()
+        }
+        return image!!
+    }
+
+    private fun getImageFromGallery(){
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent,"Выберите изображение"),GET_IMAGE_GALLERY)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == GET_IMAGE_GALLERY){
+            val imageUri = data?.data
+            productImage?.setImageURI(imageUri)
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == GET_IMAGE_CAMERA){
+            productImage?.setImageURI(imageUri)
+        }
+    }
+
+
 
     private fun initSpinners() {
         spinnerCategories?.adapter =
