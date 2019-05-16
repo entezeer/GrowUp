@@ -32,6 +32,9 @@ object Utils : FirebaseClient(){
             getRef(MarketRemoteContains.MARKET_REF).child(MarketRemoteContains.MARKET_SOLD).push().setValue(mData)
             getRef(MarketRemoteContains.MARKET_REF).child(MarketRemoteContains.MARKER_SALE).child(keyOfProduct!!).removeValue()
             MainActivity.start(context,"Марткет")
+            GrowUpApplication.mSoldRef.push().setValue(mData)
+            GrowUpApplication.mMarketRef.child("onSale").child(keyOfProduct!!).removeValue()
+            MainActivity.start(context,"market")
         }
         builder.setNegativeButton("Нет"){dialog, which ->
 

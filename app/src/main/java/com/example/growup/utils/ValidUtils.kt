@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
-import com.example.growup.ui.auth.RegisterActivity
 
 /**
  * Created by entezeer on 25.03.19

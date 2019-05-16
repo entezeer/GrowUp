@@ -9,18 +9,15 @@ import android.view.ViewGroup
 
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.User
-import com.example.growup.ui.market.MarketRecyclerAdapter
-import org.w3c.dom.Text
+import com.example.growup.data.user.model.User
 import java.util.*
 import kotlin.collections.ArrayList
 
 class RecyclerViewSearchAdapter(private val users: ArrayList<User>, private val userImages: ArrayList<String>,
-                                var listener: Listener , var context: Context ) :
+                                var listener: Listener, var context: Context ) :
         RecyclerView.Adapter<RecyclerViewSearchAdapter.ViewHolder>(){
 
     private var usersList: ArrayList<User> = ArrayList()
@@ -45,7 +42,7 @@ class RecyclerViewSearchAdapter(private val users: ArrayList<User>, private val 
         private val userNameSurname= itemView.findViewById<TextView>(R.id.user_name_surname)
         private val userType= itemView.findViewById<TextView>(R.id.user_type)
 
-        fun bindData(data: User , imagePath: String) {
+        fun bindData(data: User, imagePath: String) {
             GrowUpApplication.mStorage.child("UsersProfileImages").child(imagePath)
                 .downloadUrl
                 .addOnSuccessListener { task ->

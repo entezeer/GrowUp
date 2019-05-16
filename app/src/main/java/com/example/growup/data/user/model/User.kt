@@ -1,4 +1,4 @@
-package com.example.growup.models
+package com.example.growup.data.user.model
 
 class User(
     var name: String = "",
@@ -7,6 +7,7 @@ class User(
     var email: String = "",
     var password: String = "",
     var userType: String = "",
-    var region: String = ""
+    var region: String = "",
+    var profileImage: String = "null"
 
 )

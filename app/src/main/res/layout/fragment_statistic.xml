@@ -1,10 +1,10 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/profile_gray"
-              android:orientation="vertical"
-              tools:context="com.example.growup.ui.statistic.StatisticFragment">
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="@color/profile_gray"
+                                                 android:orientation="vertical"
+                                                 tools:context="com.example.growup.ui.statistic.StatisticFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ProgressBar
@@ -13,46 +13,88 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
     />
-    <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-        <android.support.v7.widget.CardView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                app:cardCornerRadius="12dp"
-                android:id="@+id/animal_statistic"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp">
+                android:layout_height="match_parent">
             <TextView
-                    android:id="@+id/listParent"
-                    android:text="Животноводство"
+                    android:textColor="@color/green"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginBottom="35dp"
-                    android:textColor="@color/black"
-            />
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/statistic_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-    </LinearLayout>
+                    android:text="Статистика по категориям"/>
+            <View android:layout_width="match_parent"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp"
+                  android:layout_height="1dp"
+                  android:background="@color/green"/>
+            <android.support.v7.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    app:cardCornerRadius="12dp"
+                    android:id="@+id/animal_statistic"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp">
+                <TextView
+                        android:id="@+id/listParent"
+                        android:text="@string/animal"
+                        android:textSize="17sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="35dp"
+                        android:textColor="@color/black"
+                />
+            </android.support.v7.widget.CardView>
+            <TextView
+                    android:textColor="@color/green"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Статистика по регионам"/>
+            <View android:layout_width="match_parent"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp"
+                  android:layout_height="1dp"
+                  android:background="@color/green"/>
+            <android.support.v7.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    app:cardCornerRadius="12dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp">
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/statistic_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

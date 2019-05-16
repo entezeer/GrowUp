@@ -15,7 +15,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
-import com.example.growup.models.User
+import com.example.growup.data.user.model.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -65,6 +65,7 @@ class UserActivity : AppCompatActivity() {
     private fun showData(){
         GrowUpApplication.mStorage.child("UsersProfileImages").child(uid!!).downloadUrl
             .addOnSuccessListener { task ->
+                Toast.makeText(this@UserActivity,task.toString(),Toast.LENGTH_LONG).show()
                 Glide.with(this@UserActivity).load(task).into(profileImage!!)
             }.addOnFailureListener {
                 profileImage?.setImageResource(R.drawable.user_icon)

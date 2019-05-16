@@ -20,6 +20,7 @@ import com.example.growup.R
 import com.bumptech.glide.Glide
 import com.example.core.extensions.setFragment
 import com.example.growup.models.User
+import com.example.growup.data.user.model.User
 import com.example.growup.ui.profile.ProfileActivity
 import com.example.growup.ui.SettingsActivity
 import com.example.growup.ui.SplashActivity
@@ -44,9 +45,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val statisticFragment = StatisticFragment.newInstance()
         val marketFragment = MarketFragment.newInstance()
+        setFragment(StatisticFragment.newInstance(), R.id.frame_container, "Статистика")
         init()
         setUserData()
     }

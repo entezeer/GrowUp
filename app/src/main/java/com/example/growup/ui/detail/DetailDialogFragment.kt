@@ -17,6 +17,8 @@ import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.growup.data.market.model.Products
 import com.example.growup.models.User
+import com.example.growup.models.Products
+import com.example.growup.data.user.model.User
 import com.example.growup.ui.user.UserActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

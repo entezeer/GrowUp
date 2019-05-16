@@ -1,6 +1,5 @@
 package com.example.growup.ui.search
 
-import android.graphics.drawable.GradientDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.growup.R
@@ -9,12 +8,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.*
 import com.example.growup.GrowUpApplication
-import com.example.growup.models.User
+import com.example.growup.data.user.model.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import android.widget.Toast
-import com.bumptech.glide.Glide.init
 
 
 class SearchActivity : AppCompatActivity() , RecyclerViewSearchAdapter.Listener {

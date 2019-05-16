@@ -3,6 +3,8 @@ package com.example.growup
 import android.app.Application
 import com.example.growup.data.market.model.Products
 import com.example.growup.models.User
+import com.example.growup.models.Products
+import com.example.growup.data.user.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

@@ -79,6 +79,9 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener , MarketContra
             if (entry.value.uid == uid){
                 mData.add(entry.value)
                 mDataKeys.add(entry.key)
+        GrowUpApplication.mMarketRef.child("onSale").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()
             }
         }
         recyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }

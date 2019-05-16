@@ -51,5 +51,6 @@
     <string name="favorite">Избранное</string>
     <string name="statistic">Статистика</string>
     <string name="count_animal">штук</string>
+    <string name="animal">Животноводство</string>
 
 </resources>
