@@ -1,5 +1,7 @@
 package com.example.growup.data.user.model
 
+import java.io.Serializable
+
 class User(
     var name: String = "",
     var lastName: String = "",
@@ -10,4 +12,4 @@ class User(
     var region: String = "",
     var profileImage: String = "null"
 
-)
+):Serializable

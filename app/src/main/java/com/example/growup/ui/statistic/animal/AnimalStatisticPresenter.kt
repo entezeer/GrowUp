@@ -1,4 +1,4 @@
-package com.example.growup.ui.statistic
+package com.example.growup.ui.statistic.animal
 
 import android.content.Context
 import com.entezeer.tracking.utils.InternetUtil
@@ -6,13 +6,14 @@ import com.example.growup.data.statistic.StatisticDataSource
 import com.example.growup.data.statistic.model.ParentList
 import com.example.growup.data.statistic.remote.StatisticRemoteConstants
 
-class StatisticPresenter(private val mStatisticDataSource: StatisticDataSource): StatisticContract.Presenter {
+class AnimalStatisticPresenter(private val mStatisticDataSource: StatisticDataSource): AnimalStatisticContract.Presenter {
 
-    private var mView: StatisticContract.View? = null
+
+    private var mView: AnimalStatisticContract.View? = null
 
     override fun getData() {
         mView?.showLoading()
-        mStatisticDataSource.getStatistic(StatisticRemoteConstants.REF_KEY,object : StatisticDataSource.RequestCallback{
+        mStatisticDataSource.getStatistic(StatisticRemoteConstants.ANIMAL_KEY,object : StatisticDataSource.RequestCallback{
             override fun onSuccess(result: ArrayList<ParentList>) {
                 mView?.showData(result)
                 mView?.hideLoading()
@@ -28,7 +29,7 @@ class StatisticPresenter(private val mStatisticDataSource: StatisticDataSource):
         mView?.openDetail(parentKey,childKey)
     }
 
-    override fun attachView(view: StatisticContract.View) {
+    override fun attachView(view: AnimalStatisticContract.View) {
         mView = view
         view.attachPresenter(this)
     }

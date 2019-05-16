@@ -1,4 +1,4 @@
-package com.example.growup.ui.statistic
+package com.example.growup.ui.statistic.viewholder
 
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import android.view.View

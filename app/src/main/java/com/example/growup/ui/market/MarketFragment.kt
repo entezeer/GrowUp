@@ -12,10 +12,13 @@ import android.widget.ProgressBar
 import android.widget.SearchView
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
+import com.example.core.firebase.FirebaseClient
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
 import com.example.growup.data.market.model.Products
+import com.example.growup.data.user.UserDataSource
+import com.example.growup.data.user.model.User
 import com.example.growup.ui.detail.DetailDialogFragment
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,7 +40,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     private var mProgressBar: ProgressBar? = null
     private var mDataKeys: ArrayList<String> = ArrayList()
 
-    companion object{
+    companion object {
         fun newInstance(): MarketFragment = MarketFragment()
     }
 
@@ -55,7 +58,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         return view
     }
 
-    private fun init(view: View){
+    private fun init(view: View) {
 
         mMarketRecyclerView = view.findViewById(R.id.market_recycler)
         mMarketRecyclerView?.layoutManager = GridLayoutManager(activity, 2)
@@ -68,16 +71,26 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         mProgressBar = view.findViewById(R.id.progress_bar)
 
         mAddButton = view.findViewById(R.id.add_announcement)
-//        if (GrowUpApplication.mUserData.userType == "Оптовик"){
-//            mAddButton?.hide()
-//        }
+
+        RepositoryProvider.getUserDataSource()
+            .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
+                override fun onSuccess(result: User) {
+                    if (result.userType == "Оптовик") {
+                        mAddButton?.hide()
+                    }
+                }
+
+                override fun onFailure(message: String) {
+                }
+
+            })
         mAddButton?.setOnClickListener {
-            startActivity(Intent(activity,AddAnnouncementActivity::class.java))
+            startActivity(Intent(activity, AddAnnouncementActivity::class.java))
         }
     }
 
-    private fun updateUi(){
-        adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
+    private fun updateUi() {
+        adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
         mProgressBar?.visibility = View.GONE
         mMarketRecyclerView?.adapter = adapter
         mSwipeRefreshLayout?.isRefreshing = false
@@ -86,8 +99,8 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
 
     override fun onItemSelectedAt(position: Int) {
         GrowUpApplication.productsData = mData
-        val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position] , "Market", mData[position])
-        detailDialogFragment.show(fragmentManager,"detailDialogFragment")
+        val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position], "Market", mData[position])
+        detailDialogFragment.show(fragmentManager, "detailDialogFragment")
     }
 
 
@@ -102,7 +115,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     override fun showData(data: HashMap<String, Products>) {
         mData.addAll(data.values)
         mDataKeys.addAll(data.keys)
-        mMarketRecyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
+        mMarketRecyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
         mProgressBar?.visibility = View.GONE
         updateUi()
     }
@@ -120,7 +133,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         mMarketPresenter = presenter
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater){
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
         menu?.clear()
         inflater.inflate(R.menu.search_menu, menu)
         val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
@@ -142,6 +155,6 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
             }
         })
 
-        return super.onCreateOptionsMenu(menu,inflater)
+        return super.onCreateOptionsMenu(menu, inflater)
     }
 }

@@ -17,6 +17,7 @@ import com.example.core.extensions.slideRightOut
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
 import com.example.growup.data.statistic.model.ParentList
+import com.example.growup.ui.statistic.animal.AnimalStatisticActivity
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -45,9 +46,7 @@ class StatisticFragment : Fragment(), StatisticContract.View, ExpandableRecycler
         mPresenter = StatisticPresenter(RepositoryProvider.getStatisticDataSource())
         mPresenter?.attachView(this)
 
-
-        mPresenter = StatisticPresenter(RepositoryProvider.getStatisticDataSource())
-        mPresenter?.attachView(this)
+        activity?.let { mPresenter?.checkNetwork(it) }
 
         init(rootView)
         mPresenter?.getData()
@@ -64,7 +63,7 @@ class StatisticFragment : Fragment(), StatisticContract.View, ExpandableRecycler
 
         animalStatistic = view.findViewById(R.id.animal_statistic)
         animalStatistic?.setOnClickListener {
-            startActivity(Intent(activity,AnimalStatisticActivity::class.java))
+            startActivity(Intent(activity, AnimalStatisticActivity::class.java))
         }
     }
 
@@ -87,7 +86,7 @@ class StatisticFragment : Fragment(), StatisticContract.View, ExpandableRecycler
     }
 
     override fun openDetail(parentKey: String, childKey: String) {
-        activity?.let { DetailStatisticActivity.start(it,parentKey,childKey) }
+        activity?.let { PieChartActivity.start(it,parentKey,childKey) }
     }
 
     override fun finishView() {

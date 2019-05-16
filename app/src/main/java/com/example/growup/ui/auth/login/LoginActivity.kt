@@ -14,6 +14,7 @@ import com.example.growup.models.CountryCodes
 import com.example.growup.ui.auth.verify.VerifyPhoneActivity
 import com.google.firebase.database.*
 
+@Suppress("UNREACHABLE_CODE")
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     private var mPresenter: LoginContract.Presenter? = null
@@ -71,7 +72,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun openVerifyActivity(number: String) {
-        VerifyPhoneActivity.start(this, number, "login")
+        VerifyPhoneActivity.start(this, number, "login",null!!)
     }
 
 

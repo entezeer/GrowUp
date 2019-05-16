@@ -4,6 +4,9 @@ import com.example.growup.data.market.model.Products
 import com.example.growup.data.market.remote.MarketRemote
 
 class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSource{
+    override fun setMarketData(callback: MarketDataSource.SuccessCallback) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     companion object{
         private var INSTANCE: MarketDataSource? = null

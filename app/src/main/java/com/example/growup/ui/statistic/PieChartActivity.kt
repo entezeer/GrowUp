@@ -21,7 +21,7 @@ import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.formatter.PercentFormatter
 
 
-class DetailStatisticActivity : AppCompatActivity() {
+class PieChartActivity : AppCompatActivity() {
 
     private var pieChart: PieChart? = null
     private var chartData: ArrayList<PieEntry> = ArrayList()
@@ -39,8 +39,8 @@ class DetailStatisticActivity : AppCompatActivity() {
 
         initData()
 
-        Toast.makeText(this@DetailStatisticActivity, mKey, Toast.LENGTH_LONG).show()
-        Toast.makeText(this@DetailStatisticActivity, mChildKey, Toast.LENGTH_LONG).show()
+        Toast.makeText(this@PieChartActivity, mKey, Toast.LENGTH_LONG).show()
+        Toast.makeText(this@PieChartActivity, mChildKey, Toast.LENGTH_LONG).show()
     }
 
     private fun init() {
@@ -79,7 +79,7 @@ class DetailStatisticActivity : AppCompatActivity() {
 
                     pieChart?.data = pieData
                     pieChart?.invalidate()
-                    pieChart?.animateXY(2000, 2000)
+                    pieChart?.animateXY(1000, 1000)
                 }
 
             })
@@ -97,7 +97,7 @@ class DetailStatisticActivity : AppCompatActivity() {
         val EXTRA_KEY = "EXTRA_KEY"
         val EXTRA_CHILDKEY = "EXTRA_CHILDKEY"
         fun start(context: Activity, key: String, childKey: String) {
-            val intent = Intent(context, DetailStatisticActivity::class.java)
+            val intent = Intent(context, PieChartActivity::class.java)
             intent.putExtra(EXTRA_KEY, key)
             intent.putExtra(EXTRA_CHILDKEY, childKey)
             startActivity(context, intent, Bundle())

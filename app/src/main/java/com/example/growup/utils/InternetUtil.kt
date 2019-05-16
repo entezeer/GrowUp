@@ -37,7 +37,9 @@ object InternetUtil {
         Glide.with(context).load(R.drawable.nointernet).into(gifImageView)
 
         val dialog = AlertDialog.Builder(context)
-        dialog.setPositiveButton("Try again",null)
+        dialog.setPositiveButton("Попробовать снова"){_,_->
+
+        }
         dialog.setView(view)
         dialog.show()
     }

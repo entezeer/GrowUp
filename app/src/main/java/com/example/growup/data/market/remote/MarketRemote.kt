@@ -8,6 +8,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class MarketRemote : FirebaseClient() , MarketDataSource {
+    override fun setMarketData(callback: MarketDataSource.SuccessCallback) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     companion object{
         private var INSTANCE: MarketRemote? = null
         fun getInstance(): MarketRemote {

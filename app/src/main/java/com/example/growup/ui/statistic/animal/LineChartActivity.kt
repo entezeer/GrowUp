@@ -1,4 +1,4 @@
-package com.example.growup.ui.statistic
+package com.example.growup.ui.statistic.animal
 
 import android.app.Activity
 import android.content.Intent
@@ -9,17 +9,23 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
+import com.example.growup.ui.statistic.PieChartActivity
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.components.AxisBase
+import lecho.lib.hellocharts.formatter.AxisValueFormatter
+
+
+
 
 class LineChartActivity : AppCompatActivity() {
 
@@ -33,8 +39,8 @@ class LineChartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_line_chart)
-        mKey = intent.getStringExtra(DetailStatisticActivity.EXTRA_KEY)
-        mChildKey = intent.getStringExtra(DetailStatisticActivity.EXTRA_CHILDKEY)
+        mKey = intent.getStringExtra(PieChartActivity.EXTRA_KEY)
+        mChildKey = intent.getStringExtra(PieChartActivity.EXTRA_CHILDKEY)
 
         init()
         initData()
@@ -81,22 +87,20 @@ class LineChartActivity : AppCompatActivity() {
         dataSet.setDrawFilled(true)
 
 
-        chartOne?.xAxis?.position = XAxis.XAxisPosition.TOP
+        val xAxis = chartOne?.xAxis
+        xAxis?.position = XAxis.XAxisPosition.TOP
 
-        chartOne?.xAxis?.granularity = 1f
-        chartOne?.xAxis?.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float, axis: AxisBase?): String {
-                axisData.forEach {
-                    return it.toString()
-                }
-                return ""
-            }
-        }
+        xAxis?.granularity = 1f
+
 
         val yAxisLeft = chartOne?.axisLeft
         yAxisLeft?.granularity = 1f
 
         chartOne?.legend?.form = Legend.LegendForm.CIRCLE
+
+        chartOne?.axisLeft?.setDrawGridLines(false)
+        chartOne?.xAxis?.setDrawGridLines(false)
+
 
         val lineData = LineData(dataSet)
         chartOne?.axisRight?.isEnabled = false

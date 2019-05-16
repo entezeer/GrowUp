@@ -20,7 +20,6 @@ class GrowUpApplication: Application(){
         lateinit var mAnimalStatisticRef: DatabaseReference
         lateinit var mStorage: StorageReference
         lateinit var mUserData: User
-        lateinit var mUserList: ArrayList<User>
         var productsData: ArrayList<Products> = ArrayList()
     }
     override fun onCreate() {
