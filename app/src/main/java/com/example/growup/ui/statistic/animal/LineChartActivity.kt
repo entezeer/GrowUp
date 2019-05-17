@@ -11,26 +11,24 @@ import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.ui.statistic.PieChartActivity
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.components.AxisBase
-import lecho.lib.hellocharts.formatter.AxisValueFormatter
-
+import javax.xml.datatype.DatatypeConstants.HOURS
 
 
 
 class LineChartActivity : AppCompatActivity() {
 
     private var chartOne: LineChart? = null
-    var axisData: Array<Int> = arrayOf(2014, 2015, 2016, 2017, 2018)
+    var axisData = arrayOf("2014", "2015", "2016", "2017", "2018")
     var axisValues: ArrayList<Entry> = ArrayList()
     var axisValuesCow: ArrayList<Entry> = ArrayList()
     var mKey: String? = null
@@ -84,6 +82,7 @@ class LineChartActivity : AppCompatActivity() {
         dataSet.color = ContextCompat.getColor(this, R.color.colorPrimary)
         dataSet.valueTextColor = ContextCompat.getColor(this, R.color.black)
         dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        dataSet.lineWidth = 3f
         dataSet.setDrawFilled(true)
 
 
@@ -91,7 +90,10 @@ class LineChartActivity : AppCompatActivity() {
         xAxis?.position = XAxis.XAxisPosition.TOP
 
         xAxis?.granularity = 1f
+        xAxis?.setDrawLabels(true)
+        xAxis?.valueFormatter
 
+        xAxis?.valueFormatter = IAxisValueFormatter { value, axis -> axisData[value.toInt()] }
 
         val yAxisLeft = chartOne?.axisLeft
         yAxisLeft?.granularity = 1f
@@ -101,11 +103,11 @@ class LineChartActivity : AppCompatActivity() {
         chartOne?.axisLeft?.setDrawGridLines(false)
         chartOne?.xAxis?.setDrawGridLines(false)
 
-
         val lineData = LineData(dataSet)
+        chartOne?.description?.isEnabled = false
         chartOne?.axisRight?.isEnabled = false
         chartOne?.data = lineData
-        chartOne?.animateX(1500)
+        chartOne?.animateX(1000)
         chartOne?.invalidate()
     }
 

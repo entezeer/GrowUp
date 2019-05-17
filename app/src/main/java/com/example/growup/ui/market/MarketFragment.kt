@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.SearchView
+import android.widget.TextView
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
 import com.example.core.firebase.FirebaseClient
@@ -31,6 +32,7 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
+    private var mNoData : TextView? = null
     private var mMarketPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var mMarketRecyclerView: RecyclerView? = null
@@ -59,6 +61,8 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     private fun init(view: View) {
+        mNoData = view.findViewById(R.id.no_data)
+        mNoData?.visibility = View.GONE
 
         mMarketRecyclerView = view.findViewById(R.id.market_recycler)
         mMarketRecyclerView?.layoutManager = GridLayoutManager(activity, 2)
@@ -91,6 +95,11 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
 
     private fun updateUi() {
         adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
+
+        if (mData.isEmpty()){
+            mNoData?.visibility = View.VISIBLE
+        }
+
         mProgressBar?.visibility = View.GONE
         mMarketRecyclerView?.adapter = adapter
         mSwipeRefreshLayout?.isRefreshing = false

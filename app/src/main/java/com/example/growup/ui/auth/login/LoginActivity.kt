@@ -1,7 +1,6 @@
 package com.example.growup.ui.auth.login
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -10,9 +9,9 @@ import com.entezeer.tracking.utils.InternetUtil
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
+import com.example.growup.data.user.model.User
 import com.example.growup.models.CountryCodes
 import com.example.growup.ui.auth.verify.VerifyPhoneActivity
-import com.google.firebase.database.*
 
 @Suppress("UNREACHABLE_CODE")
 class LoginActivity : AppCompatActivity(), LoginContract.View {
@@ -72,7 +71,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun openVerifyActivity(number: String) {
-        VerifyPhoneActivity.start(this, number, "login",null!!)
+        GrowUpApplication.mUserData = User()
+        VerifyPhoneActivity.start(this, number, "login",null)
     }
 
 

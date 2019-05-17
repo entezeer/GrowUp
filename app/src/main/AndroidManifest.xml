@@ -39,21 +39,21 @@
                 android:theme="@style/MainTheme"/>
         <activity
                 android:name=".ui.profile.EditProfileActivity"
-                android:theme="@style/MainTheme">
+                >
         </activity>
         <activity
                 android:name=".ui.profile.ProfileActivity"
-                android:theme="@style/MainTheme">
+                >
         </activity>
         <activity android:name=".ui.search.SearchActivity">
         </activity>
         <activity
                 android:name=".ui.SettingsActivity"
-                android:theme="@style/MainTheme">
+                >
         </activity>
         <activity
                 android:name=".ui.auth.verify.VerifyPhoneActivity"
-                android:theme="@style/MainTheme">
+                >
         </activity>
         <activity
                 android:name=".ui.start.StartActivity"

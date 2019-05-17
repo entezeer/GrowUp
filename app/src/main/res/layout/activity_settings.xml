@@ -7,13 +7,6 @@
         android:background="@color/white"
         android:layout_height="match_parent"
         tools:context="com.example.growup.ui.SettingsActivity">
-    <android.support.design.widget.FloatingActionButton
-            android:backgroundTint="@color/white"
-            android:id="@+id/back_button"
-            android:layout_margin="18dp"
-            android:src="@drawable/back_button_48"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:ignore="UnusedAttribute"/>
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">

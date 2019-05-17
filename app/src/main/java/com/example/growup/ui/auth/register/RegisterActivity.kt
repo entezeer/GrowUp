@@ -1,7 +1,6 @@
 package com.example.growup.ui.auth.register
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -15,11 +14,7 @@ import com.example.growup.data.RepositoryProvider
 import com.example.growup.models.CountryCodes
 import com.example.growup.models.Regions
 import com.example.growup.data.user.model.User
-import com.example.growup.ui.auth.login.LoginContract
 import com.example.growup.ui.auth.verify.VerifyPhoneActivity
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 
 class RegisterActivity : AppCompatActivity(), RegisterContract.View {
 

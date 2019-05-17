@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
 
@@ -30,6 +31,8 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
+
+    private var mNoData: TextView? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var recyclerView: RecyclerView? = null
     private var adapter: MarketRecyclerAdapter? = null
@@ -45,13 +48,16 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
 
         init(view)
 
-        mOnSoldPresenter= MarketPresenter(RepositoryProvider.getMarketDataSource())
+        mOnSoldPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
         mOnSoldPresenter?.attachView(this)
         mOnSoldPresenter?.getMarketSold()
         return view
     }
 
     private fun init(view: View) {
+        mNoData = view.findViewById(R.id.no_data)
+        mNoData?.visibility = View.GONE
+
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView?.layoutManager = GridLayoutManager(activity, 2)
 
@@ -74,14 +80,12 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
 
     override fun showData(data: HashMap<String, Products>) {
         val uid = arguments?.getString(ARG_UID)
-        for(entry: Map.Entry<String, Products> in data.entries ){
-            if (entry.value.uid == uid){
+        for (entry: Map.Entry<String, Products> in data.entries) {
+            if (entry.value.uid == uid) {
                 mData.add(entry.value)
                 mDataKeys.add(entry.key)
             }
         }
-        recyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
-//        mProgressBar?.visibility = View.GONE
         updateUi()
     }
 
@@ -99,16 +103,20 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
     }
 
     private fun updateUi() {
+        if (mData.isEmpty()){
+            mNoData?.visibility = View.VISIBLE
+        }
         adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
 //        mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter
         mSwipeRefreshLayout?.isRefreshing = false
     }
+
     override fun onItemSelectedAt(position: Int) {
-        val detailDialogFragment = DetailDialogFragment.newInstance("null" , "SalesFragment" , mData[position])
+        val detailDialogFragment = DetailDialogFragment.newInstance("null", "SalesFragment", mData[position])
         detailDialogFragment.show(fragmentManager, "detailDialogFragment")
     }
-    
+
     companion object {
         private const val ARG_POSITION = "position"
         private const val ARG_UID = "uid"

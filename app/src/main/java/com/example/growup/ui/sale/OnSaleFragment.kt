@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
@@ -37,6 +38,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
 
+    private var mNoData: TextView? = null
     private var mOnSalesPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var recyclerView: RecyclerView? = null
@@ -59,6 +61,9 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     private fun init(view: View) {
+        mNoData = view.findViewById(R.id.no_data)
+        mNoData?.visibility = View.GONE
+
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView?.layoutManager = GridLayoutManager(activity, 2)
 
@@ -87,8 +92,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
 
             }
         }
-        recyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
-        mProgressBar?.visibility = View.GONE
+
         updateUi()
     }
 
@@ -106,6 +110,9 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     private fun updateUi() {
+        if (mData.isEmpty()){
+            mNoData?.visibility = View.VISIBLE
+        }
         adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
 //        mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -20,7 +21,6 @@ import com.google.android.gms.tasks.TaskExecutors
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.gson.Gson
 import java.util.concurrent.TimeUnit
 
 class VerifyPhoneActivity : AppCompatActivity() {
@@ -34,8 +34,6 @@ class VerifyPhoneActivity : AppCompatActivity() {
     private var user: User? = null
     private var loginBtn: Button? = null
     private var verifyPhone: EditText? = null
-
-    private var backButton: FloatingActionButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,15 +49,13 @@ class VerifyPhoneActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        supportActionBar?.title = "Войти"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
 
         progressDialog = ProgressDialog(this)
         loginBtn = findViewById(R.id.login_btn)
         verifyPhone = findViewById(R.id.verify_phone)
-        backButton = findViewById(R.id.back_button)
-
-        backButton?.setOnClickListener {
-            onBackPressed()
-        }
 
         loginBtn?.setOnClickListener {
             val code = verifyPhone?.text.toString().trim()
@@ -74,8 +70,8 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
     private fun verifyCode(code: String) {
 
-        val credential = PhoneAuthProvider.getCredential(verificationId!!, code)
-        signInWithCredential(credential)
+        val credential = verificationId?.let { PhoneAuthProvider.getCredential(it, code) }
+        credential?.let { signInWithCredential(it) }
     }
 
     private fun signInWithCredential(credential: PhoneAuthCredential) {
@@ -86,6 +82,7 @@ class VerifyPhoneActivity : AppCompatActivity() {
                     .setUser(credential, it, false, object : UserDataSource.UserCallback {
                         override fun onSuccess(result: User) {
                             startActivity(Intent(this@VerifyPhoneActivity, MainActivity::class.java))
+                            finish()
                         }
 
                         override fun onFailure(message: String) {
@@ -93,6 +90,18 @@ class VerifyPhoneActivity : AppCompatActivity() {
 
                     })
             }
+        } else user?.let {
+            RepositoryProvider.getUserDataSource()
+                .setUser(credential, it, true, object : UserDataSource.UserCallback {
+                    override fun onSuccess(result: User) {
+                        startActivity(Intent(this@VerifyPhoneActivity, MainActivity::class.java))
+                        finish()
+                    }
+
+                    override fun onFailure(message: String) {
+                    }
+
+                })
         }
     }
 
@@ -125,11 +134,18 @@ class VerifyPhoneActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
+    }
+
     companion object {
         private const val EXTRA_ACTIVITY = "fromActivity"
         private const val EXTRA_PHONENUMBER = "phoneNumber"
         private const val EXTRA_USER = "user"
-        fun start(context: Context, phoneNumber: String, fragment: String, user: User) {
+        fun start(context: Context, phoneNumber: String, fragment: String, user: User?) {
             val intent = Intent(context, VerifyPhoneActivity::class.java)
             intent.putExtra(EXTRA_ACTIVITY, fragment)
             intent.putExtra(EXTRA_PHONENUMBER, phoneNumber)
