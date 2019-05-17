@@ -42,13 +42,13 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
         fun bindData(items: Products) {
             recyclerImage.setImageResource(R.drawable.others)
             if (items.category == "Овощи") {
-                recyclerImage.setImageResource(R.drawable.vegetables1)
+                recyclerImage.setImageResource(R.drawable.vegetables2)
             }
             if (items.category == "Фрукты") {
-                recyclerImage.setImageResource(R.drawable.fruits1)
+                recyclerImage.setImageResource(R.drawable.fruits2)
             }
             if (items.category == "Животные") {
-                recyclerImage.setImageResource(R.drawable.animals)
+                recyclerImage.setImageResource(R.drawable.animals1)
             }
 
             recyclerTitle.text = items.subCategory

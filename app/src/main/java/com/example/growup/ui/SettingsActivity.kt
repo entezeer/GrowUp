@@ -1,5 +1,6 @@
 package com.example.growup.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -8,8 +9,11 @@ import android.support.design.widget.FloatingActionButton
 import android.view.MenuItem
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.example.core.firebase.FirebaseClient
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
+import com.example.growup.data.RepositoryProvider
+import com.example.growup.data.user.UserDataSource
 import com.example.growup.data.user.model.User
 import com.example.growup.ui.profile.ProfileActivity
 import com.google.firebase.database.DataSnapshot
@@ -36,41 +40,38 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun initUserInfo() {
 
-        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid).downloadUrl
-            .addOnSuccessListener { task ->
-                Glide.with(this@SettingsActivity).load(task).into(userImage!!)
-            }.addOnFailureListener {
-                userImage?.setImageResource(R.drawable.user_icon)
-            }
 
+        RepositoryProvider.getUserDataSource()
+            .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
+                @SuppressLint("SetTextI18n")
+                override fun onSuccess(result: User) {
+                    if (result.profileImage.isNotEmpty()) {
+                        Glide.with(this@SettingsActivity).load(result.profileImage).into(userImage!!)
+                    } else userImage?.setImageResource(R.drawable.user_icon)
 
-        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+                    userName?.text = result.name + " " + result.lastName
+                    userType?.text = result.userType
+                }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.getValue(User::class.java)
-                userName?.text = data?.name + " " + data?.lastName
-                userType?.text = data?.userType
-            }
-
-        })
+                override fun onFailure(message: String) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            })
     }
 
 
-    private fun init(){
+    private fun init() {
 
         supportActionBar?.title = "Настройки"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
 
-        val country = arrayOf("Русский","Кыргызский")
+        val country = arrayOf("Русский", "Кыргызский")
         spinner = findViewById(R.id.settings_lang_spinner)
-        spinner?.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,country)
+        spinner?.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, country)
         buttonAboutUs = findViewById(R.id.button_about_us)
         buttonAboutUs?.setOnClickListener {
-            startActivity(Intent(this@SettingsActivity,AboutUsActivity::class.java))
+            startActivity(Intent(this@SettingsActivity, AboutUsActivity::class.java))
         }
 
         userImage = findViewById(R.id.settings_user_image)
@@ -84,7 +85,10 @@ class SettingsActivity : AppCompatActivity() {
         }
         buttonRate = findViewById(R.id.button_rate_app)
         buttonRate?.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps"))
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps")
+            )
             startActivity(intent)
         }
 
@@ -92,8 +96,8 @@ class SettingsActivity : AppCompatActivity() {
         buttonReportBug?.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
             intent.data = Uri.parse("mailto:growupapp2019@gmail.com")
-            intent.putExtra(Intent.EXTRA_SUBJECT,"ERROR_REPORT")
-            startActivity(Intent.createChooser(intent,"Send Report"))
+            intent.putExtra(Intent.EXTRA_SUBJECT, "ERROR_REPORT")
+            startActivity(Intent.createChooser(intent, "Send Report"))
         }
 
         buttonShare = findViewById(R.id.button_share_app)
@@ -101,8 +105,11 @@ class SettingsActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_SUBJECT, "GrowUp APP")
-            intent.putExtra(Intent.EXTRA_TEXT,"https://play.google.com/store/apps/details?id=com.google.android.apps.maps")
-            startActivity(Intent.createChooser(intent,"Share to "))
+            intent.putExtra(
+                Intent.EXTRA_TEXT,
+                "https://play.google.com/store/apps/details?id=com.google.android.apps.maps"
+            )
+            startActivity(Intent.createChooser(intent, "Share to "))
         }
     }
 
