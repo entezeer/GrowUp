@@ -11,5 +11,6 @@ class Products(
     var userPhone: String = "",
     var location: String = "",
     var message: String = "",
-    var uid: String = ""
+    var uid: String = "",
+    var productImage: String = ""
 )

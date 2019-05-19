@@ -16,10 +16,9 @@ object Utils : FirebaseClient(){
         progress?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
         progress?.isIndeterminate = true
         progress?.progress = 0
+        progress?.setCancelable(false)
         progress?.show()
     }
-
-
 
     fun confirmationForSold (
         context: Context,
@@ -30,17 +29,10 @@ object Utils : FirebaseClient(){
         builder.setTitle("Вы уверены ? ")
         builder.setMessage("Вы действительно хотите отметить товар как проданное ?")
         builder.setPositiveButton("Да"){dialog, which ->
-            getRef(MarketRemoteContains.MARKET_REF).child(MarketRemoteContains.MARKET_SOLD).push().setValue(mData)
-            getRef(MarketRemoteContains.MARKET_REF).child(MarketRemoteContains.MARKER_SALE).child(keyOfProduct!!).removeValue()
-            MainActivity.start(context,"Марткет")
             GrowUpApplication.mSoldRef.push().setValue(mData)
             GrowUpApplication.mMarketRef.child("onSale").child(keyOfProduct!!).removeValue()
-            MainActivity.start(context,"market")
-            GrowUpApplication.mSoldRef.push().setValue(mData)
-            GrowUpApplication.mMarketRef.child("onSale").child(keyOfProduct!!).removeValue()
-            MainActivity.start(context,"market")
+            MainActivity.start(context,"Маркет")
             getRef(MarketRemoteConstants.MARKET_REF).child(MarketRemoteConstants.MARKET_SOLD).push().setValue(mData)
-            getRef(MarketRemoteConstants.MARKET_REF).child(MarketRemoteConstants.MARKET_SALE).child(keyOfProduct!!).removeValue()
         }
         builder.setNegativeButton("Нет"){dialog, which ->
 

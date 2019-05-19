@@ -24,10 +24,10 @@
             <!--android:layout_height="wrap_content"/>-->
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/edit_profile_image"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
     <RadioGroup
             android:id="@+id/edit_profile_radio_group"
             android:layout_marginTop="20dp"

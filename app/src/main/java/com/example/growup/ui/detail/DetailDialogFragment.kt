@@ -15,6 +15,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.growup.data.user.model.User
 import com.example.growup.data.market.model.Products
 import com.example.growup.ui.user.UserActivity
@@ -89,15 +90,11 @@ class DetailDialogFragment : DialogFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun showData() {
-        detailImage?.setImageResource(R.drawable.others)
-        if (mData.category == "Овощи") {
-            detailImage?.setImageResource(R.drawable.vegetables1)
-        }
-        if (mData.category == "Фрукты") {
-            detailImage?.setImageResource(R.drawable.fruits1)
-        }
+        Glide.with(context!!).load(Uri.parse(mData.productImage))
+            .placeholder(R.drawable.vegetables1)
+            .apply(RequestOptions().override(1500,2000))
+            .into(detailImage!!)
         if (mData.category == "Животные") {
-            detailImage?.setImageResource(R.drawable.animals)
             detailUnitPrice?.text = "Цена за 1 шт: ${mData.unitPrice}"
             detailSize?.text = "Количество: ${mData.size}"
         }else{

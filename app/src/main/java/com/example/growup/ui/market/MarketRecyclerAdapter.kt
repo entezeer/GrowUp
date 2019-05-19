@@ -1,12 +1,15 @@
 package com.example.growup.ui.market
 
 import android.content.Context
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.growup.R
 import com.example.growup.data.market.model.Products
 import java.util.*
@@ -40,17 +43,11 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
         private val recyclerPrice = itemView.findViewById<TextView>(R.id.product_price)
 
         fun bindData(items: Products) {
-            recyclerImage.setImageResource(R.drawable.others)
-            if (items.category == "Овощи") {
-                recyclerImage.setImageResource(R.drawable.vegetables2)
-            }
-            if (items.category == "Фрукты") {
-                recyclerImage.setImageResource(R.drawable.fruits2)
-            }
-            if (items.category == "Животные") {
-                recyclerImage.setImageResource(R.drawable.animals1)
-            }
 
+            Glide.with(context).load(Uri.parse(items.productImage))
+                .placeholder(R.drawable.vegetables1)
+                .apply(RequestOptions().override(1500,2000))
+                .into(recyclerImage)
             recyclerTitle.text = items.subCategory
             recyclerPrice.text = items.unitPrice
 

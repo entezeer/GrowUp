@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -58,6 +59,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
     private var spinnerCurrencyTotal: Spinner? = null
     private var addBtn: Button? = null
     private var animalCountView: TextView? = null
+    private var progressDialog: ProgressDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_announcement)
@@ -68,7 +70,6 @@ class AddAnnouncementActivity : AppCompatActivity() {
                 override fun onSuccess(result: User) {
                     GrowUpApplication.mUserData = result
                 }
-
                 override fun onFailure(message: String) {
                 }
             })
@@ -77,6 +78,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        progressDialog = ProgressDialog(this)
         productImage = findViewById(R.id.add_product_image)
         productImage?.setOnClickListener {
             getImageFrom()
@@ -138,18 +140,19 @@ class AddAnnouncementActivity : AppCompatActivity() {
         initSpinners()
     }
     private fun getImageFrom() {
-        val items = arrayOf("Камера","Галерея")
-        val builder = android.app.AlertDialog.Builder(this)
-        builder.setTitle("Выбор")
-        builder.setCancelable(true)
-        builder.setItems(items, DialogInterface.OnClickListener { dialog, which ->
-            when (which) {
-                0 -> getImageFromCamera()
-                1 -> getImageFromGallery()
-            }
-        })
-        val dialog: android.app.AlertDialog = builder.create()
-        dialog.show()
+//        val items = arrayOf("Камера","Галерея")
+//        val builder = android.app.AlertDialog.Builder(this)
+//        builder.setTitle("Выбор")
+//        builder.setCancelable(true)
+//        builder.setItems(items, DialogInterface.OnClickListener { dialog, which ->
+//            when (which) {
+//                0 -> getImageFromCamera()
+//                1 -> getImageFromGallery()
+//            }
+//        })
+//        val dialog: android.app.AlertDialog = builder.create()
+//        dialog.show()
+        getImageFromGallery()
     }
     private fun getImageFromCamera(){
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
@@ -192,12 +195,13 @@ class AddAnnouncementActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == GET_IMAGE_GALLERY){
-            val imageUri = data?.data
+            imageUri = data?.data
+            productImage?.background = null
             productImage?.setImageURI(imageUri)
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == GET_IMAGE_CAMERA){
-            productImage?.setImageURI(imageUri)
-        }
+//        if (resultCode == Activity.RESULT_OK && requestCode == GET_IMAGE_CAMERA){
+//            productImage?.setImageURI(imageUri)
+//        }
     }
 
 
@@ -260,32 +264,46 @@ class AddAnnouncementActivity : AppCompatActivity() {
     }
 
     private fun addAnnouncement() {
+        val fileName = UUID.randomUUID().toString()
+        if (ValidUtils.checkAddProductData(name!!, unitPrice!!, size!!, totalPrice!!, message!!,productImage!!,this)) {
+            Utils.progressShow(progressDialog)
+            progressDialog?.setMessage("Данные загружаются, это займет не больше минуты")
+            GrowUpApplication.mStorage.child("ProductsImages/$fileName")
+                .putFile(imageUri!!).addOnSuccessListener{ task ->
+                    GrowUpApplication.mStorage.child("ProductsImages")
+                        .child(fileName).downloadUrl
+                        .addOnSuccessListener { task ->
+                            val product = Products(
+                                name?.text.toString(),
+                                spinnerCategories?.selectedItem.toString(),
+                                spinnerSubCategories?.selectedItem.toString(),
+                                size?.text.toString() + " " + if (spinnerCategories?.selectedItemPosition == 2) {
+                                    "Шт."
+                                } else {
+                                    spinnerSize?.selectedItem.toString()
+                                },
+                                unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
+                                totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
+                                GrowUpApplication.mUserData.name,
+                                GrowUpApplication.mUserData.phoneNumber,
+                                GrowUpApplication.mUserData.region,
+                                message?.text.toString(),
+                                GrowUpApplication.mAuth.currentUser!!.uid,
+                                task.toString()
+                            )
+                            GrowUpApplication.mMarketRef.child("onSale").push().setValue(product)
+                                .addOnCompleteListener {
+                                    if (it.isSuccessful) {
+                                        progressDialog?.dismiss()
+                                        MainActivity.start(this@AddAnnouncementActivity, "Маркет")
+                                    }
+                                }
+                        }
 
-        if (ValidUtils.checkAddProductData(name!!, unitPrice!!, size!!, totalPrice!!, message!!)) {
-
-            val product = Products(
-                name?.text.toString(),
-                spinnerCategories?.selectedItem.toString(),
-                spinnerSubCategories?.selectedItem.toString(),
-                size?.text.toString() + " " + if (spinnerCategories?.selectedItemPosition == 2) {
-                    "Шт."
-                } else {
-                    spinnerSize?.selectedItem.toString()
-                },
-                unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
-                totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
-                GrowUpApplication.mUserData.name,
-                GrowUpApplication.mUserData.phoneNumber,
-                GrowUpApplication.mUserData.region,
-                message?.text.toString(),
-                GrowUpApplication.mAuth.currentUser?.uid!!
-            )
-            GrowUpApplication.mMarketRef.child("onSale").push().setValue(product)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        MainActivity.start(this@AddAnnouncementActivity, "Маркет")
-                    }
+                }.addOnFailureListener{task ->
+                    Toast.makeText(this@AddAnnouncementActivity, task.message.toString() ,Toast.LENGTH_SHORT).show()
                 }
+
         }
 
     }

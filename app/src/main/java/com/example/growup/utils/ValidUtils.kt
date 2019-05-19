@@ -2,6 +2,7 @@ package com.entezeer.tracking.utils
 
 import android.content.Context
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.Toast
 
@@ -76,12 +77,18 @@ object ValidUtils {
         unitPrice: EditText,
         size: EditText,
         totalPrice: EditText,
-        message: EditText
+        message: EditText,
+        productImage: ImageView,
+        context: Context
     ): Boolean {
         var valid = true
         if (name.text.trim().isEmpty() && name.text.trim().length < 4){
             name.error =  "Input Product Name Correct"
             valid = false
+        }
+        if(productImage.drawable == null){
+            valid = false
+            Toast.makeText(context, "Вставьте изображение товара", Toast.LENGTH_SHORT).show()
         }
         if (message.text.trim().isEmpty() && message.text.trim().length < 4){
             message.error =  "Input Message Correct"

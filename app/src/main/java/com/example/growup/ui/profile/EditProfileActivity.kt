@@ -28,7 +28,7 @@ class EditProfileActivity : AppCompatActivity() {
     private var editProfileName: EditText? = null
     private var editProfileSurname: EditText? = null
     private var editProfileEmail: EditText? = null
-    private var dialog: ProgressDialog? = null
+    private var progressDialog: ProgressDialog? = null
     private var radioGroup: RadioGroup? = null
     private var radioButton: RadioButton? = null
     private var spinnerRegions: Spinner? = null
@@ -37,14 +37,13 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
-        dialog = ProgressDialog(this)
         init()
         getUserData()
     }
 
     override fun onPause() {
         super.onPause()
-        dialog?.dismiss()
+        progressDialog?.dismiss()
     }
 
     private fun getUserData() {
@@ -105,7 +104,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
     private fun init(){
-
+        progressDialog = ProgressDialog(this)
         supportActionBar?.title = "Редактировать профиль"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
@@ -134,10 +133,14 @@ class EditProfileActivity : AppCompatActivity() {
         editProfileEmail = findViewById(R.id.edit_profile_email)
     }
     private fun saveChanges(){
+        Utils.progressShow(progressDialog)
+
+        checkUserType()
+        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("lastName").setValue(editProfileSurname?.text.toString())
+        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("name").setValue(editProfileName?.text.toString())
+        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("email").setValue(editProfileEmail?.text.toString())
+        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("region").setValue("${spinnerRegions?.selectedItem},${spinnerDistricts?.selectedItem}")
             if (imageUri != null){
-                dialog?.setCancelable(false)
-                dialog?.setTitle("Изображение загружается")
-                dialog?.show()
                 GrowUpApplication.mStorage.child("UsersProfileImages/"+GrowUpApplication.mAuth.currentUser!!.uid)
                     .putFile(imageUri!!).addOnSuccessListener{ task ->
                         GrowUpApplication.mStorage.child("UsersProfileImages")
@@ -145,24 +148,22 @@ class EditProfileActivity : AppCompatActivity() {
                             .addOnSuccessListener { task ->
                                 GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid)
                                     .child("profileImage").setValue(task.toString())
-
+                                onBackPressed()
+                                progressDialog?.dismiss()
                             }
-                        dialog?.dismiss()
+
                     }.addOnFailureListener{task ->
-                        dialog?.dismiss()
+                        progressDialog?.dismiss()
                         Toast.makeText(this@EditProfileActivity, task.message.toString() ,Toast.LENGTH_SHORT).show()
                     }.addOnProgressListener {
                         val progress = 100.0 * it.bytesTransferred/it.totalByteCount
-                        dialog?.setMessage("Загружено " + progress.toInt() + "%")
+                        progressDialog?.setMessage("Загружено " + progress.toInt() + "%")
                     }
-            }
-                checkUserType()
-
-                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("lastName").setValue(editProfileSurname?.text.toString())
-                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("name").setValue(editProfileName?.text.toString())
-                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("email").setValue(editProfileEmail?.text.toString())
-                GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("region").setValue("${spinnerRegions?.selectedItem},${spinnerDistricts?.selectedItem}")
+            }else{
+                progressDialog?.dismiss()
                 onBackPressed()
+            }
+
             }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
