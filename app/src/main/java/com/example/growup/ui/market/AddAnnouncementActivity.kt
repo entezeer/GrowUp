@@ -263,7 +263,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
             GrowUpApplication.mMarketRef.child("onSale").push().setValue(product)
                 .addOnCompleteListener {
                     if (it.isSuccessful){
-                        MainActivity.start(this@AddAnnouncementActivity,"Марткет")
+                        MainActivity.start(this@AddAnnouncementActivity,"Маркет")
                     }
                 }
         }

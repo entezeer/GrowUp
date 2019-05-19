@@ -1,4 +1,4 @@
-package com.example.growup.ui.statistic
+package com.example.growup.ui.statistic.viewholder
 
 import android.view.View
 import android.widget.TextView

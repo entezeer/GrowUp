@@ -36,8 +36,8 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        viewPager = findViewById(R.id.viewPager)
-        indicator = findViewById(R.id.indicator)
+//        viewPager = findViewById(R.id.viewPager)
+//        indicator = findViewById(R.id.indicator)
         login = findViewById(R.id.log_in)
         login?.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))

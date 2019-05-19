@@ -5,6 +5,8 @@ import com.example.growup.data.market.model.Products
 import com.example.growup.models.User
 import com.example.growup.models.Products
 import com.example.growup.data.user.model.User
+import com.example.growup.data.user.model.User
+import com.example.growup.data.market.model.Products
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -22,7 +24,6 @@ class GrowUpApplication: Application(){
         lateinit var mAnimalStatisticRef: DatabaseReference
         lateinit var mStorage: StorageReference
         lateinit var mUserData: User
-        lateinit var mUserList: ArrayList<User>
         var productsData: ArrayList<Products> = ArrayList()
     }
     override fun onCreate() {

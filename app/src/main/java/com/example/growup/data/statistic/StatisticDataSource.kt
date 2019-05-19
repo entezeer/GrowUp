@@ -4,7 +4,7 @@ import com.example.core.callback.BaseCallback
 import com.example.growup.data.statistic.model.ParentList
 
 interface StatisticDataSource {
-    fun getStatistic(callback: RequestCallback)
+    fun getStatistic(refKey: String,callback: RequestCallback)
 
     fun setStatistic()
 

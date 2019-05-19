@@ -11,7 +11,6 @@ class LoginPresenter(private val mUserDataSource: UserDataSource) : LoginContrac
 
     override fun login(code: String, number: String) {
         mView?.showLoading()
-        Log.d("sfsfdfdsfds", number)
         var mNumber = number
         if (mNumber.isEmpty() || mNumber.length < 9) {
             mView?.showNumberError()

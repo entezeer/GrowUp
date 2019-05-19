@@ -1,17 +1,43 @@
 package com.example.growup.ui.auth.register
 
 import android.content.Context
+import android.util.Log
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.growup.data.user.UserDataSource
 import com.example.growup.data.user.model.User
 
 class RegisterPresenter(private val mUserDataSource: UserDataSource): RegisterContract.Presenter {
-    override fun register(code: String, number: String,password: String, user: User) {
-
+    override fun register(code: String, number: String, user: User) {
+        mView?.showLoading()
+        var mNumber = number
+        if (mNumber.isEmpty() || mNumber.length < 9) {
+            mView?.showNumberError()
+            return
+        }
+        if (mNumber[0].equals('0') && code.equals("996")) {
+            mNumber = mNumber.substring(1, mNumber.length)
+        }
+        checkUserExist("+${code + mNumber}", user)
     }
 
-    override fun checkUserExist(number: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun checkUserExist(number: String, user: User) {
+        mUserDataSource.checkNumber(number, object : UserDataSource.UserExistCallback{
+            override fun onSuccess(result: Boolean) {
+                if (!result) {
+                    mView?.hideLoading()
+                    mView?.openVerifyActivity(number, user)
+                } else {
+                    mView?.hideLoading()
+                    mView?.showToast()
+                }
+            }
+
+            override fun onFailure(message: String) {
+                mView?.hideLoading()
+                mView?.showToast()
+            }
+
+        })
     }
 
     private var mView: RegisterContract.View? = null

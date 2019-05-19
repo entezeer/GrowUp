@@ -65,7 +65,6 @@ class UserActivity : AppCompatActivity() {
     private fun showData(){
         GrowUpApplication.mStorage.child("UsersProfileImages").child(uid!!).downloadUrl
             .addOnSuccessListener { task ->
-                Toast.makeText(this@UserActivity,task.toString(),Toast.LENGTH_LONG).show()
                 Glide.with(this@UserActivity).load(task).into(profileImage!!)
             }.addOnFailureListener {
                 profileImage?.setImageResource(R.drawable.user_icon)

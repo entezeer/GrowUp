@@ -22,16 +22,16 @@ class StatisticRemote : FirebaseClient(), StatisticDataSource {
 
     private var statisticRef = getRef(StatisticRemoteConstants.REF_KEY)
 
-    override fun getStatistic(callback: StatisticDataSource.RequestCallback) {
+    override fun getStatistic(refKey: String, callback: StatisticDataSource.RequestCallback) {
         val parentList = ArrayList<ParentList>()
-        statisticRef.addValueEventListener(object : ValueEventListener {
+        getRef(refKey).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
                 callback.onFailure(databaseError.message)
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
-                    statisticRef.child(it.key.toString()).addValueEventListener(object : ValueEventListener {
+                    getRef(refKey).child(it.key.toString()).addValueEventListener(object : ValueEventListener {
                         override fun onCancelled(databaseError1: DatabaseError) {
                             callback.onFailure(databaseError1.message)
                         }

@@ -19,7 +19,9 @@ import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.bumptech.glide.Glide
 import com.example.core.extensions.setFragment
-import com.example.growup.models.User
+import com.example.core.firebase.FirebaseClient
+import com.example.growup.data.RepositoryProvider
+import com.example.growup.data.user.UserDataSource
 import com.example.growup.data.user.model.User
 import com.example.growup.ui.profile.ProfileActivity
 import com.example.growup.ui.SettingsActivity
@@ -48,6 +50,11 @@ class MainActivity : AppCompatActivity() {
         val statisticFragment = StatisticFragment.newInstance()
         val marketFragment = MarketFragment.newInstance()
         setFragment(StatisticFragment.newInstance(), R.id.frame_container, "Статистика")
+
+        if (intent.getStringExtra(EXTRA_FRAGMENT) == "Маркет") {
+            setFragment(MarketFragment.newInstance(), R.id.frame_container, "Маркет")
+        } else setFragment(StatisticFragment.newInstance(), R.id.frame_container, "Статистика")
+
         init()
         setUserData()
     }
@@ -63,8 +70,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
 
-
-
         userImage = navigationDrawer?.getHeaderView(0)?.findViewById(R.id.user_icon)
 
 
@@ -78,9 +83,9 @@ class MainActivity : AppCompatActivity() {
 
         navigationDrawer?.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_statistic -> setFragment(StatisticFragment(),R.id.frame_container,"Статистика")
+                R.id.nav_statistic -> setFragment(StatisticFragment(), R.id.frame_container, "Статистика")
 //                R.id.nav_search -> startActivity(Intent(this, SearchActivity::class.java))
-                R.id.nav_market -> setFragment(MarketFragment(), R.id.frame_container,"Маркет")
+                R.id.nav_market -> setFragment(MarketFragment(), R.id.frame_container, "Маркет")
                 R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.nav_log_out -> {
                     GrowUpApplication.mAuth.signOut()
@@ -94,33 +99,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUserData() {
-        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid)
-            .downloadUrl
-            .addOnSuccessListener { task ->
-                Glide.with(this@MainActivity).load(task).into(userImage!!)
-            }.addOnFailureListener {
-                userImage?.setImageResource(R.drawable.user_icon)
-            }
 
-        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).addValueEventListener(object :
-            ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@MainActivity, databaseError.message, Toast.LENGTH_LONG).show()
-            }
+        RepositoryProvider.getUserDataSource()
+            .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
+                @SuppressLint("SetTextI18n")
+                override fun onSuccess(result: User) {
+                    if (result.profileImage.isNotEmpty()) {
+                        Glide.with(this@MainActivity).load(result.profileImage).into(userImage!!)
+                    } else userImage?.setImageResource(R.drawable.user_icon)
 
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                GrowUpApplication.mUserData = dataSnapshot.getValue(User::class.java)!!
-
-                if (GrowUpApplication.mUserData.userType=="Оптовик"){
-                    setFragment(MarketFragment(), R.id.frame_container, "Маркет")
-                }else{
-                    setFragment(StatisticFragment(), R.id.frame_container, "Статистика")
+                    userName?.text = "${result.name} ${result.lastName}"
                 }
-                userName?.text = "${GrowUpApplication.mUserData.name} ${GrowUpApplication.mUserData.lastName}"
 
-            }
-        })
+                override fun onFailure(message: String) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            })
     }
 
     override fun onBackPressed() {
@@ -128,13 +122,13 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("Вы уже уходите ?")
         builder.setMessage("Вы действительно хотите выйти ?")
         builder.setCancelable(true)
-        builder.setPositiveButton("Да"){dialog, which ->
+        builder.setPositiveButton("Да") { dialog, which ->
             finish()
         }
-        builder.setNegativeButton("Нет"){dialog, which ->
+        builder.setNegativeButton("Нет") { dialog, which ->
             dialog.cancel()
         }
-        val dialog : AlertDialog = builder.create()
+        val dialog: AlertDialog = builder.create()
         dialog.show()
     }
 

@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.growup.R
 import com.example.growup.data.statistic.model.ParentList
+import com.example.growup.ui.statistic.viewholder.ChildViewHolder
+import com.example.growup.ui.statistic.viewholder.ParentViewHolder
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 
 

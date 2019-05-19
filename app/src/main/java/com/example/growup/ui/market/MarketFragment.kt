@@ -10,12 +10,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.SearchView
+import android.widget.TextView
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
+import com.example.core.firebase.FirebaseClient
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
 import com.example.growup.data.market.model.Products
+import com.example.growup.data.user.UserDataSource
+import com.example.growup.data.user.model.User
 import com.example.growup.ui.detail.DetailDialogFragment
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +32,7 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
+    private var mNoData : TextView? = null
     private var mMarketPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var mMarketRecyclerView: RecyclerView? = null
@@ -36,9 +41,11 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
     private var mProgressBar: ProgressBar? = null
     private var mDataKeys: ArrayList<String> = ArrayList()
-    companion object{
+
+    companion object {
         fun newInstance(): MarketFragment = MarketFragment()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,7 +60,9 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         return view
     }
 
-    private fun init(view: View){
+    private fun init(view: View) {
+        mNoData = view.findViewById(R.id.no_data)
+        mNoData?.visibility = View.GONE
 
         mMarketRecyclerView = view.findViewById(R.id.market_recycler)
         mMarketRecyclerView?.layoutManager = GridLayoutManager(activity, 2)
@@ -66,16 +75,31 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         mProgressBar = view.findViewById(R.id.progress_bar)
 
         mAddButton = view.findViewById(R.id.add_announcement)
-//        if (GrowUpApplication.mUserData.userType == "Оптовик"){
-//            mAddButton?.hide()
-//        }
+
+        RepositoryProvider.getUserDataSource()
+            .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
+                override fun onSuccess(result: User) {
+                    if (result.userType == "Оптовик") {
+                        mAddButton?.hide()
+                    }
+                }
+
+                override fun onFailure(message: String) {
+                }
+
+            })
         mAddButton?.setOnClickListener {
-            startActivity(Intent(activity,AddAnnouncementActivity::class.java))
+            startActivity(Intent(activity, AddAnnouncementActivity::class.java))
         }
     }
 
-    private fun updateUi(){
-        adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
+    private fun updateUi() {
+        adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
+
+        if (mData.isEmpty()){
+            mNoData?.visibility = View.VISIBLE
+        }
+
         mProgressBar?.visibility = View.GONE
         mMarketRecyclerView?.adapter = adapter
         mSwipeRefreshLayout?.isRefreshing = false
@@ -84,8 +108,8 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
 
     override fun onItemSelectedAt(position: Int) {
         GrowUpApplication.productsData = mData
-        val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position] , "Market", mData[position])
-        detailDialogFragment.show(fragmentManager,"detailDialogFragment")
+        val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position], "Market", mData[position])
+        detailDialogFragment.show(fragmentManager, "detailDialogFragment")
     }
 
 
@@ -100,7 +124,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     override fun showData(data: HashMap<String, Products>) {
         mData.addAll(data.values)
         mDataKeys.addAll(data.keys)
-        mMarketRecyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
+        mMarketRecyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
         mProgressBar?.visibility = View.GONE
         updateUi()
     }
@@ -118,7 +142,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         mMarketPresenter = presenter
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater){
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
         menu?.clear()
         inflater.inflate(R.menu.search_menu, menu)
         val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
@@ -140,6 +164,6 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
             }
         })
 
-        return super.onCreateOptionsMenu(menu,inflater)
+        return super.onCreateOptionsMenu(menu, inflater)
     }
 }

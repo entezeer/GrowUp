@@ -15,4 +15,9 @@ object RepositoryProvider {
     fun getMarketDataSource():MarketDataSource = MarketRepository.getInstance(MarketRemote.getInstance())
     fun getUserDataSource():UserDataSource = UserRepository.getInstance(UserRemote.getInstance())
 
+
+    fun getUserDataSource():UserDataSource = UserRepository.getInstance(UserRemote.getInstance())
+
+    fun getMarketDataSource():MarketDataSource = MarketRepository.getInstance(MarketRemote.getInstance())
+
 }

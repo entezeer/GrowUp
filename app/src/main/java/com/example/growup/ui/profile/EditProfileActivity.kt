@@ -7,6 +7,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -23,7 +24,6 @@ class EditProfileActivity : AppCompatActivity() {
     private val GET_IMAGE_GALLERY: Int = 1
     private var imageUri: Uri? = null
     private var buttonSaveChanges: Button? = null
-    private var buttonBack: FloatingActionButton? = null
     private var editProfileImage: ImageView? = null
     private var editProfileName: EditText? = null
     private var editProfileSurname: EditText? = null
@@ -105,14 +105,16 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
     private fun init(){
+
+        supportActionBar?.title = "Редактировать профиль"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
+
         spinnerDistricts = findViewById(R.id.edit_profile_spinner_districts)
         spinnerRegions = findViewById(R.id.edit_profile_spinner_regions)
             spinnerRegions?.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Regions.regions)
             spinnerDistricts?.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Regions.regionsList[3])
-        buttonBack = findViewById(R.id.back_button)
-        buttonBack?.setOnClickListener {
-            onBackPressed()
-        }
+
         radioGroup = findViewById(R.id.edit_profile_radio_group)
         buttonSaveChanges = findViewById(R.id.save_user_data_btn)
         buttonSaveChanges?.setOnClickListener {
@@ -175,5 +177,12 @@ class EditProfileActivity : AppCompatActivity() {
         val selectedId = radioGroup?.checkedRadioButtonId
         radioButton = selectedId?.let { findViewById(it) }
         GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("userType").setValue(radioButton?.text.toString())
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
     }
 }

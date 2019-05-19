@@ -5,6 +5,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.view.MenuItem
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.growup.GrowUpApplication
@@ -17,7 +18,6 @@ import com.google.firebase.database.ValueEventListener
 
 class SettingsActivity : AppCompatActivity() {
     private var userInfo: RelativeLayout? = null
-    private var backButton: FloatingActionButton? = null
     private var buttonRate: Button? = null
     private var buttonShare: Button? = null
     private var buttonReportBug: Button? = null
@@ -26,6 +26,7 @@ class SettingsActivity : AppCompatActivity() {
     private var userName: TextView? = null
     private var userType: TextView? = null
     private var buttonAboutUs: Button? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -59,6 +60,11 @@ class SettingsActivity : AppCompatActivity() {
 
 
     private fun init(){
+
+        supportActionBar?.title = "Настройки"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
+
         val country = arrayOf("Русский","Кыргызский")
         spinner = findViewById(R.id.settings_lang_spinner)
         spinner?.adapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,country)
@@ -71,11 +77,6 @@ class SettingsActivity : AppCompatActivity() {
         userName = findViewById(R.id.settings_user_name)
         userType = findViewById(R.id.settings_user_type)
 
-
-        backButton = findViewById(R.id.back_button)
-        backButton?.setOnClickListener {
-            onBackPressed()
-        }
 
         userInfo = findViewById(R.id.settigs_user_info)
         userInfo?.setOnClickListener {
@@ -103,5 +104,12 @@ class SettingsActivity : AppCompatActivity() {
             intent.putExtra(Intent.EXTRA_TEXT,"https://play.google.com/store/apps/details?id=com.google.android.apps.maps")
             startActivity(Intent.createChooser(intent,"Share to "))
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
     }
 }

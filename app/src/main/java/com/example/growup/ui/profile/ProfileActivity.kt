@@ -5,6 +5,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -27,7 +28,6 @@ class ProfileActivity : AppCompatActivity() {
     private var editProfileButton: Button? = null
     private var getMyProducts: Button? = null
     private var getMyFavorite: Button? = null
-    private var backButton: FloatingActionButton? = null
     private var profileImage: ImageView? = null
     private var profileName: TextView? = null
     private var profileUserType: TextView? = null
@@ -79,11 +79,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        backButton = findViewById(R.id.back_button)
-
-        backButton?.setOnClickListener {
-            onBackPressed()
-        }
+        supportActionBar?.title = "Профиль"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
 
         editProfileButton = findViewById(R.id.edit_profile_btn)
         editProfileButton?.setOnClickListener {
@@ -112,5 +110,12 @@ class ProfileActivity : AppCompatActivity() {
         profileEmail = findViewById(R.id.profile_email)
         profileUserType = findViewById(R.id.profile_user_type)
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
     }
 }

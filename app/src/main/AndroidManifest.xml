@@ -22,11 +22,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.statistic.LineChartActivity">
+        <activity android:name=".ui.statistic.animal.LineChartActivity">
         </activity>
-        <activity android:name=".ui.statistic.DetailStatisticActivity">
+        <activity android:name=".ui.statistic.PieChartActivity">
         </activity>
-        <activity android:name=".ui.statistic.AnimalStatisticActivity">
+        <activity android:name=".ui.statistic.animal.AnimalStatisticActivity">
         </activity>
         <activity android:name=".ui.market.FavoritesActivity">
         </activity>
@@ -43,21 +43,21 @@
                 android:theme="@style/MainTheme"/>
         <activity
                 android:name=".ui.profile.EditProfileActivity"
-                android:theme="@style/MainTheme">
+                >
         </activity>
         <activity
                 android:name=".ui.profile.ProfileActivity"
-                android:theme="@style/MainTheme">
+                >
         </activity>
         <activity android:name=".ui.search.SearchActivity">
         </activity>
         <activity
                 android:name=".ui.SettingsActivity"
-                android:theme="@style/MainTheme">
+                >
         </activity>
         <activity
                 android:name=".ui.auth.verify.VerifyPhoneActivity"
-                android:theme="@style/MainTheme">
+                >
         </activity>
         <activity
                 android:name=".ui.start.StartActivity"

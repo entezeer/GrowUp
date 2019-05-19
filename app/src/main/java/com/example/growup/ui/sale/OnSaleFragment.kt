@@ -10,8 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
+import com.example.growup.GrowUpApplication
 
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
@@ -20,6 +23,9 @@ import com.example.growup.data.market.model.Products
 import com.example.growup.ui.detail.DetailDialogFragment
 import com.example.growup.ui.market.MarketContract
 import com.example.growup.ui.market.MarketRecyclerAdapter
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,8 +36,9 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener , MarketContract.View{
+class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
 
+    private var mNoData: TextView? = null
     private var mOnSalesPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var recyclerView: RecyclerView? = null
@@ -47,13 +54,16 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener , MarketContra
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_on_sale, container, false)
         init(view)
-        mOnSalesPresenter= MarketPresenter(RepositoryProvider.getMarketDataSource())
+        mOnSalesPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
         mOnSalesPresenter?.attachView(this)
         mOnSalesPresenter?.getMarketData()
         return view
     }
 
     private fun init(view: View) {
+        mNoData = view.findViewById(R.id.no_data)
+        mNoData?.visibility = View.GONE
+
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView?.layoutManager = GridLayoutManager(activity, 2)
 
@@ -82,10 +92,14 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener , MarketContra
         GrowUpApplication.mMarketRef.child("onSale").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()
+        for (entry: Map.Entry<String, Products> in data.entries) {
+            if (entry.value.uid == uid) {
+                mData.add(entry.value)
+                mDataKeys.add(entry.key)
+
             }
         }
-        recyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData,this, it) }
-        mProgressBar?.visibility = View.GONE
+
         updateUi()
     }
 
@@ -102,7 +116,10 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener , MarketContra
         mOnSalesPresenter = presenter
     }
 
-    private fun updateUi(){
+    private fun updateUi() {
+        if (mData.isEmpty()){
+            mNoData?.visibility = View.VISIBLE
+        }
         adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
 //        mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter
@@ -110,7 +127,8 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener , MarketContra
     }
 
     override fun onItemSelectedAt(position: Int) {
-        val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position] , "OnSalesFragment", mData[position])
+        val detailDialogFragment =
+            DetailDialogFragment.newInstance(mDataKeys[position], "OnSalesFragment", mData[position])
         detailDialogFragment.show(fragmentManager, "detailDialogFragment")
     }
 
@@ -128,3 +146,4 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener , MarketContra
         }
     }
 }
+

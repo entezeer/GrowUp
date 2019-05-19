@@ -12,18 +12,18 @@ interface RegisterContract {
 
         fun showNetworkAlert()
 
-        fun showValidError()
+        fun showNumberError()
 
         fun showToast()
 
-        fun openVerifyActivity(number: String)
+        fun openVerifyActivity(number: String, user: User)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
         fun checkNetwork(context: Context)
 
-        fun register(code: String, number: String, password: String, user: User)
+        fun register(code: String, number: String, user: User)
 
-        fun checkUserExist(number: String)
+        fun checkUserExist(number: String, user: User)
     }
 }

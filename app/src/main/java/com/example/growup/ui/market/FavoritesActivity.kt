@@ -6,7 +6,9 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
+import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
@@ -18,6 +20,7 @@ import com.google.firebase.database.ValueEventListener
 
 class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
 
+    private var mNoData: TextView? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var recyclerView: RecyclerView? = null
     private var adapter: MarketRecyclerAdapter? = null
@@ -38,6 +41,9 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
         supportActionBar?.title = "Избранное"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
+
+        mNoData = findViewById(R.id.no_data)
+        mNoData?.visibility = View.GONE
 
         recyclerView = findViewById(R.id.recycler_view)
         recyclerView?.layoutManager = GridLayoutManager(this, 2)
@@ -82,6 +88,9 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
     }
 
     private fun updateUi(){
+        if (mData.isEmpty()){
+            mNoData?.visibility = View.VISIBLE
+        }
         adapter = MarketRecyclerAdapter(mData, this, this)
 //        mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter
