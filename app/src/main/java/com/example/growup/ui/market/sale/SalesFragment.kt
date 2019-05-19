@@ -1,4 +1,4 @@
-package com.example.growup.ui.sale
+package com.example.growup.ui.market.sale
 
 
 import android.os.Bundle
@@ -9,12 +9,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
-import com.example.growup.GrowUpApplication
 
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
@@ -23,9 +20,6 @@ import com.example.growup.data.market.model.Products
 import com.example.growup.ui.detail.DetailDialogFragment
 import com.example.growup.ui.market.MarketContract
 import com.example.growup.ui.market.MarketRecyclerAdapter
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,27 +30,27 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
+class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
 
     private var mNoData: TextView? = null
-    private var mOnSalesPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var recyclerView: RecyclerView? = null
     private var adapter: MarketRecyclerAdapter? = null
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
-    private var mProgressBar: ProgressBar? = null
+    private var mOnSoldPresenter: MarketContract.Presenter? = null
     private var mDataKeys: ArrayList<String> = ArrayList()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_on_sale, container, false)
+        val view = inflater.inflate(R.layout.fragment_sales, container, false)
+
         init(view)
-        mOnSalesPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
-        mOnSalesPresenter?.attachView(this)
-        mOnSalesPresenter?.getMarketData()
+
+        mOnSoldPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
+        mOnSoldPresenter?.attachView(this)
+        mOnSoldPresenter?.getMarketSold()
         return view
     }
 
@@ -75,6 +69,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
 //        mProgressBar = view.findViewById(R.id.progress_bar)
     }
 
+
     override fun showNetworkAlert() {
         activity?.let { InternetUtil.showInternetAlert(it) }
     }
@@ -85,12 +80,11 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
 
     override fun showData(data: HashMap<String, Products>) {
         val uid = arguments?.getString(ARG_UID)
-        for(entry: Map.Entry<String, Products> in data.entries ) {
+        for (entry: Map.Entry<String, Products> in data.entries) {
             if (entry.value.uid == uid) {
                 mData.add(entry.value)
                 mDataKeys.add(entry.key)
             }
-
         }
         updateUi()
     }
@@ -105,7 +99,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     override fun attachPresenter(presenter: MarketContract.Presenter) {
-        mOnSalesPresenter = presenter
+        mOnSoldPresenter = presenter
     }
 
     private fun updateUi() {
@@ -119,17 +113,16 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     override fun onItemSelectedAt(position: Int) {
-        val detailDialogFragment =
-            DetailDialogFragment.newInstance(mDataKeys[position], "OnSalesFragment", mData[position])
+        val detailDialogFragment = DetailDialogFragment.newInstance("null", "SalesFragment", mData[position])
         detailDialogFragment.show(fragmentManager, "detailDialogFragment")
     }
 
     companion object {
         private const val ARG_POSITION = "position"
         private const val ARG_UID = "uid"
-        const val TITLE = "Продажа"
+        const val TITLE = "Продано"
         fun newInstance(position: Int, uid: String): Fragment {
-            val fragment = OnSaleFragment()
+            val fragment = SalesFragment()
             val bundle = Bundle()
             bundle.putInt(ARG_POSITION, position)
             bundle.putString(ARG_UID, uid)
@@ -138,4 +131,3 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         }
     }
 }
-

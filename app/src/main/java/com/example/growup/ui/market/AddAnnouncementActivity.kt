@@ -6,6 +6,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.annotation.SuppressLint
+
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -20,10 +22,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
+import com.bumptech.glide.Glide
 import com.entezeer.tracking.utils.ValidUtils
+import com.example.core.firebase.FirebaseClient
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
+import com.example.growup.data.RepositoryProvider
 import com.example.growup.data.market.model.Products
+import com.example.growup.data.user.UserDataSource
+import com.example.growup.data.user.model.User
 import com.example.growup.models.ProductsCategories
 import com.example.growup.ui.main.MainActivity
 import java.io.File
@@ -55,6 +62,17 @@ class AddAnnouncementActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_announcement)
 
+        RepositoryProvider.getUserDataSource()
+            .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
+                @SuppressLint("SetTextI18n")
+                override fun onSuccess(result: User) {
+                    GrowUpApplication.mUserData = result
+                }
+
+                override fun onFailure(message: String) {
+                }
+            })
+
         init()
     }
 
@@ -72,7 +90,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
         unitPrice = findViewById(R.id.unit_price)
 
         size = findViewById(R.id.size)
-        size?.addTextChangedListener(object: TextWatcher{
+        size?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -87,7 +105,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
 
         })
 
-        unitPrice?.addTextChangedListener(object : TextWatcher{
+        unitPrice?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -97,7 +115,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-               calculator()
+                calculator()
             }
 
         })
@@ -200,12 +218,12 @@ class AddAnnouncementActivity : AppCompatActivity() {
                         android.R.layout.simple_spinner_dropdown_item,
                         ProductsCategories.categoryList[spinnerCategories?.selectedItemPosition!!]
                     )
-                if(spinnerCategories?.selectedItemPosition == 2){
+                if (spinnerCategories?.selectedItemPosition == 2) {
                     size?.hint = getString(R.string.count_animal)
                     unitPrice?.hint = getString(R.string.unit_price_animal)
                     spinnerSize?.visibility = View.GONE
                     animalCountView?.visibility = View.VISIBLE
-                }else{
+                } else {
                     size?.hint = getString(R.string.size)
                     unitPrice?.hint = getString(R.string.unit_price)
                     spinnerSize?.visibility = View.VISIBLE
@@ -228,21 +246,23 @@ class AddAnnouncementActivity : AppCompatActivity() {
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.sizeType)
     }
 
-    private fun calculator(){
-        if(spinnerSize?.selectedItem.toString() == ProductsCategories.sizeType[0]){
-            if(unitPrice?.text.toString().trim().isNotEmpty() && size?.text.toString().trim().isNotEmpty()){
-                totalPrice?.setText( (unitPrice?.text?.toString()?.toInt()!! * size?.text?.toString()?.toInt()!!).toString())
+    private fun calculator() {
+        if (spinnerSize?.selectedItem.toString() == ProductsCategories.sizeType[0]) {
+            if (unitPrice?.text.toString().trim().isNotEmpty() && size?.text.toString().trim().isNotEmpty()) {
+                totalPrice?.setText((unitPrice?.text?.toString()?.toInt()!! * size?.text?.toString()?.toInt()!!).toString())
             }
         }
-        if(spinnerSize?.selectedItem.toString() == ProductsCategories.sizeType[1]){
-            if(unitPrice?.text.toString().trim().isNotEmpty() && size?.text.toString().trim().isNotEmpty()){
-                totalPrice?.setText( (unitPrice?.text?.toString()?.toInt()!! * (size?.text?.toString()?.toInt()!! * 1000)).toString())
+        if (spinnerSize?.selectedItem.toString() == ProductsCategories.sizeType[1]) {
+            if (unitPrice?.text.toString().trim().isNotEmpty() && size?.text.toString().trim().isNotEmpty()) {
+                totalPrice?.setText((unitPrice?.text?.toString()?.toInt()!! * (size?.text?.toString()?.toInt()!! * 1000)).toString())
             }
         }
     }
 
     private fun addAnnouncement() {
-        if (ValidUtils.checkAddProductData(name!!,unitPrice!!,size!!,totalPrice!!,message!!)){
+
+        if (ValidUtils.checkAddProductData(name!!, unitPrice!!, size!!, totalPrice!!, message!!)) {
+
             val product = Products(
                 name?.text.toString(),
                 spinnerCategories?.selectedItem.toString(),
@@ -262,8 +282,8 @@ class AddAnnouncementActivity : AppCompatActivity() {
             )
             GrowUpApplication.mMarketRef.child("onSale").push().setValue(product)
                 .addOnCompleteListener {
-                    if (it.isSuccessful){
-                        MainActivity.start(this@AddAnnouncementActivity,"Маркет")
+                    if (it.isSuccessful) {
+                        MainActivity.start(this@AddAnnouncementActivity, "Маркет")
                     }
                 }
         }

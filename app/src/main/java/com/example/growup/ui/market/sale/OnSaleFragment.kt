@@ -1,4 +1,4 @@
-package com.example.growup.ui.sale
+package com.example.growup.ui.market.sale
 
 
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
@@ -30,27 +31,27 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
+class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
 
     private var mNoData: TextView? = null
+    private var mOnSalesPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
     private var recyclerView: RecyclerView? = null
     private var adapter: MarketRecyclerAdapter? = null
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
-    private var mOnSoldPresenter: MarketContract.Presenter? = null
+    private var mProgressBar: ProgressBar? = null
     private var mDataKeys: ArrayList<String> = ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_sales, container, false)
-
+        val view = inflater.inflate(R.layout.fragment_on_sale, container, false)
         init(view)
-
-        mOnSoldPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
-        mOnSoldPresenter?.attachView(this)
-        mOnSoldPresenter?.getMarketSold()
+        mOnSalesPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
+        mOnSalesPresenter?.attachView(this)
+        mOnSalesPresenter?.getMarketData()
         return view
     }
 
@@ -69,7 +70,6 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
 //        mProgressBar = view.findViewById(R.id.progress_bar)
     }
 
-
     override fun showNetworkAlert() {
         activity?.let { InternetUtil.showInternetAlert(it) }
     }
@@ -80,11 +80,12 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
 
     override fun showData(data: HashMap<String, Products>) {
         val uid = arguments?.getString(ARG_UID)
-        for (entry: Map.Entry<String, Products> in data.entries) {
+        for(entry: Map.Entry<String, Products> in data.entries ) {
             if (entry.value.uid == uid) {
                 mData.add(entry.value)
                 mDataKeys.add(entry.key)
             }
+
         }
         updateUi()
     }
@@ -99,7 +100,7 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
     }
 
     override fun attachPresenter(presenter: MarketContract.Presenter) {
-        mOnSoldPresenter = presenter
+        mOnSalesPresenter = presenter
     }
 
     private fun updateUi() {
@@ -113,16 +114,17 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
     }
 
     override fun onItemSelectedAt(position: Int) {
-        val detailDialogFragment = DetailDialogFragment.newInstance("null", "SalesFragment", mData[position])
+        val detailDialogFragment =
+            DetailDialogFragment.newInstance(mDataKeys[position], "OnSalesFragment", mData[position])
         detailDialogFragment.show(fragmentManager, "detailDialogFragment")
     }
 
     companion object {
         private const val ARG_POSITION = "position"
         private const val ARG_UID = "uid"
-        const val TITLE = "Продано"
+        const val TITLE = "Продажа"
         fun newInstance(position: Int, uid: String): Fragment {
-            val fragment = SalesFragment()
+            val fragment = OnSaleFragment()
             val bundle = Bundle()
             bundle.putInt(ARG_POSITION, position)
             bundle.putString(ARG_UID, uid)
@@ -131,3 +133,4 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
         }
     }
 }
+

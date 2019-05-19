@@ -1,10 +1,10 @@
 package com.example.growup.ui.profile
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -12,8 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.core.firebase.FirebaseClient
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
+import com.example.growup.data.RepositoryProvider
+import com.example.growup.data.user.UserDataSource
 import com.example.growup.data.user.model.User
 import com.example.growup.ui.market.FavoritesActivity
 import com.example.growup.ui.market.MyProductsActivity
@@ -49,33 +52,31 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun getUserData() {
-        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid)
-            .downloadUrl
-            .addOnSuccessListener { task ->
-                Glide.with(this@ProfileActivity).load(task).into(profileImage!!)
-            }.addOnFailureListener {
-                profileImage?.setImageResource(R.drawable.user_icon)
-            }
 
-        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    Toast.makeText(this@ProfileActivity, p0.message, Toast.LENGTH_SHORT).show()
-                }
+        RepositoryProvider.getUserDataSource()
+            .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
+                @SuppressLint("SetTextI18n")
+                override fun onSuccess(result: User) {
+                    if (result.profileImage.isNotEmpty()) {
+                        if (!isFinishing)Glide.with(this@ProfileActivity).load(result.profileImage).into(profileImage!!)
+                    } else profileImage?.setImageResource(R.drawable.user_icon)
 
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val userData = dataSnapshot.getValue(User::class.java)
-                    profileName?.text = userData?.name
-                    profileSurname?.text = userData?.lastName
-                    profileUserType?.text = userData?.userType
-                    profilePhoneNumber?.text = userData?.phoneNumber
-                    profileRegion?.text = userData?.region
-                    if(userData?.email!!.isEmpty() || userData.email.length <= 5){
+                    profileName?.text = result.name
+                    profileSurname?.text = result.lastName
+                    profileUserType?.text = result.userType
+                    profilePhoneNumber?.text = result.phoneNumber
+                    profileRegion?.text = result.region
+                    if(result.email.isEmpty() || result.email.length <= 5){
                         profileEmail?.visibility = View.GONE
                     }
-                    profileEmail?.text = userData?.email
+                    profileEmail?.text = result.email
+                }
+
+                override fun onFailure(message: String) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
             })
+
     }
 
     private fun init() {

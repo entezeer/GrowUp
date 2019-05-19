@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.core.firebase.FirebaseClient
@@ -40,7 +41,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun initUserInfo() {
 
-
         RepositoryProvider.getUserDataSource()
             .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
                 @SuppressLint("SetTextI18n")
@@ -57,6 +57,27 @@ class SettingsActivity : AppCompatActivity() {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
             })
+
+//        GrowUpApplication.mStorage.child("UsersProfileImages").child(GrowUpApplication.mAuth.currentUser!!.uid)
+//            .downloadUrl
+//            .addOnSuccessListener { task ->
+//                Glide.with(this@SettingsActivity).load(task).into(userImage!!)
+//            }.addOnFailureListener {
+//                userImage?.setImageResource(R.drawable.user_icon)
+//            }
+//
+//        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid)
+//            .addListenerForSingleValueEvent(object : ValueEventListener {
+//                override fun onCancelled(p0: DatabaseError) {
+//                    Toast.makeText(this@SettingsActivity, p0.message, Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                    val userData = dataSnapshot.getValue(User::class.java)
+//                    userName?.text = userData?.name
+//                    userType?.text = userData?.lastName
+//                }
+//            })
     }
 
 
