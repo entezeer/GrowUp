@@ -3,14 +3,14 @@ package com.example.growup.data.market.remote
 import com.example.core.firebase.FirebaseClient
 import com.example.growup.data.market.MarketDataSource
 import com.example.growup.data.market.model.Products
+import com.example.growup.data.market.remote.MarketRemoteConstants.MARKET_REF
+import com.example.growup.data.market.remote.MarketRemoteConstants.MARKET_SALE
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class MarketRemote : FirebaseClient() , MarketDataSource {
-    override fun setMarketData(callback: MarketDataSource.SuccessCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
 
     companion object{
         private var INSTANCE: MarketRemote? = null
@@ -22,7 +22,7 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
             return INSTANCE!!
         }
     }
-    private var marketSales = getRef(MarketRemoteContains.MARKET_REF).child(MarketRemoteContains.MARKER_SALE)
+    private var marketSales = getRef(MarketRemoteConstants.MARKET_REF).child(MarketRemoteConstants.MARKET_SALE)
     override fun getMarketData(callback: MarketDataSource.RequestCallback){
         val products = HashMap<String, Products>()
         marketSales.addValueEventListener(object: ValueEventListener{
@@ -36,11 +36,10 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
                 }
                 callback.onSuccess(products)
             }
-
         })
     }
 
-    private var marketSold= getRef(MarketRemoteContains.MARKET_REF).child(MarketRemoteContains.MARKET_SOLD)
+    private var marketSold= getRef(MARKET_REF).child(MarketRemoteConstants.MARKET_SOLD)
     override fun getMarketSold(callback: MarketDataSource.RequestCallback){
         val productsSold = HashMap<String, Products>()
         marketSold.addValueEventListener(object: ValueEventListener{
@@ -58,5 +57,17 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
         })
     }
 
+    override fun setMarketSold(product: Products, callback: MarketDataSource.SuccessCallback) {
 
+    }
+
+    override fun setMarketData(product: Products, callback: MarketDataSource.SuccessCallback) {
+        getRef(MARKET_REF).child(MARKET_SALE).push().setValue(product)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    callback.onSuccess("success")
+                }
+                else callback.onFailure("failure")
+            }
+    }
 }

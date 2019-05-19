@@ -1,4 +1,4 @@
-package com.example.growup.ui.sale
+package com.example.growup.ui.market.sale
 
 
 import android.os.Bundle
@@ -11,10 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
-import com.example.growup.GrowUpApplication
 
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
@@ -23,9 +21,6 @@ import com.example.growup.data.market.model.Products
 import com.example.growup.ui.detail.DetailDialogFragment
 import com.example.growup.ui.market.MarketContract
 import com.example.growup.ui.market.MarketRecyclerAdapter
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

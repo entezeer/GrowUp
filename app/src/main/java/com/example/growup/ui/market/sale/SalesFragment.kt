@@ -1,4 +1,4 @@
-package com.example.growup.ui.sale
+package com.example.growup.ui.market.sale
 
 
 import android.os.Bundle

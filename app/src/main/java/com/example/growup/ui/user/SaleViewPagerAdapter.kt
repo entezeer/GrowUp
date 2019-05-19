@@ -4,8 +4,8 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.example.growup.ui.sale.OnSaleFragment
-import com.example.growup.ui.sale.SalesFragment
+import com.example.growup.ui.market.sale.OnSaleFragment
+import com.example.growup.ui.market.sale.SalesFragment
 
 class SaleViewPagerAdapter(fm: FragmentManager, private val context: Context, private val counts: Int, private val uid: String) : FragmentPagerAdapter(fm) {
 

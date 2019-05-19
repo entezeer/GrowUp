@@ -39,9 +39,6 @@ class PieChartActivity : AppCompatActivity() {
         init()
 
         initData()
-
-        Toast.makeText(this@PieChartActivity, mKey, Toast.LENGTH_LONG).show()
-        Toast.makeText(this@PieChartActivity, mChildKey, Toast.LENGTH_LONG).show()
     }
 
     private fun init() {

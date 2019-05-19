@@ -69,7 +69,6 @@ class LineChartActivity : AppCompatActivity() {
                     dataSnapshot.children.forEach {
                         axisValues.add(Entry(pointX.toFloat(), it.value.toString().toFloat()))
                         pointX++
-                        Toast.makeText(this@LineChartActivity, axisValues.toString(), Toast.LENGTH_LONG).show()
                     }
                     draw(axisValues)
                 }

@@ -12,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
+import com.example.growup.data.RepositoryProvider
+import com.example.growup.data.market.MarketDataSource
 import com.example.growup.data.market.model.Products
 import com.example.growup.ui.detail.DetailDialogFragment
 import com.google.firebase.database.DataSnapshot
@@ -66,24 +68,26 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
                 dataSnapshot.children.forEach {
                     it.key?.let { it1 -> mDataKeys.add(it1) }
                 }
+
             }
         })
 
-        GrowUpApplication.mMarketRef.addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@FavoritesActivity, databaseError.message, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.forEach {
-                    if (mDataKeys.contains(it.key)){
-                        mData.add(it.getValue(Products::class.java)!!)
-                    }
+        RepositoryProvider.getMarketDataSource().getMarketData(object : MarketDataSource.RequestCallback{
+            override fun onSuccess(result: HashMap<String, Products>) {
+                result.forEach {
+                   if(mDataKeys.contains(it.key)){
+                       mData.add(it.value)
+                   }
                 }
                 updateUi()
             }
 
+            override fun onFailure(message: String) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
         })
+
 
     }
 

@@ -3,6 +3,7 @@ package com.example.growup.ui.auth.login
 import android.content.Context
 import android.util.Log
 import com.entezeer.tracking.utils.InternetUtil
+import com.example.core.firebase.FirebaseClient
 import com.example.growup.data.user.UserDataSource
 
 class LoginPresenter(private val mUserDataSource: UserDataSource) : LoginContract.Presenter {
@@ -29,6 +30,7 @@ class LoginPresenter(private val mUserDataSource: UserDataSource) : LoginContrac
     }
 
     override fun checkUserExist(number: String) {
+
         mUserDataSource.checkNumber(number, object : UserDataSource.UserExistCallback {
             override fun onSuccess(result: Boolean) {
                 if (result) {
