@@ -29,7 +29,6 @@ object Utils : FirebaseClient(){
         builder.setTitle("Вы уверены ? ")
         builder.setMessage("Вы действительно хотите отметить товар как проданное ?")
         builder.setPositiveButton("Да"){dialog, which ->
-            GrowUpApplication.mSoldRef.push().setValue(mData)
             GrowUpApplication.mMarketRef.child("onSale").child(keyOfProduct!!).removeValue()
             MainActivity.start(context,"Маркет")
             getRef(MarketRemoteConstants.MARKET_REF).child(MarketRemoteConstants.MARKET_SOLD).push().setValue(mData)
