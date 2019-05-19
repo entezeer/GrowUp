@@ -85,21 +85,13 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
 
     override fun showData(data: HashMap<String, Products>) {
         val uid = arguments?.getString(ARG_UID)
-        for(entry: Map.Entry<String, Products> in data.entries ){
-            if (entry.value.uid == uid){
-                mData.add(entry.value)
-                mDataKeys.add(entry.key)
-        GrowUpApplication.mMarketRef.child("onSale").addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(activity, databaseError.message, Toast.LENGTH_LONG).show()
-        for (entry: Map.Entry<String, Products> in data.entries) {
+        for(entry: Map.Entry<String, Products> in data.entries ) {
             if (entry.value.uid == uid) {
                 mData.add(entry.value)
                 mDataKeys.add(entry.key)
-
             }
-        }
 
+        }
         updateUi()
     }
 
