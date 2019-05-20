@@ -265,7 +265,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
 
     private fun addAnnouncement() {
         val fileName = UUID.randomUUID().toString()
-        if (ValidUtils.checkAddProductData(name!!, unitPrice!!, size!!, totalPrice!!, message!!,productImage!!,this)) {
+        if (ValidUtils.checkAddProductData(name!!, unitPrice!!, size!!, totalPrice!!, message!!)) {
             Utils.progressShow(progressDialog)
             progressDialog?.setMessage("Данные загружаются, это займет не больше минуты")
             GrowUpApplication.mStorage.child("ProductsImages/$fileName")

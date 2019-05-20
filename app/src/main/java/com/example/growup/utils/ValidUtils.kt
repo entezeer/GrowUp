@@ -77,19 +77,14 @@ object ValidUtils {
         unitPrice: EditText,
         size: EditText,
         totalPrice: EditText,
-        message: EditText,
-        productImage: ImageView,
-        context: Context
+        message: EditText
     ): Boolean {
         var valid = true
         if (name.text.trim().isEmpty() && name.text.trim().length < 4){
             name.error =  "Input Product Name Correct"
             valid = false
         }
-        if(productImage.drawable == null){
-            valid = false
-            Toast.makeText(context, "Вставьте изображение товара", Toast.LENGTH_SHORT).show()
-        }
+
         if (message.text.trim().isEmpty() && message.text.trim().length < 4){
             message.error =  "Input Message Correct"
             valid = false

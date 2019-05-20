@@ -7,6 +7,7 @@ class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSourc
     companion object{
 
         private var INSTANCE: MarketDataSource? = null
+
         fun getInstance(remoteSource: MarketRemote):MarketDataSource{
             if (INSTANCE == null){
                 INSTANCE = MarketRepository(remoteSource)
@@ -26,7 +27,6 @@ class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSourc
 
         })
     }
-
     override fun getMarketData(callback: MarketDataSource.RequestCallback) {
         remoteSource.getMarketData(object:MarketDataSource.RequestCallback{
             override fun onSuccess(result: HashMap<String, Products>) {
@@ -34,6 +34,19 @@ class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSourc
             }
             override fun onFailure(message: String) {
                callback.onFailure(message)
+            }
+
+        })
+    }
+
+    override fun getCurrentUserProducts(callback: MarketDataSource.RequestCallback) {
+        remoteSource.getCurrentUserProducts(object : MarketDataSource.RequestCallback {
+            override fun onSuccess(result: HashMap<String, Products>) {
+                callback.onSuccess(result)
+            }
+
+            override fun onFailure(message: String) {
+                callback.onFailure(message)
             }
 
         })

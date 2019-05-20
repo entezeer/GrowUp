@@ -51,7 +51,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         init(view)
         mOnSalesPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
         mOnSalesPresenter?.attachView(this)
-        mOnSalesPresenter?.getMarketData()
+        mOnSalesPresenter?.getCurrentUserProducts(arguments?.getString(ARG_UID)!!)
         return view
     }
 
@@ -79,14 +79,8 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     override fun showData(data: HashMap<String, Products>) {
-        val uid = arguments?.getString(ARG_UID)
-        for(entry: Map.Entry<String, Products> in data.entries ) {
-            if (entry.value.uid == uid) {
-                mData.add(entry.value)
-                mDataKeys.add(entry.key)
-            }
-
-        }
+        mData.addAll(data.values)
+        mDataKeys.addAll(data.keys)
         updateUi()
     }
 

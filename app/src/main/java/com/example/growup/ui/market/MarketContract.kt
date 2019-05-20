@@ -14,7 +14,8 @@ interface MarketContract {
 
     interface Presenter: BaseContract.Presenter<View>{
         fun getMarketData()
-        fun getMarketSold()
+        fun getCurrentUserProducts(uid:String)
+        fun getMarketSold(uid: String)
         fun checkNetwork(context: Context)
         fun onProductClick(data: HashMap<String, Products>)
     }
