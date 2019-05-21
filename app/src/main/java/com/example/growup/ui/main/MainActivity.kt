@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage("Вы действительно хотите выйти ?")
         builder.setCancelable(true)
         builder.setPositiveButton("Да") { dialog, which ->
-            finish()
+            finishAffinity()
         }
         builder.setNegativeButton("Нет") { dialog, which ->
             dialog.cancel()
