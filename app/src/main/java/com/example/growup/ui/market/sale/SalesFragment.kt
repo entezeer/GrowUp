@@ -50,7 +50,7 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
 
         mOnSoldPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
         mOnSoldPresenter?.attachView(this)
-        mOnSoldPresenter?.getMarketSold()
+        mOnSoldPresenter?.getMarketSold(arguments?.getString(ARG_UID)!!)
         return view
     }
 
@@ -79,13 +79,8 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
     }
 
     override fun showData(data: HashMap<String, Products>) {
-        val uid = arguments?.getString(ARG_UID)
-        for (entry: Map.Entry<String, Products> in data.entries) {
-            if (entry.value.uid == uid) {
-                mData.add(entry.value)
-                mDataKeys.add(entry.key)
-            }
-        }
+        mData.addAll(data.values)
+        mDataKeys.addAll(data.keys)
         updateUi()
     }
 

@@ -6,6 +6,7 @@ import com.example.growup.data.market.model.Products
 interface MarketDataSource {
     fun getMarketData(callback: RequestCallback)
     fun getMarketSold(callback: RequestCallback)
+    fun getCurrentUserProducts(callback: RequestCallback)
     fun setMarketData(product: Products, callback: SuccessCallback)
     fun setMarketSold(product: Products, callback: SuccessCallback)
 
