@@ -39,7 +39,7 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
         initData()
     }
 
-    private fun init(){
+    private fun init() {
         supportActionBar?.title = "Избранное"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
@@ -53,46 +53,49 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         mSwipeRefreshLayout?.setOnRefreshListener {
             mSwipeRefreshLayout?.isRefreshing = true
-            updateUi()
+            initData()
         }
     }
 
     private fun initData() {
-
-        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).child("favorites").addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@FavoritesActivity, databaseError.message, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.children.forEach {
-                    it.key?.let { it1 -> mDataKeys.add(it1) }
+        mDataKeys.removeAll(mDataKeys)
+        mData.removeAll(mData)
+        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).child("favorites")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(this@FavoritesActivity, databaseError.message, Toast.LENGTH_LONG).show()
                 }
 
-            }
-        })
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    dataSnapshot.children.forEach {
+                        it.key?.let { it1 -> mDataKeys.add(it1) }
+                    }
 
-        RepositoryProvider.getMarketDataSource().getMarketData(object : MarketDataSource.RequestCallback{
-            override fun onSuccess(result: HashMap<String, Products>) {
-                result.forEach {
-                   if(mDataKeys.contains(it.key)){
-                       mData.add(it.value)
-                   }
+                    RepositoryProvider.getMarketDataSource().getMarketData(object : MarketDataSource.RequestCallback {
+                        override fun onSuccess(result: HashMap<String, Products>) {
+
+                            for (i in mDataKeys) {
+                                if (result.containsKey(i)) {
+                                    result[i]?.let { mData.add(it) }
+                                }
+                            }
+                            updateUi()
+                        }
+
+                        override fun onFailure(message: String) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
+
+                    })
+
                 }
-                updateUi()
-            }
-
-            override fun onFailure(message: String) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        })
+            })
 
 
     }
 
-    private fun updateUi(){
-        if (mData.isEmpty()){
+    private fun updateUi() {
+        if (mData.isEmpty()) {
             mNoData?.visibility = View.VISIBLE
         }
         adapter = MarketRecyclerAdapter(mData, this, this)
@@ -109,7 +112,8 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
     }
 
     override fun onItemSelectedAt(position: Int) {
-        val detailDialogFragment = DetailDialogFragment.newInstance(mDataKeys[position] , "OnSalesFragment", mData[position])
+        val detailDialogFragment =
+            DetailDialogFragment.newInstance(mDataKeys[position], "OnSalesFragment", mData[position])
         detailDialogFragment.show(supportFragmentManager, "detailDialogFragment")
     }
 

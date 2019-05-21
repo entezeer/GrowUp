@@ -19,6 +19,7 @@ import kotlin.collections.ArrayList
 class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener: Listener, var context: Context) :
     RecyclerView.Adapter<MarketRecyclerAdapter.ViewHolder>() {
     private var arrayList: ArrayList<Products> = ArrayList()
+
     init {
         arrayList.addAll(items)
     }
@@ -43,11 +44,19 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
         private val recyclerPrice = itemView.findViewById<TextView>(R.id.product_price)
 
         fun bindData(items: Products) {
-
-            Glide.with(context).load(Uri.parse(items.productImage))
-                .placeholder(R.drawable.vegetables1)
-                .apply(RequestOptions().override(1500,2000))
-                .into(recyclerImage)
+            if (items.productImage.isEmpty()) {
+                when (items.category) {
+                    "Овощи" -> recyclerImage.setImageResource(R.drawable.vegetables3)
+                    "Фрукты" -> recyclerImage.setImageResource(R.drawable.fruits2)
+                    "Животные" -> recyclerImage.setImageResource(R.drawable.animals)
+                    "Другое" -> recyclerImage.setImageResource(R.drawable.vegetables2)
+                }
+            } else {
+                Glide.with(context).load(Uri.parse(items.productImage))
+                    .placeholder(R.drawable.vegetables3)
+                    .apply(RequestOptions().override(1500, 2000))
+                    .into(recyclerImage)
+            }
             recyclerTitle.text = items.subCategory
             recyclerPrice.text = items.unitPrice
 

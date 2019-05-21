@@ -90,10 +90,20 @@ class DetailDialogFragment : DialogFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun showData() {
-        Glide.with(context!!).load(Uri.parse(mData.productImage))
-            .placeholder(R.drawable.vegetables1)
-            .apply(RequestOptions().override(1500,2000))
-            .into(detailImage!!)
+        if (mData.productImage.isEmpty()) {
+            when (mData.category) {
+                "Овощи" -> detailImage?.setImageResource(R.drawable.vegetables3)
+                "Фрукты" -> detailImage?.setImageResource(R.drawable.fruits2)
+                "Животные" -> detailImage?.setImageResource(R.drawable.animals)
+                "Другое" -> detailImage?.setImageResource(R.drawable.vegetables2)
+            }
+        } else {
+            Glide.with(activity!!).load(Uri.parse(mData.productImage))
+                .placeholder(R.drawable.vegetables3)
+                .apply(RequestOptions().override(1500, 2000))
+                .into(detailImage!!)
+        }
+
         if (mData.category == "Животные") {
             detailUnitPrice?.text = "Цена за 1 шт: ${mData.unitPrice}"
             detailSize?.text = "Количество: ${mData.size}"

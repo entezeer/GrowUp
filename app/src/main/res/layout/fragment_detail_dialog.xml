@@ -20,7 +20,7 @@
                     android:id="@+id/detail_image"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"/>
+                    android:layout_height="200dp"/>
             <TextView
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"

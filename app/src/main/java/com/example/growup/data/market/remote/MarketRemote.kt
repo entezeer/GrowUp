@@ -22,7 +22,7 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
             return INSTANCE!!
         }
     }
-    private var marketSales = getRef(MarketRemoteConstants.MARKET_REF).child(MarketRemoteConstants.MARKET_SALE)
+    private var marketSales = getRef(MARKET_REF).child(MARKET_SALE)
     override fun getMarketData(callback: MarketDataSource.RequestCallback){
         val products = HashMap<String, Products>()
         marketSales.addValueEventListener(object: ValueEventListener{
@@ -32,7 +32,7 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
-                    products[it.key.toString()] = it.getValue(Products::class.java)!!
+                    products[it.key!!] = it.getValue(Products::class.java)!!
                 }
                 callback.onSuccess(products)
             }
