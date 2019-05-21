@@ -16,12 +16,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
     </android.support.v4.widget.SwipeRefreshLayout>
-    <!--<ProgressBar-->
-    <!--android:id="@+id/progress_bar"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_width="50dp"-->
-    <!--android:layout_height="50dp"-->
-    <!--/>-->
+    <ProgressBar
+    android:id="@+id/progress_bar"
+    android:layout_gravity="center"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    />
     <TextView
             android:layout_gravity="center"
             android:id="@+id/no_data"

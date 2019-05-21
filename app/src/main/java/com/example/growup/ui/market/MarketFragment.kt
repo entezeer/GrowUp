@@ -70,7 +70,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         mSwipeRefreshLayout?.setOnRefreshListener {
             mSwipeRefreshLayout?.isRefreshing = true
-            updateUi()
+            mMarketPresenter?.getMarketData()
         }
         mProgressBar = view.findViewById(R.id.progress_bar)
 
@@ -122,6 +122,8 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     override fun showData(data: HashMap<String, Products>) {
+        mData.removeAll(mData)
+        mDataKeys.removeAll(mDataKeys)
         mData.addAll(data.values)
         mDataKeys.addAll(data.keys)
         mMarketRecyclerView?.adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }

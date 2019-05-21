@@ -2,6 +2,7 @@ package com.example.growup.ui.market
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -10,11 +11,14 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import com.example.core.firebase.FirebaseClient
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
 import com.example.growup.data.market.MarketDataSource
 import com.example.growup.data.market.model.Products
+import com.example.growup.data.user.UserDataSource
+import com.example.growup.data.user.model.User
 import com.example.growup.ui.detail.DetailDialogFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -44,6 +48,8 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
 
+        mProgressBar = findViewById(R.id.progress_bar)
+
         mNoData = findViewById(R.id.no_data)
         mNoData?.visibility = View.GONE
 
@@ -58,19 +64,14 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
     }
 
     private fun initData() {
-        mDataKeys.removeAll(mDataKeys)
-        mData.removeAll(mData)
-        GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser?.uid!!).child("favorites")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Toast.makeText(this@FavoritesActivity, databaseError.message, Toast.LENGTH_LONG).show()
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    dataSnapshot.children.forEach {
-                        it.key?.let { it1 -> mDataKeys.add(it1) }
+        RepositoryProvider.getUserDataSource()
+            .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
+                override fun onSuccess(result: User) {
+                    mDataKeys.removeAll(mDataKeys)
+                    mData.removeAll(mData)
+                    result.favorites.forEach{
+                        mDataKeys.add(it.key)
                     }
-
                     RepositoryProvider.getMarketDataSource().getMarketData(object : MarketDataSource.RequestCallback {
                         override fun onSuccess(result: HashMap<String, Products>) {
 
@@ -87,11 +88,13 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
                         }
 
                     })
-
                 }
+
+                override fun onFailure(message: String) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
             })
-
-
     }
 
     private fun updateUi() {
@@ -99,7 +102,7 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
             mNoData?.visibility = View.VISIBLE
         }
         adapter = MarketRecyclerAdapter(mData, this, this)
-//        mProgressBar?.visibility = View.GONE
+        mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter
         mSwipeRefreshLayout?.isRefreshing = false
     }
