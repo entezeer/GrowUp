@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/mainGreen</item>
     </style>
 
+
     <style name="MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/mainGreen</item>
