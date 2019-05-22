@@ -48,12 +48,20 @@ class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSourc
             override fun onFailure(message: String) {
                 callback.onFailure(message)
             }
-
         })
     }
 
     override fun setMarketData(product: Products, callback: MarketDataSource.SuccessCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        remoteSource.setMarketData(product, object : MarketDataSource.SuccessCallback{
+            override fun onSuccess(result: String) {
+                callback.onSuccess("success")
+            }
+
+            override fun onFailure(message: String) {
+                callback.onFailure(message)
+            }
+
+        })
     }
 
     override fun setMarketSold(product: Products, callback: MarketDataSource.SuccessCallback) {

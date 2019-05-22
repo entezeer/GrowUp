@@ -6,5 +6,7 @@ object UserRemoteConstants {
 
     const val PHONE_NUMBER = "phoneNumber"
 
+    const val FAVORITES = "favorites"
+
     const val USER_PROFILE_IMAGE = "UsersProfileImages"
 }

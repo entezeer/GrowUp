@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.entezeer.tracking.utils.InternetUtil
 import com.example.core.extensions.slideRightOut
@@ -39,6 +40,7 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
     private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
     private var mOnSoldPresenter: MarketContract.Presenter? = null
     private var mDataKeys: ArrayList<String> = ArrayList()
+    private var mProgressBar: ProgressBar? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,9 +66,9 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         mSwipeRefreshLayout?.setOnRefreshListener {
             mSwipeRefreshLayout?.isRefreshing = true
-            updateUi()
+            mOnSoldPresenter?.getMarketSold(arguments?.getString(ARG_UID)!!)
         }
-//        mProgressBar = view.findViewById(R.id.progress_bar)
+        mProgressBar = view.findViewById(R.id.progress_bar)
     }
 
 
@@ -79,6 +81,8 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
     }
 
     override fun showData(data: HashMap<String, Products>) {
+        mData.removeAll(mData)
+        mDataKeys.removeAll(mDataKeys)
         mData.addAll(data.values)
         mDataKeys.addAll(data.keys)
         updateUi()
@@ -102,7 +106,7 @@ class SalesFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract
             mNoData?.visibility = View.VISIBLE
         }
         adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
-//        mProgressBar?.visibility = View.GONE
+        mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter
         mSwipeRefreshLayout?.isRefreshing = false
     }

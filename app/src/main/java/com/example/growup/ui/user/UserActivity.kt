@@ -13,9 +13,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.core.extensions.setFragment
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.data.user.model.User
+import com.example.growup.ui.main.MainActivity
+import com.example.growup.ui.market.MarketFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -62,6 +65,11 @@ class UserActivity : AppCompatActivity() {
         profilePhoneNumber = findViewById(R.id.profile_phone_number)
         profileRegion = findViewById(R.id.profile_user_region)
     }
+
+    override fun onBackPressed() {
+        MainActivity.start(applicationContext,"Маркет")
+    }
+
     private fun showData(){
         GrowUpApplication.mStorage.child("UsersProfileImages").child(uid!!).downloadUrl
             .addOnSuccessListener { task ->

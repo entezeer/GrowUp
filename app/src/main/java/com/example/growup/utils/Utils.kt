@@ -30,8 +30,8 @@ object Utils : FirebaseClient(){
         builder.setMessage("Вы действительно хотите отметить товар как проданное ?")
         builder.setPositiveButton("Да"){dialog, which ->
             GrowUpApplication.mMarketRef.child("onSale").child(keyOfProduct!!).removeValue()
-            MainActivity.start(context,"Маркет")
             getRef(MarketRemoteConstants.MARKET_REF).child(MarketRemoteConstants.MARKET_SOLD).push().setValue(mData)
+
         }
         builder.setNegativeButton("Нет"){dialog, which ->
 

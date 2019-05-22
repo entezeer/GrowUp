@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.growup.data.user.model.User
 import com.example.growup.data.market.model.Products
+import com.example.growup.ui.main.MainActivity
 import com.example.growup.ui.user.UserActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -141,7 +142,8 @@ class DetailDialogFragment : DialogFragment() {
             soldBtn?.visibility = View.GONE
         }
         soldBtn?.setOnClickListener {
-            activity?.let { it1 -> Utils.confirmationForSold(it1, mData, productKey) }
+            activity?.let { it1 -> Utils.confirmationForSold(it1, mData, productKey)
+                this.dismiss()}
         }
 
         whatsappBtn?.setOnClickListener {
@@ -153,8 +155,15 @@ class DetailDialogFragment : DialogFragment() {
         }
 
         detailGetUser?.setOnClickListener {
+
             activity?.let { it1 -> UserActivity.start(it1, mData.uid) }
             this.dismiss()
+
+            activity?.supportFragmentManager?.popBackStack()
+            activity?.let { it1 -> UserActivity.start(it1, mData.uid)
+            this.dismiss()
+            }
+
         }
 
         favoriteBtn?.setOnClickListener {

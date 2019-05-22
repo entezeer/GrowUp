@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener
 class UserRemote : FirebaseClient(), UserDataSource {
 
 
+
     companion object {
         private var INSTANCE: UserRemote? = null
         fun getInstance(): UserRemote {
@@ -47,7 +48,7 @@ class UserRemote : FirebaseClient(), UserDataSource {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     if (!login) {
-                        GrowUpApplication.mUserRef.child(userAuth.currentUser?.uid!!)
+                        userRef.child(userAuth.currentUser?.uid!!)
                             .setValue(user).addOnCompleteListener { it1 ->
                                 if (it1.isSuccessful) {
                                     callback.onSuccess(user)

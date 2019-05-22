@@ -10,6 +10,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class MarketRemote : FirebaseClient() , MarketDataSource {
+
+
     companion object{
 
 
@@ -40,6 +42,8 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
             }
         })
     }
+
+
     private var marketSold= getRef(MARKET_REF).child(MarketRemoteConstants.MARKET_SOLD)
 
     override fun getMarketSold(callback: MarketDataSource.RequestCallback){
@@ -58,6 +62,7 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
 
         })
     }
+
     override fun getCurrentUserProducts(callback: MarketDataSource.RequestCallback) {
         val products = HashMap<String, Products>()
         marketSales.addValueEventListener(object: ValueEventListener{

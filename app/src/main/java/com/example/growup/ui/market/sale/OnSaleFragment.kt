@@ -65,9 +65,9 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         mSwipeRefreshLayout?.setOnRefreshListener {
             mSwipeRefreshLayout?.isRefreshing = true
-            updateUi()
+            mOnSalesPresenter?.getCurrentUserProducts(arguments?.getString(ARG_UID)!!)
         }
-//        mProgressBar = view.findViewById(R.id.progress_bar)
+        mProgressBar = view.findViewById(R.id.progress_bar)
     }
 
     override fun showNetworkAlert() {
@@ -79,6 +79,9 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     override fun showData(data: HashMap<String, Products>) {
+        mData.removeAll(mData)
+        mDataKeys.removeAll(mDataKeys)
+
         mData.addAll(data.values)
         mDataKeys.addAll(data.keys)
         updateUi()
@@ -102,7 +105,7 @@ class OnSaleFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
             mNoData?.visibility = View.VISIBLE
         }
         adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
-//        mProgressBar?.visibility = View.GONE
+        mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter
         mSwipeRefreshLayout?.isRefreshing = false
     }

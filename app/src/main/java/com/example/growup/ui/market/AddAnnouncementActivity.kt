@@ -29,6 +29,7 @@ import com.example.core.firebase.FirebaseClient
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
 import com.example.growup.data.RepositoryProvider
+import com.example.growup.data.market.MarketDataSource
 import com.example.growup.data.market.model.Products
 import com.example.growup.data.user.UserDataSource
 import com.example.growup.data.user.model.User
@@ -174,8 +175,8 @@ class AddAnnouncementActivity : AppCompatActivity() {
     }
 
     private fun createPhotoFile(): File{
-        val name = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
-        val storageDirectory: File = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        val name = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDirectory: File = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         var image: File? = null
         try {
             image = File.createTempFile(name, ".jpeg", storageDirectory);
@@ -264,45 +265,82 @@ class AddAnnouncementActivity : AppCompatActivity() {
     }
 
     private fun addAnnouncement() {
+        var product: Products? = null
+
         val fileName = UUID.randomUUID().toString()
         if (ValidUtils.checkAddProductData(name!!, unitPrice!!, size!!, totalPrice!!, message!!)) {
             Utils.progressShow(progressDialog)
             progressDialog?.setMessage("Данные загружаются, это займет не больше минуты")
-            GrowUpApplication.mStorage.child("ProductsImages/$fileName")
-                .putFile(imageUri!!).addOnSuccessListener{ task ->
-                    GrowUpApplication.mStorage.child("ProductsImages")
-                        .child(fileName).downloadUrl
-                        .addOnSuccessListener { task ->
-                            val product = Products(
-                                name?.text.toString(),
-                                spinnerCategories?.selectedItem.toString(),
-                                spinnerSubCategories?.selectedItem.toString(),
-                                size?.text.toString() + " " + if (spinnerCategories?.selectedItemPosition == 2) {
-                                    "Шт."
-                                } else {
-                                    spinnerSize?.selectedItem.toString()
-                                },
-                                unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
-                                totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
-                                GrowUpApplication.mUserData.name,
-                                GrowUpApplication.mUserData.phoneNumber,
-                                GrowUpApplication.mUserData.region,
-                                message?.text.toString(),
-                                GrowUpApplication.mAuth.currentUser!!.uid,
-                                task.toString()
-                            )
-                            GrowUpApplication.mMarketRef.child("onSale").push().setValue(product)
-                                .addOnCompleteListener {
-                                    if (it.isSuccessful) {
-                                        progressDialog?.dismiss()
-                                        MainActivity.start(this@AddAnnouncementActivity, "Маркет")
-                                    }
-                                }
-                        }
+            if (imageUri!=null){
 
-                }.addOnFailureListener{task ->
-                    Toast.makeText(this@AddAnnouncementActivity, task.message.toString() ,Toast.LENGTH_SHORT).show()
-                }
+                GrowUpApplication.mStorage.child("ProductsImages/$fileName")
+                    .putFile(imageUri!!).addOnSuccessListener{ task ->
+                        GrowUpApplication.mStorage.child("ProductsImages")
+                            .child(fileName).downloadUrl
+                            .addOnSuccessListener { task ->
+                                product = Products(
+                                    name?.text.toString(),
+                                    spinnerCategories?.selectedItem.toString(),
+                                    spinnerSubCategories?.selectedItem.toString(),
+                                    size?.text.toString() + " " + if (spinnerCategories?.selectedItemPosition == 2) {
+                                        "Шт."
+                                    } else {
+                                        spinnerSize?.selectedItem.toString()
+                                    },
+                                    unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
+                                    totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
+                                    GrowUpApplication.mUserData.name,
+                                    GrowUpApplication.mUserData.phoneNumber,
+                                    GrowUpApplication.mUserData.region,
+                                    message?.text.toString(),
+                                    GrowUpApplication.mAuth.currentUser!!.uid,
+                                    task.toString()
+                                )
+                                GrowUpApplication.mMarketRef.child("onSale").push().setValue(product)
+                                    .addOnCompleteListener {
+                                        if (it.isSuccessful) {
+                                            progressDialog?.dismiss()
+                                            MainActivity.start(this@AddAnnouncementActivity, "Маркет")
+                                            Toast.makeText(this@AddAnnouncementActivity, "Обьявление успешно добавлено", Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                            }
+
+                    }.addOnFailureListener{task ->
+                        Toast.makeText(this@AddAnnouncementActivity, task.message.toString() ,Toast.LENGTH_SHORT).show()
+                    }
+            }
+            else {
+                RepositoryProvider.getMarketDataSource().setMarketData(Products(
+                    name?.text.toString(),
+                    spinnerCategories?.selectedItem.toString(),
+                    spinnerSubCategories?.selectedItem.toString(),
+                    size?.text.toString() + " " + if (spinnerCategories?.selectedItemPosition == 2) {
+                        "Шт."
+                    } else {
+                        spinnerSize?.selectedItem.toString()
+                    },
+                    unitPrice?.text.toString() + " " + spinnerCurrency?.selectedItem.toString(),
+                    totalPrice?.text.toString() + " " + spinnerCurrencyTotal?.selectedItem.toString(),
+                    GrowUpApplication.mUserData.name,
+                    GrowUpApplication.mUserData.phoneNumber,
+                    GrowUpApplication.mUserData.region,
+                    message?.text.toString(),
+                    GrowUpApplication.mAuth.currentUser!!.uid
+                ), object : MarketDataSource.SuccessCallback {
+                    override fun onSuccess(result: String) {
+                        progressDialog?.dismiss()
+                        MainActivity.start(this@AddAnnouncementActivity, "Маркет")
+                        Toast.makeText(this@AddAnnouncementActivity, "Обьявление успешно добавлено", Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onFailure(message: String) {
+                        progressDialog?.dismiss()
+                        Toast.makeText(this@AddAnnouncementActivity, "Обьявление не добавлено", Toast.LENGTH_LONG).show()
+                    }
+
+                })
+            }
 
         }
 
