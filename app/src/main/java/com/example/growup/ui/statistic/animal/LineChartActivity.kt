@@ -18,9 +18,11 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import java.text.DecimalFormat
 import javax.xml.datatype.DatatypeConstants.HOURS
 
 
@@ -78,12 +80,17 @@ class LineChartActivity : AppCompatActivity() {
 
     private fun draw(values: ArrayList<Entry>) {
         val dataSet = LineDataSet(values, "$mKey, $mChildKey")
+        val formatter = DecimalFormat()
+        val largeValue = LargeValueFormatter()
         dataSet.color = ContextCompat.getColor(this, R.color.colorPrimary)
         dataSet.valueTextColor = ContextCompat.getColor(this, R.color.black)
         dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
         dataSet.lineWidth = 3f
         dataSet.setDrawFilled(true)
-
+        dataSet.valueTextSize = 10f
+        dataSet.setValueFormatter { value, entry, dataSetIndex, viewPortHandler ->
+            formatter.format(value) + " Голов"
+        }
 
         val xAxis = chartOne?.xAxis
         xAxis?.position = XAxis.XAxisPosition.TOP
@@ -91,12 +98,11 @@ class LineChartActivity : AppCompatActivity() {
         xAxis?.granularity = 1f
         xAxis?.setDrawLabels(true)
         xAxis?.valueFormatter
-
         xAxis?.valueFormatter = IAxisValueFormatter { value, axis -> axisData[value.toInt()] }
 
         val yAxisLeft = chartOne?.axisLeft
         yAxisLeft?.granularity = 1f
-
+        yAxisLeft?.valueFormatter = largeValue
         chartOne?.legend?.form = Legend.LegendForm.CIRCLE
 
         chartOne?.axisLeft?.setDrawGridLines(false)
