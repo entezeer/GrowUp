@@ -34,7 +34,7 @@
         </activity>
         <activity
                 android:name=".ui.AboutUsActivity"
-                android:theme="@style/MainTheme">
+               >
         </activity>
         <activity android:name=".ui.market.MyProductsActivity">
         </activity>

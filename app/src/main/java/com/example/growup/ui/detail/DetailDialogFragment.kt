@@ -156,9 +156,6 @@ class DetailDialogFragment : DialogFragment() {
 
         detailGetUser?.setOnClickListener {
 
-            activity?.let { it1 -> UserActivity.start(it1, mData.uid) }
-            this.dismiss()
-
             activity?.supportFragmentManager?.popBackStack()
             activity?.let { it1 -> UserActivity.start(it1, mData.uid)
             this.dismiss()
