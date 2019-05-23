@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,6 +22,20 @@
                 android:layout_margin="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+        <TextView
+                android:id="@+id/chart_label"
+                android:maxLines="2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:textSize="10sp"
+                android:textAlignment="center"
+                android:layout_gravity="bottom"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+        />
     </android.support.v7.widget.CardView>
 
-</LinearLayout>
+</RelativeLayout>
