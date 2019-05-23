@@ -30,7 +30,7 @@ class UserRemote : FirebaseClient(), UserDataSource {
     private val userAuth = getAuth()
 
     override fun getUser(uid: String, callback: UserDataSource.UserCallback) {
-        userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+        userRef.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
                 callback.onFailure(databaseError.message)
             }

@@ -9,7 +9,7 @@ object ProductsCategories {
 
     var animals = arrayOf("Крупный рогатый скот","Козы, овцы","Птицы","Лошади","Пчелы")
 
-    var others = arrayOf("Грецкие орехи","Фисташки","Облепиха","Инжир","Малина","Арбуз","Дыни","Клубника","Смородина")
+    var others = arrayOf("Грецкие орехи","Фисташки","Облепиха","Инжир","Малина","Арбуз","Дыни","Клубника","Смородина","Нут","Другое")
 
     var categoryList = arrayOf(vegetables, fruits, animals, others)
 

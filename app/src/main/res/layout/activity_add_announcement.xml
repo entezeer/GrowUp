@@ -4,13 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <android.support.design.widget.FloatingActionButton
-            android:backgroundTint="@color/white"
-            android:id="@+id/back_button"
-            android:layout_margin="12dp"
-            android:src="@drawable/back_button_48"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:ignore="UnusedAttribute"/>
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -20,15 +13,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <TextView
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="20dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="@string/add_announcement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+
             <ImageView
                     android:id="@+id/add_product_image"
                     android:background="@drawable/ic_add_a_photo_24dp"

@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                 @SuppressLint("SetTextI18n")
                 override fun onSuccess(result: User) {
                     if (result.profileImage.isNotEmpty()) {
-                        Glide.with(this@MainActivity).load(result.profileImage).into(userImage!!)
+                        Glide.with(this@MainActivity).load(result.profileImage).placeholder(R.drawable.user_icon).into(userImage!!)
                     } else userImage?.setImageResource(R.drawable.user_icon)
 
                     userName?.text = "${result.name} ${result.lastName}"

@@ -65,6 +65,8 @@ class DetailDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_detail_dialog, container, false)
+
+        this.dialog.setCanceledOnTouchOutside(true)
         getData()
         init(view)
         showData()
