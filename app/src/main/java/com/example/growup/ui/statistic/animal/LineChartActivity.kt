@@ -1,11 +1,13 @@
 package com.example.growup.ui.statistic.animal
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import com.example.growup.GrowUpApplication
 import com.example.growup.R
@@ -18,9 +20,11 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import java.text.DecimalFormat
 import javax.xml.datatype.DatatypeConstants.HOURS
 
 
@@ -33,7 +37,7 @@ class LineChartActivity : AppCompatActivity() {
     var axisValuesCow: ArrayList<Entry> = ArrayList()
     var mKey: String? = null
     var mChildKey: String? = null
-
+    var label: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_line_chart)
@@ -48,7 +52,7 @@ class LineChartActivity : AppCompatActivity() {
         supportActionBar?.title = "Статистика"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
-
+        label = findViewById(R.id.chart_label)
 
         chartOne = findViewById(R.id.chart)
         chartOne?.setTouchEnabled(true)
@@ -76,37 +80,40 @@ class LineChartActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun draw(values: ArrayList<Entry>) {
-        val dataSet = LineDataSet(values, "$mKey, $mChildKey")
+        val dataSet = LineDataSet(values, null)
+        val formatter = DecimalFormat()
+        val largeValue = LargeValueFormatter()
+        label?.text = "$mKey, $mChildKey"
         dataSet.color = ContextCompat.getColor(this, R.color.colorPrimary)
         dataSet.valueTextColor = ContextCompat.getColor(this, R.color.black)
         dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
         dataSet.lineWidth = 3f
         dataSet.setDrawFilled(true)
-
-
+        dataSet.valueTextSize = 10f
+        dataSet.setValueFormatter { value, entry, dataSetIndex, viewPortHandler -> formatter.format(value) + " Голов" }
         val xAxis = chartOne?.xAxis
         xAxis?.position = XAxis.XAxisPosition.TOP
 
         xAxis?.granularity = 1f
         xAxis?.setDrawLabels(true)
         xAxis?.valueFormatter
-
+        xAxis?.setAvoidFirstLastClipping(true)
         xAxis?.valueFormatter = IAxisValueFormatter { value, axis -> axisData[value.toInt()] }
 
         val yAxisLeft = chartOne?.axisLeft
         yAxisLeft?.granularity = 1f
-
+        yAxisLeft?.valueFormatter = largeValue
         chartOne?.legend?.form = Legend.LegendForm.CIRCLE
-
         chartOne?.axisLeft?.setDrawGridLines(false)
         chartOne?.xAxis?.setDrawGridLines(false)
-
         val lineData = LineData(dataSet)
         chartOne?.description?.isEnabled = false
         chartOne?.axisRight?.isEnabled = false
         chartOne?.data = lineData
         chartOne?.animateX(1000)
+        chartOne?.legend?.isEnabled = false
         chartOne?.invalidate()
     }
 

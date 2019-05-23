@@ -20,6 +20,9 @@ import android.graphics.Color
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.github.mikephil.charting.utils.ColorTemplate.COLOR_NONE
+import lecho.lib.hellocharts.formatter.ValueFormatterHelper
+import java.text.DecimalFormat
 
 
 class PieChartActivity : AppCompatActivity() {
@@ -63,7 +66,7 @@ class PieChartActivity : AppCompatActivity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     var index = 0f
                     dataSnapshot.children.forEach {
-                        chartData.add(PieEntry(it.value.toString().toFloat(), index))
+                        chartData.add(PieEntry(it.value.toString().toFloat(), ""))
                         chartDataName.add(
                             LegendEntry
                                 (
@@ -79,13 +82,17 @@ class PieChartActivity : AppCompatActivity() {
                     }
                     val dataSet = PieDataSet(chartData, "")
                     val pieData = PieData(dataSet)
-
-
+                    val formatter = DecimalFormat()
                     dataSet.colors = colors
+                    dataSet.valueLineColor = COLOR_NONE
 
                     pieData.setValueTextColor(Color.BLACK)
-                    dataSet.valueLinePart1Length = .3f
-                    dataSet.valueLinePart2Length = .2f
+                    pieData.setValueTextSize(40f)
+                    pieData.setValueFormatter { value, entry, dataSetIndex, viewPortHandler ->
+                        formatter.format(value) + " Гa"
+                    }
+                    dataSet.sliceSpace = 0f
+                    dataSet.valueTextSize = 15f
                     dataSet.valueTextColor = Color.BLACK
                     dataSet.xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
                     dataSet.sliceSpace = 3f
