@@ -31,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
     private var userName: TextView? = null
     private var userType: TextView? = null
     private var buttonAboutUs: Button? = null
-
+    private var appPackageName: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -40,7 +40,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun initUserInfo() {
-
         RepositoryProvider.getUserDataSource()
             .getUser(FirebaseClient().getAuth().currentUser?.uid!!, object : UserDataSource.UserCallback {
                 @SuppressLint("SetTextI18n")
@@ -82,7 +81,7 @@ class SettingsActivity : AppCompatActivity() {
 
 
     private fun init() {
-
+        appPackageName = packageName
         supportActionBar?.title = "Настройки"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
@@ -108,7 +107,7 @@ class SettingsActivity : AppCompatActivity() {
         buttonRate?.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps")
+                Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
             )
             startActivity(intent)
         }
@@ -128,7 +127,7 @@ class SettingsActivity : AppCompatActivity() {
             intent.putExtra(Intent.EXTRA_SUBJECT, "GrowUp APP")
             intent.putExtra(
                 Intent.EXTRA_TEXT,
-                "https://play.google.com/store/apps/details?id=com.google.android.apps.maps"
+                "https://play.google.com/store/apps/details?id=$appPackageName"
             )
             startActivity(Intent.createChooser(intent, "Share to "))
         }
