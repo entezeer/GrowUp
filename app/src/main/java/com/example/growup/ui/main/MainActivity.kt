@@ -147,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         fun start(context: Context, fragment: String) {
             val intent = Intent(context, MainActivity::class.java)
             intent.putExtra(EXTRA_FRAGMENT, fragment)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
         }
     }
