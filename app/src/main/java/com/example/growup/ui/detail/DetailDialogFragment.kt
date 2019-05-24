@@ -155,6 +155,7 @@ class DetailDialogFragment : DialogFragment() {
         }
 
         detailGetUser?.setOnClickListener {
+
             activity?.supportFragmentManager?.popBackStack()
             activity?.let { it1 -> UserActivity.start(it1, mData.uid)
             this.dismiss()
