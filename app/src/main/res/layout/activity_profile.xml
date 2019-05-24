@@ -3,7 +3,7 @@
         android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/profile_gray"
         android:layout_height="match_parent"
-        tools:context="com.example.growup.ui.SettingsActivity"
+        tools:context="com.growup.growup.ui.SettingsActivity"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <ScrollView
             android:layout_width="match_parent"

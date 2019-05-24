@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:background="@color/white"
-        tools:context="com.example.growup.ui.SplashActivity">
+        tools:context="com.growup.growup.ui.SplashActivity">
 
     <ImageView
             android:src="@drawable/splash"
