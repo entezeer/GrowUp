@@ -37,7 +37,6 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
         return items.size
     }
 
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val recyclerImage = itemView.findViewById<ImageView>(R.id.product_image)
         private val recyclerTitle = itemView.findViewById<TextView>(R.id.product_title)
@@ -48,12 +47,12 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
                 when (items.category) {
                     "Овощи" -> recyclerImage.setImageResource(R.drawable.vegetables3)
                     "Фрукты" -> recyclerImage.setImageResource(R.drawable.fruits2)
-                    "Животные" -> recyclerImage.setImageResource(R.drawable.animals)
-                    "Другое" -> recyclerImage.setImageResource(R.drawable.vegetables2)
+                    "Животные" -> recyclerImage.setImageResource(R.drawable.animals1)
+                    "Другое" -> recyclerImage.setImageResource(R.drawable.others)
                 }
             } else {
                 Glide.with(context).load(Uri.parse(items.productImage))
-                    .placeholder(R.drawable.vegetables3)
+                    .placeholder(R.drawable.preload)
                     .apply(RequestOptions().override(1500, 2000))
                     .into(recyclerImage)
             }
