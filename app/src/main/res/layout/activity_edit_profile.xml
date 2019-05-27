@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-        tools:context="com.example.growup.ui.profile.EditProfileActivity"
+        tools:context="com.growup.growup.ui.profile.EditProfileActivity"
         android:orientation="vertical">
 
     <!--<TextView-->

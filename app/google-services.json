@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "875071218181-1dm15e656ifqhovbvbvt326mpbusielq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.grow2",
+            "certificate_hash": "74414ca481c412e9ca7c13d485e1f229afb69196"
+          }
+        },
+        {
           "client_id": "875071218181-219ps6uf57s3o8j1un5cucrfdha4lkh0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -46,6 +54,72 @@
             "certificate_hash": "bd3baf8cc611a3edb6bd9f971718209361f4a808"
           }
         },
+        {
+          "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6yKlJtYcYqFWEeRKhlZR5YDepwQL4kkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875071218181:android:163a9d3f35ac4d9e",
+        "android_client_info": {
+          "package_name": "com.growup.grow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875071218181-ajamhht70qfq7hmapmrqkbv77esa2v2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.growup.grow",
+            "certificate_hash": "8cec7cde5e3d8b93683a667679808348113902a2"
+          }
+        },
+        {
+          "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6yKlJtYcYqFWEeRKhlZR5YDepwQL4kkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875071218181:android:404004570f25d1ca",
+        "android_client_info": {
+          "package_name": "com.growup.growup"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
           "client_type": 3

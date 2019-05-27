@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.example.growup">
+          package="com.growup.growup">
 
     <uses-permission android:name="android.permission.CAMERA" android:required="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-            android:name=".GrowUpApplication"
+            android:name="com.growup.growup.GrowUpApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -22,61 +22,61 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.statistic.animal.LineChartActivity">
+        <activity android:name="com.growup.growup.ui.statistic.animal.LineChartActivity">
         </activity>
-        <activity android:name=".ui.statistic.PieChartActivity">
+        <activity android:name="com.growup.growup.ui.statistic.PieChartActivity">
         </activity>
-        <activity android:name=".ui.statistic.animal.AnimalStatisticActivity">
+        <activity android:name="com.growup.growup.ui.statistic.animal.AnimalStatisticActivity">
         </activity>
-        <activity android:name=".ui.market.FavoritesActivity">
+        <activity android:name="com.growup.growup.ui.market.FavoritesActivity">
         </activity>
-        <activity android:name=".ui.user.UserActivity">
+        <activity android:name="com.growup.growup.ui.user.UserActivity">
         </activity>
         <activity
-                android:name=".ui.AboutUsActivity"
+                android:name="com.growup.growup.ui.AboutUsActivity"
                >
         </activity>
-        <activity android:name=".ui.market.MyProductsActivity">
+        <activity android:name="com.growup.growup.ui.market.MyProductsActivity">
         </activity>
         <activity
-                android:name=".ui.market.AddAnnouncementActivity"
+                android:name="com.growup.growup.ui.market.AddAnnouncementActivity"
                />
         <activity
-                android:name=".ui.profile.EditProfileActivity"
+                android:name="com.growup.growup.ui.profile.EditProfileActivity"
                 >
         </activity>
         <activity
-                android:name=".ui.profile.ProfileActivity"
+                android:name="com.growup.growup.ui.profile.ProfileActivity"
                 >
         </activity>
-        <activity android:name=".ui.search.SearchActivity">
+        <activity android:name="com.growup.growup.ui.search.SearchActivity">
         </activity>
         <activity
-                android:name=".ui.SettingsActivity"
-                >
-        </activity>
-        <activity
-                android:name=".ui.auth.verify.VerifyPhoneActivity"
+                android:name="com.growup.growup.ui.SettingsActivity"
                 >
         </activity>
         <activity
-                android:name=".ui.start.StartActivity"
+                android:name="com.growup.growup.ui.auth.verify.VerifyPhoneActivity"
+                >
+        </activity>
+        <activity
+                android:name="com.growup.growup.ui.start.StartActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".ui.auth.register.RegisterActivity"
+                android:name="com.growup.growup.ui.auth.register.RegisterActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".ui.auth.login.LoginActivity"
+                android:name="com.growup.growup.ui.auth.login.LoginActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".ui.main.MainActivity"
+                android:name="com.growup.growup.ui.main.MainActivity"
                 android:theme="@style/MainTheme">
         </activity>
         <activity
-                android:name=".ui.SplashActivity"
+                android:name="com.growup.growup.ui.SplashActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -86,7 +86,7 @@
         </activity>
         <provider
                 android:name="android.support.v4.content.FileProvider"
-                android:authorities="com.example.growup.fileprovider"
+                android:authorities="com.growup.growup.fileprovider"
                 android:exported="false"
                 android:grantUriPermissions="true">
             <meta-data
