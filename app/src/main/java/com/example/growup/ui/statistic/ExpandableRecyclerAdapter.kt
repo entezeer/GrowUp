@@ -37,8 +37,6 @@ class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context, 
         val TitleChild = group.getTitle()
         holder.itemView.setOnClickListener {
             listener.onItemSelectedAt(TitleChild,childItem.title)
-            val toast = Toast.makeText(context, TitleChild, Toast.LENGTH_SHORT)
-            toast.show()
         }
     }
 
@@ -47,8 +45,7 @@ class ExpandableRecyclerAdapter(groups: List<ParentList>, var context: Context, 
 
         if (group.items == null) {
             holder.listGroup.setOnClickListener {
-                val toast = Toast.makeText(context, group.toString(), Toast.LENGTH_SHORT)
-                toast.show()
+
             }
         }
     }

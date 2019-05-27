@@ -85,6 +85,7 @@ class LineChartActivity : AppCompatActivity() {
         val dataSet = LineDataSet(values, null)
         val formatter = DecimalFormat()
         val largeValue = LargeValueFormatter()
+
         label?.text = "$mKey, $mChildKey"
         dataSet.color = ContextCompat.getColor(this, R.color.colorPrimary)
         dataSet.valueTextColor = ContextCompat.getColor(this, R.color.black)
@@ -92,7 +93,7 @@ class LineChartActivity : AppCompatActivity() {
         dataSet.lineWidth = 3f
         dataSet.setDrawFilled(true)
         dataSet.valueTextSize = 10f
-        dataSet.setValueFormatter { value, entry, dataSetIndex, viewPortHandler -> formatter.format(value) + " Голов" }
+        dataSet.setValueFormatter { value, entry, dataSetIndex, viewPortHandler -> formatter.format(value) + " ${getUnit()}" }
         val xAxis = chartOne?.xAxis
         xAxis?.position = XAxis.XAxisPosition.TOP
 
@@ -115,6 +116,19 @@ class LineChartActivity : AppCompatActivity() {
         chartOne?.animateX(1000)
         chartOne?.legend?.isEnabled = false
         chartOne?.invalidate()
+    }
+
+    fun getUnit(): String? {
+        var firstIndex = 0
+        var lastIndex = 0
+
+        mChildKey?.indexOf("(")?.also { firstIndex = it+1 }
+        mChildKey?.indexOf(")")?.also { lastIndex = it }
+
+
+        if (firstIndex!=0 && lastIndex!=0) return mChildKey?.substring(firstIndex,lastIndex)
+
+        return "Голов"
     }
 
 

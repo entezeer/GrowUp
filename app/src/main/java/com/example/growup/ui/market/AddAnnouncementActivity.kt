@@ -21,6 +21,7 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -79,6 +80,10 @@ class AddAnnouncementActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        supportActionBar?.title = "Добавить объявление"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
+
         progressDialog = ProgressDialog(this)
         productImage = findViewById(R.id.add_product_image)
         productImage?.setOnClickListener {
@@ -344,5 +349,12 @@ class AddAnnouncementActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
     }
 }

@@ -58,7 +58,10 @@ class ProfileActivity : AppCompatActivity() {
                 @SuppressLint("SetTextI18n")
                 override fun onSuccess(result: User) {
                     if (result.profileImage.isNotEmpty()) {
-                        if (!isFinishing)Glide.with(this@ProfileActivity).load(result.profileImage).into(profileImage!!)
+                        if (!isFinishing) Glide.with(this@ProfileActivity)
+                            .load(result.profileImage)
+                            .placeholder(R.drawable.user_icon)
+                            .into(profileImage!!)
                     } else profileImage?.setImageResource(R.drawable.user_icon)
 
                     profileName?.text = result.name
@@ -66,7 +69,7 @@ class ProfileActivity : AppCompatActivity() {
                     profileUserType?.text = result.userType
                     profilePhoneNumber?.text = result.phoneNumber
                     profileRegion?.text = result.region
-                    if(result.email.isEmpty() || result.email.length <= 5){
+                    if (result.email.isEmpty() || result.email.length <= 5) {
                         profileEmail?.visibility = View.GONE
                     }
                     profileEmail?.text = result.email
