@@ -77,18 +77,18 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:875071218181:android:163a9d3f35ac4d9e",
+        "mobilesdk_app_id": "1:875071218181:android:9979c70a014e8193",
         "android_client_info": {
-          "package_name": "com.growup.grow"
+          "package_name": "com.growup"
         }
       },
       "oauth_client": [
         {
-          "client_id": "875071218181-ajamhht70qfq7hmapmrqkbv77esa2v2h.apps.googleusercontent.com",
+          "client_id": "875071218181-n9u1tapp7n0b7uja6st4uttml33ue7uh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.growup.grow",
-            "certificate_hash": "8cec7cde5e3d8b93683a667679808348113902a2"
+            "package_name": "com.growup",
+            "certificate_hash": "74414ca481c412e9ca7c13d485e1f229afb69196"
           }
         },
         {
@@ -120,6 +120,30 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "875071218181-qbhfm753gr8aimeupj3jdnhne8kijv1k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.growup.growup",
+            "certificate_hash": "897e283f5ad107cf8ce06065d2babf103f24b210"
+          }
+        },
+        {
+          "client_id": "875071218181-2m13voa2dn5smu25si8l6ck4jv7mocm4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.growup.growup",
+            "certificate_hash": "c905fcb00a88377bbfea31151af9d51c5550aa35"
+          }
+        },
+        {
+          "client_id": "875071218181-vb3lkptu4cafqkceo10hn4q24bsohla7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.growup.growup",
+            "certificate_hash": "74414ca481c412e9ca7c13d485e1f229afb69196"
+          }
+        },
         {
           "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
           "client_type": 3

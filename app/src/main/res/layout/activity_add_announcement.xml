@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="@string/unit_price"
-                        android:digits="0123456789.,"
+                        android:digits="0123456789"
                         android:textSize="20sp"
                         android:layout_gravity="center_horizontal"
                         android:inputType="number"
@@ -109,7 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="@string/size"
-                        android:digits="0123456789.,"
+                        android:digits="0123456789"
                         android:textSize="20sp"
                         android:layout_gravity="center_horizontal"
                         android:inputType="number"
@@ -127,11 +127,12 @@
                     android:layout_height="wrap_content">
 
                 <EditText
+
                         android:id="@+id/total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="@string/total_price"
-                        android:digits="0123456789.,"
+                        android:digits="0123456789"
                         android:textSize="20sp"
                         android:layout_gravity="center_horizontal"
                         android:inputType="number"

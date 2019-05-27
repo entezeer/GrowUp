@@ -151,8 +151,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         val searchView: SearchView = searchItem?.actionView as SearchView
         searchItem.setOnMenuItemClickListener {
             searchView.setIconifiedByDefault(true)
-            searchView.isFocusable = true
-            searchView.isIconified = false
+
             searchView.requestFocusFromTouch()
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -166,6 +165,12 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
             }
         })
 
+        val sortItem: MenuItem? = menu.findItem(R.id.action_sort)
+        sortItem?.setOnMenuItemClickListener {
+            val sortFragment = MarketSortFragment.newInstance(mData)
+            sortFragment.show(fragmentManager, "detailDialogFragment")
+            searchView.requestFocusFromTouch()
+        }
         return super.onCreateOptionsMenu(menu, inflater)
     }
 }
