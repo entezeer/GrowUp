@@ -6,89 +6,21 @@
     "storage_bucket": "growup-c6560.appspot.com"
   },
   "client": [
+   
     {
       "client_info": {
-        "mobilesdk_app_id": "1:875071218181:android:776b9987c8014ac4",
+        "mobilesdk_app_id": "1:875071218181:android:9979c70a014e8193",
         "android_client_info": {
-          "package_name": "com.example.grow2"
+          "package_name": "com.growup"
         }
       },
       "oauth_client": [
         {
-          "client_id": "875071218181-1dm15e656ifqhovbvbvt326mpbusielq.apps.googleusercontent.com",
+          "client_id": "875071218181-n9u1tapp7n0b7uja6st4uttml33ue7uh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.grow2",
+            "package_name": "com.growup",
             "certificate_hash": "74414ca481c412e9ca7c13d485e1f229afb69196"
-          }
-        },
-        {
-          "client_id": "875071218181-219ps6uf57s3o8j1un5cucrfdha4lkh0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.grow2",
-            "certificate_hash": "897e283f5ad107cf8ce06065d2babf103f24b210"
-          }
-        },
-        {
-          "client_id": "875071218181-vd0mc0c899vksbonq24j978fb4cv98jr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.grow2",
-            "certificate_hash": "957c9f85e3fa34c9836fb35258edd2f986c5c377"
-          }
-        },
-        {
-          "client_id": "875071218181-anlenqjqus5u2ovv1i7h3odu6m0b1e4i.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.grow2",
-            "certificate_hash": "8cec7cde5e3d8b93683a667679808348113902a2"
-          }
-        },
-        {
-          "client_id": "875071218181-nlj6rmirifio80qd69dhjvdpou1olqkf.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.grow2",
-            "certificate_hash": "bd3baf8cc611a3edb6bd9f971718209361f4a808"
-          }
-        },
-        {
-          "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB6yKlJtYcYqFWEeRKhlZR5YDepwQL4kkQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:875071218181:android:163a9d3f35ac4d9e",
-        "android_client_info": {
-          "package_name": "com.growup.grow"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "875071218181-ajamhht70qfq7hmapmrqkbv77esa2v2h.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.growup.grow",
-            "certificate_hash": "8cec7cde5e3d8b93683a667679808348113902a2"
           }
         },
         {
@@ -120,6 +52,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "875071218181-vb3lkptu4cafqkceo10hn4q24bsohla7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.growup.growup",
+            "certificate_hash": "74414ca481c412e9ca7c13d485e1f229afb69196"
+          }
+        },
         {
           "client_id": "875071218181-m692ei57kglveftj7sec5gcs86dpbqi9.apps.googleusercontent.com",
           "client_type": 3

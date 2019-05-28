@@ -96,12 +96,12 @@ class DetailDialogFragment : DialogFragment() {
             when (mData.category) {
                 "Овощи" -> detailImage?.setImageResource(R.drawable.vegetables3)
                 "Фрукты" -> detailImage?.setImageResource(R.drawable.fruits2)
-                "Животные" -> detailImage?.setImageResource(R.drawable.animals)
-                "Другое" -> detailImage?.setImageResource(R.drawable.vegetables2)
+                "Животные" -> detailImage?.setImageResource(R.drawable.animals1)
+                "Другое" -> detailImage?.setImageResource(R.drawable.others)
             }
         } else {
             Glide.with(activity!!).load(Uri.parse(mData.productImage))
-                .placeholder(R.drawable.vegetables3)
+                .placeholder(R.drawable.splash)
                 .apply(RequestOptions().override(1500, 2000))
                 .into(detailImage!!)
         }
