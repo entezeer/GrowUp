@@ -23,7 +23,9 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
 
     init {
         arrayList.addAll(items)
+
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.market_list_item, parent, false)
@@ -84,9 +86,22 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
         notifyDataSetChanged()
     }
 
-    interface Listener {
-        fun onItemSelectedAt(position: Int)
+    fun getSortData(productLocation: String, productCategory: String, productSubCategory: String) {
+        items.clear()
+        for (wp in arrayList) {
+            if (wp.location.substringBefore(',').trim().equals(productLocation.trim()) &&
+                wp.category.trim().equals(productCategory.trim()) &&
+                wp.subCategory.trim().equals(productSubCategory.trim())
+            ) {
+                items.add(wp)
+            }
+        }
+
     }
 
 
+    interface Listener {
+        fun onItemSelectedAt(position: Int)
+    }
 }
+

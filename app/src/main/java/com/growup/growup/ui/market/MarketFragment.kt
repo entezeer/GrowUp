@@ -31,7 +31,9 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View {
+class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContract.View , MarketSortFragment.GetSortData{
+
+
     private var mNoData : TextView? = null
     private var mMarketPresenter: MarketContract.Presenter? = null
     private var mData: ArrayList<Products> = ArrayList()
@@ -44,6 +46,8 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
 
     companion object {
         fun newInstance(): MarketFragment = MarketFragment()
+
+
     }
 
     override fun onCreateView(
@@ -60,6 +64,8 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         return view
     }
 
+
+
     private fun init(view: View) {
         mNoData = view.findViewById(R.id.no_data)
         mNoData?.visibility = View.GONE
@@ -71,6 +77,7 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         mSwipeRefreshLayout?.setOnRefreshListener {
             mSwipeRefreshLayout?.isRefreshing = true
             mMarketPresenter?.getMarketData()
+            mNoData?.visibility = View.GONE
         }
         mProgressBar = view.findViewById(R.id.progress_bar)
 
@@ -93,6 +100,16 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
         }
     }
 
+    override fun getOrderData(category: String, subCategory: String, region: String) {
+        adapter?.getSortData(region,category,subCategory)
+        adapter?.notifyDataSetChanged()
+        if (adapter?.itemCount == 0){
+            mNoData?.visibility = View.VISIBLE
+        }else{
+            mNoData?.visibility = View.GONE
+        }
+        mMarketRecyclerView?.adapter = adapter
+    }
     private fun updateUi() {
         adapter = activity?.let { MarketRecyclerAdapter(mData, this, it) }
 
@@ -145,13 +162,13 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
-        menu?.clear()
         inflater.inflate(R.menu.search_menu, menu)
         val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
         val searchView: SearchView = searchItem?.actionView as SearchView
         searchItem.setOnMenuItemClickListener {
             searchView.setIconifiedByDefault(true)
-
+            searchView.isFocusable = true
+            searchView.isIconified = false
             searchView.requestFocusFromTouch()
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -165,12 +182,18 @@ class MarketFragment : Fragment(), MarketRecyclerAdapter.Listener, MarketContrac
             }
         })
 
-        val sortItem: MenuItem? = menu.findItem(R.id.action_sort)
-        sortItem?.setOnMenuItemClickListener {
-            val sortFragment = MarketSortFragment.newInstance(mData)
-            sortFragment.show(fragmentManager, "detailDialogFragment")
-            searchView.requestFocusFromTouch()
-        }
+
         return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when (item?.itemId){
+            R.id.action_sort ->  {
+                val sortFragment = MarketSortFragment.newInstance(mData,this)
+                sortFragment.show(fragmentManager, "marketSortFragment")
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
