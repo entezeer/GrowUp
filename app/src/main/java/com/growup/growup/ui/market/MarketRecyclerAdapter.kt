@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.growup.growup.R
 import com.growup.growup.data.market.model.Products
@@ -53,7 +54,9 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
             } else {
                 Glide.with(context).load(Uri.parse(items.productImage))
                     .placeholder(R.drawable.splash)
-                    .apply(RequestOptions().override(1500, 2000))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .onlyRetrieveFromCache(true)
+                    .apply(RequestOptions().override(600, 1000))
                     .into(recyclerImage)
             }
             recyclerTitle.text = items.subCategory
