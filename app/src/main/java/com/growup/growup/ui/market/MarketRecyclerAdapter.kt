@@ -88,12 +88,27 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
 
     fun getSortData(productLocation: String, productCategory: String, productSubCategory: String) {
         items.clear()
-        for (wp in arrayList) {
-            if (wp.location.substringBefore(',').trim().equals(productLocation.trim()) &&
-                wp.category.trim().equals(productCategory.trim()) &&
-                wp.subCategory.trim().equals(productSubCategory.trim())
-            ) {
-                items.add(wp)
+        when {
+            productLocation.isEmpty() -> for (wp in arrayList) {
+                if (wp.category.trim().equals(productCategory.trim()) &&
+                    wp.subCategory.trim().equals(productSubCategory.trim())
+                ) {
+                    items.add(wp)
+                }
+            }
+            productCategory.isEmpty() && productSubCategory.isEmpty() -> for (wp in arrayList) {
+                if (wp.location.substringBefore(',').trim().equals(productLocation.trim())
+                ) {
+                    items.add(wp)
+                }
+            }
+            else -> for (wp in arrayList) {
+                if (wp.location.substringBefore(',').trim().equals(productLocation.trim()) &&
+                    wp.category.trim().equals(productCategory.trim()) &&
+                    wp.subCategory.trim().equals(productSubCategory.trim())
+                ) {
+                    items.add(wp)
+                }
             }
         }
 

@@ -21,6 +21,9 @@ class MarketSortFragment : DialogFragment(){
     private var buttonCancel: Button? = null
     private var buttonOk: Button? = null
     private var getData: GetSortData? = null
+    var sortTitle: ArrayList<String> = ArrayList()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,9 +37,12 @@ class MarketSortFragment : DialogFragment(){
 
 
     private fun init(view: View) {
+        sortTitle.add("")
+
+
         spinnerRegions = view.findViewById(R.id.sort_spinner_regions)
         spinnerRegions?.adapter =
-            ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, Regions.regions)
+            ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, sortTitle+Regions.regions)
 
 
         spinnerSubcategory = view.findViewById(R.id.sort_spinner_subcategories)
@@ -45,26 +51,29 @@ class MarketSortFragment : DialogFragment(){
             ArrayAdapter<String>(
                 context,
                 android.R.layout.simple_spinner_dropdown_item,
-                ProductsCategories.productCategory
+                sortTitle+ProductsCategories.productCategory
             )
         spinnerCategory?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                spinnerSubcategory?.adapter =
-                    ArrayAdapter<String>(
-                        context,
-                        android.R.layout.simple_spinner_dropdown_item,
-                        ProductsCategories.categoryList[0]
-                    )
+
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-                spinnerSubcategory?.adapter =
-                    ArrayAdapter<String>(
-                        context,
-                        android.R.layout.simple_spinner_dropdown_item,
-                        ProductsCategories.categoryList[spinnerCategory?.selectedItemPosition!!]
-                    )
+                if(spinnerCategory?.selectedItemPosition!! == 0){
+                    spinnerSubcategory?.adapter =
+                        ArrayAdapter<String>(
+                            context,
+                            android.R.layout.simple_spinner_dropdown_item,
+                            sortTitle
+                        )
+                }else{
+                    spinnerSubcategory?.adapter =
+                        ArrayAdapter<String>(
+                            context,
+                            android.R.layout.simple_spinner_dropdown_item,
+                            sortTitle+ProductsCategories.categoryList[spinnerCategory?.selectedItemPosition!!-1]
+                        )
+                }
             }
         }
 
