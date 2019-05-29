@@ -20,7 +20,10 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.entezeer.tracking.utils.ValidUtils
+import com.google.gson.Gson
 import com.growup.core.firebase.FirebaseClient
 import com.growup.growup.GrowUpApplication
 import com.growup.growup.R
@@ -36,6 +39,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AddAnnouncementActivity : AppCompatActivity() {
     private val GET_IMAGE_GALLERY = 1
     private val GET_IMAGE_CAMERA = 2
@@ -55,8 +59,11 @@ class AddAnnouncementActivity : AppCompatActivity() {
     private var spinnerSize: Spinner? = null
     private var spinnerCurrencyTotal: Spinner? = null
     private var addBtn: Button? = null
+    private var saveChanges: Button? = null
     private var animalCountView: TextView? = null
     private var progressDialog: ProgressDialog? = null
+    private var subCategoryPosition: Int? = 0
+    private lateinit var productKey: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_announcement)
@@ -70,12 +77,82 @@ class AddAnnouncementActivity : AppCompatActivity() {
                 override fun onFailure(message: String) {
                 }
             })
-
         init()
+        checkEditStatement()
+    }
+
+
+
+    private fun checkEditStatement() {
+        val bundle: Bundle? = intent.extras
+        if (bundle != null){
+            if(productImage != null){
+                productImage?.background = null
+            }
+            supportActionBar?.title = "Редактировать обьяявление"
+            productKey = bundle.getString("productKey")
+            val mData: Products = Gson().fromJson(bundle.getString("productData"),Products::class.java)
+            if (mData.productImage.isNotEmpty()) {
+                Glide.with(this).load(Uri.parse(mData.productImage))
+                    .placeholder(R.drawable.vegetables3)
+                    .apply(RequestOptions().override(1500, 2000))
+                    .into(productImage!!)
+            }
+                setupSpinners(mData)
+                name?.setText(mData.name)
+                unitPrice?.setText(mData.unitPrice.substringBefore(" "))
+                size?.setText(mData.size.substringBefore(" "))
+                totalPrice?.setText(mData.totalPrice.substringBefore(" "))
+                message?.setText(mData.message)
+                addBtn?.visibility = View.GONE
+                saveChanges?.visibility = View.VISIBLE
+            }else{
+            addBtn?.visibility = View.VISIBLE
+            saveChanges?.visibility = View.GONE
+        }
+
+    }
+    private fun setupSpinners(product: Products){
+        var position: Int =  ArrayAdapter(
+            this,android.R.layout.simple_spinner_dropdown_item,ProductsCategories.productCategory)
+            .getPosition(product.category)
+            spinnerCategories?.setSelection(position)
+        val subCategoryAdapter : ArrayAdapter<String> = ArrayAdapter(this@AddAnnouncementActivity,
+            android.R.layout.simple_spinner_dropdown_item,
+            ProductsCategories.categoryList[position])
+        subCategoryPosition = subCategoryAdapter.getPosition(product.subCategory)
+
+
+        position = ArrayAdapter(
+            this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.currency)
+            .getPosition(product.unitPrice.substringAfter(" "))
+        spinnerCurrency?.setSelection(position)
+
+        position = ArrayAdapter(
+            this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.currency)
+            .getPosition(product.totalPrice.substringAfter(" "))
+        spinnerCurrencyTotal?.setSelection(position)
+
+        if (spinnerCategories?.selectedItemPosition == 2) {
+            size?.hint = getString(R.string.count_animal)
+            unitPrice?.hint = getString(R.string.unit_price_animal)
+            spinnerSize?.visibility = View.GONE
+            animalCountView?.visibility = View.VISIBLE
+        } else {
+            size?.hint = getString(R.string.size)
+            unitPrice?.hint = getString(R.string.unit_price)
+            spinnerSize?.visibility = View.VISIBLE
+            animalCountView?.visibility = View.GONE
+        }
+
     }
 
     private fun init() {
         supportActionBar?.title = "Добавить объявление"
+        saveChanges = findViewById(R.id.save_changes)
+        saveChanges?.setOnClickListener {
+            saveEditChanges()
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_28_white)
 
@@ -140,6 +217,53 @@ class AddAnnouncementActivity : AppCompatActivity() {
 
         initSpinners()
     }
+
+
+    private fun saveEditChanges() {
+        val fileName = UUID.randomUUID().toString()
+        if (ValidUtils.checkAddProductData(name!!, unitPrice!!, size!!, totalPrice!!, message!!)) {
+            Utils.progressShow(progressDialog)
+            progressDialog?.setMessage("Данные загружаются, это займет не больше минуты")
+
+            GrowUpApplication.mSailRef.child(productKey).child("category").setValue(spinnerCategories?.selectedItem)
+            GrowUpApplication.mSailRef.child(productKey).child("subCategory").setValue(spinnerSubCategories?.selectedItem)
+            GrowUpApplication.mSailRef.child(productKey).child("name").setValue(name?.text.toString().trim())
+            GrowUpApplication.mSailRef.child(productKey).child("size").setValue( size?.text.toString().trim() + " " + if (spinnerCategories?.selectedItemPosition == 2) {
+                "Шт."
+            } else {
+                spinnerSize?.selectedItem.toString()
+            })
+            GrowUpApplication.mSailRef.child(productKey).child("unitPrice")
+                .setValue(unitPrice?.text.toString().trim() + " " + spinnerCurrency?.selectedItem.toString().trim())
+            GrowUpApplication.mSailRef.child(productKey).child("totalPrice")
+                .setValue(totalPrice?.text.toString().trim()+ " " + spinnerCurrencyTotal?.selectedItem.toString().trim())
+            GrowUpApplication.mSailRef.child(productKey).child("message")
+                .setValue(message?.text.toString().trim())
+
+            if (imageUri!=null) {
+                GrowUpApplication.mStorage.child("ProductsImages/$fileName")
+                    .putFile(imageUri!!).addOnSuccessListener { task ->
+                        GrowUpApplication.mStorage.child("ProductsImages")
+                            .child(fileName).downloadUrl
+                            .addOnSuccessListener { task ->
+                                GrowUpApplication.mSailRef.child(productKey).child("productImage").setValue(task.toString())
+                                progressDialog?.dismiss()
+                                MainActivity.start(this@AddAnnouncementActivity, "Маркет")
+                                Toast.makeText(this@AddAnnouncementActivity, "Обьявление успешно изменено", Toast.LENGTH_LONG).show()
+                            }.addOnFailureListener { fail ->
+                                Toast.makeText(this, fail.message.toString(), Toast.LENGTH_SHORT).show()
+                            }
+                    }
+
+            }else{
+                progressDialog?.dismiss()
+                MainActivity.start(this@AddAnnouncementActivity, "Маркет")
+                Toast.makeText(this@AddAnnouncementActivity, "Обьявление успешно изменено", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+
     private fun getImageFrom() {
 //        val items = arrayOf("Камера","Галерея")
 //        val builder = android.app.AlertDialog.Builder(this)
@@ -208,12 +332,8 @@ class AddAnnouncementActivity : AppCompatActivity() {
 
 
     private fun initSpinners() {
-        spinnerCategories?.adapter =
-            ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                ProductsCategories.productCategory
-            )
+        spinnerCategories?.adapter = ArrayAdapter(
+            this,android.R.layout.simple_spinner_dropdown_item,ProductsCategories.productCategory)
 
         spinnerCategories?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -223,6 +343,8 @@ class AddAnnouncementActivity : AppCompatActivity() {
                         android.R.layout.simple_spinner_dropdown_item,
                         ProductsCategories.categoryList[spinnerCategories?.selectedItemPosition!!]
                     )
+                spinnerSubCategories?.setSelection(subCategoryPosition!!)
+                subCategoryPosition = 0
                 if (spinnerCategories?.selectedItemPosition == 2) {
                     size?.hint = getString(R.string.count_animal)
                     unitPrice?.hint = getString(R.string.unit_price_animal)
@@ -240,15 +362,12 @@ class AddAnnouncementActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
-
-        spinnerCurrency?.adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.currency)
-
-        spinnerCurrencyTotal?.adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.currency)
-
-        spinnerSize?.adapter =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.sizeType)
+        spinnerCurrency?.adapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.currency)
+        spinnerCurrencyTotal?.adapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.currency)
+        spinnerSize?.adapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_dropdown_item, ProductsCategories.sizeType)
     }
 
     private fun calculator() {

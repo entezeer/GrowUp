@@ -153,7 +153,17 @@
                     android:inputType="text"
             />
 
-
+            <Button
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/save_changes"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save_chages"
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/rounded_button"/>
             <Button
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="20dp"
@@ -164,8 +174,7 @@
                     android:text="@string/add"
                     android:textSize="13sp"
                     android:textColor="@color/white"
-                    android:background="@drawable/rounded_button"
-            />
+                    android:background="@drawable/rounded_button"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

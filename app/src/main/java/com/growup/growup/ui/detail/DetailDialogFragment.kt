@@ -22,7 +22,8 @@ import com.growup.growup.ui.user.UserActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-
+import com.google.gson.Gson
+import com.growup.growup.ui.market.AddAnnouncementActivity
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -51,6 +52,7 @@ class DetailDialogFragment : DialogFragment() {
     private var favoriteBtn: CheckBox? = null
     private var whatsappBtn: Button? = null
     private var dialerBtn: Button? = null
+    private var editProduct: Button? = null
     private var soldBtn: Button? = null
     private var favoritesList: ArrayList<String> = ArrayList()
     private lateinit var productKey: String
@@ -73,6 +75,7 @@ class DetailDialogFragment : DialogFragment() {
     }
 
     private fun init(view: View) {
+        editProduct = view.findViewById(R.id.edit_button)
         detailImage = view.findViewById(R.id.detail_image)
         detailProduct = view.findViewById(R.id.detail_product)
         detailUnitPrice = view.findViewById(R.id.detail_unit_price)
@@ -141,6 +144,7 @@ class DetailDialogFragment : DialogFragment() {
 
         if (mData.uid != GrowUpApplication.mAuth.currentUser?.uid || from == "SalesFragment") {
             soldBtn?.visibility = View.GONE
+            editProduct?.visibility = View.GONE
         }
         soldBtn?.setOnClickListener {
             activity?.let { it1 -> Utils.confirmationForSold(it1, mData, productKey)
@@ -149,6 +153,14 @@ class DetailDialogFragment : DialogFragment() {
 
         whatsappBtn?.setOnClickListener {
             openWhatsApp(mData.userPhone)
+        }
+
+        editProduct?.setOnClickListener {
+            val productData = Gson().toJson(mData)
+            startActivity(Intent(context,AddAnnouncementActivity::class.java)
+                .putExtra("productData", productData)
+                .putExtra("productKey",productKey)
+            )
         }
 
         dialerBtn?.setOnClickListener {
