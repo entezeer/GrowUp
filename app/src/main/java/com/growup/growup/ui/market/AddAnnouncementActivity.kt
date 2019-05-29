@@ -89,7 +89,7 @@ class AddAnnouncementActivity : AppCompatActivity() {
             if(productImage != null){
                 productImage?.background = null
             }
-            supportActionBar?.title = "Редактировать обьяявление"
+            supportActionBar?.title = "Редактировать обьявление"
             productKey = bundle.getString("productKey")
             val mData: Products = Gson().fromJson(bundle.getString("productData"),Products::class.java)
             if (mData.productImage.isNotEmpty()) {
