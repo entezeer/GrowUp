@@ -155,8 +155,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
             </LinearLayout>
-
             <Button
+                    style = "?android:attr/borderlessButtonStyle"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/edit_button"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:text="@string/edit_product"
+                    android:padding="6dp"
+                    android:background="@color/mainGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" tools:ignore="RtlHardcoded,SmallSp"/>
+            <Button
+                    style = "?android:attr/borderlessButtonStyle"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/sold_btn"
                     android:textSize="12sp"

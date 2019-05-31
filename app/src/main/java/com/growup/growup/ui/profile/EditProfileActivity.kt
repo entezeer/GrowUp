@@ -18,6 +18,9 @@ import com.growup.growup.data.user.model.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.growup.core.firebase.FirebaseClient
+import com.growup.growup.data.market.model.Products
+import com.growup.growup.data.market.remote.MarketRemoteConstants
 
 class EditProfileActivity : AppCompatActivity() {
     private val GET_IMAGE_GALLERY: Int = 1
@@ -133,7 +136,7 @@ class EditProfileActivity : AppCompatActivity() {
     }
     private fun saveChanges(){
         Utils.progressShow(progressDialog)
-
+        changeProductLocation()
         checkUserType()
         GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("lastName").setValue(editProfileSurname?.text.toString())
         GrowUpApplication.mUserRef.child(GrowUpApplication.mAuth.currentUser!!.uid).child("name").setValue(editProfileName?.text.toString())
@@ -164,6 +167,22 @@ class EditProfileActivity : AppCompatActivity() {
             }
 
             }
+
+    private fun changeProductLocation() {
+       val ref = GrowUpApplication.mSailRef
+        ref.orderByChild("uid").equalTo(GrowUpApplication.mAuth.uid!!).addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError){
+               Toast.makeText(this@EditProfileActivity,p0.message,Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+                    val productKey: String = it.key!!
+                    ref.child(productKey).child("location").setValue("${spinnerRegions?.selectedItem},${spinnerDistricts?.selectedItem}")
+                }
+            }
+        })
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
