@@ -101,7 +101,6 @@ class MarketSortFragment : DialogFragment(){
 
 
     companion object {
-
         fun newInstance(mData: ArrayList<Products>, getData: GetSortData): MarketSortFragment =
            MarketSortFragment().apply {
                 this.mData = mData

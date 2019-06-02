@@ -177,6 +177,19 @@
                     android:background="@color/mainGreen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" tools:ignore="RtlHardcoded,SmallSp"/>
+
+            <Button
+                    style = "?android:attr/borderlessButtonStyle"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/remove_btn"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:text="@string/remove"
+                    android:padding="6dp"
+                    android:background="@color/mainGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" tools:ignore="RtlHardcoded,SmallSp"/>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

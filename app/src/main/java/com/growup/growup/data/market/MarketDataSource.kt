@@ -9,6 +9,7 @@ interface MarketDataSource {
     fun getCurrentUserProducts(callback: RequestCallback)
     fun setMarketData(product: Products, callback: SuccessCallback)
     fun setMarketSold(product: Products, callback: SuccessCallback)
+    fun removeMarketData(productKey: String, callback: SuccessCallback)
 
 
     interface RequestCallback : BaseCallback<HashMap<String, Products>>

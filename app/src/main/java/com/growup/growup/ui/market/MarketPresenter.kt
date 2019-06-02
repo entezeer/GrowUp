@@ -11,7 +11,6 @@ class MarketPresenter(private val marketDataSource: MarketDataSource): MarketCon
     override fun getCurrentUserProducts(uid: String) {
         marketDataSource.getCurrentUserProducts(object: MarketDataSource.RequestCallback {
             override fun onSuccess(result: HashMap<String, Products>) {
-                data.clear()
                 result.forEach{
                     if(it.value.uid == uid.trim()){
                         data[it.key] = it.value
@@ -31,9 +30,7 @@ class MarketPresenter(private val marketDataSource: MarketDataSource): MarketCon
 
         marketDataSource.getMarketSold(object: MarketDataSource.RequestCallback {
             override fun onSuccess(result: HashMap<String, Products>) {
-
                 result.forEach{
-                    data.clear()
                     if(it.value.uid == uid.trim()){
                         data[it.key] = it.value
                     }

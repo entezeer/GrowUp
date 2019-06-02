@@ -4,6 +4,7 @@ import com.growup.growup.data.market.model.Products
 import com.growup.growup.data.market.remote.MarketRemote
 
 class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSource{
+
     companion object{
 
         private var INSTANCE: MarketDataSource? = null
@@ -68,5 +69,17 @@ class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSourc
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun removeMarketData(productKey: String, callback: MarketDataSource.SuccessCallback) {
+        remoteSource.removeMarketData(productKey, object : MarketDataSource.SuccessCallback{
+            override fun onFailure(message: String) {
+                callback.onFailure(message)
+            }
+
+            override fun onSuccess(result: String) {
+                callback.onSuccess(result)
+            }
+
+        })
+    }
 
 }

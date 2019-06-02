@@ -23,6 +23,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import com.growup.core.firebase.FirebaseClient
+import com.growup.growup.data.RepositoryProvider
+import com.growup.growup.data.market.MarketDataSource
 import com.growup.growup.ui.market.AddAnnouncementActivity
 
 
@@ -54,6 +57,7 @@ class DetailDialogFragment : DialogFragment() {
     private var dialerBtn: Button? = null
     private var editProduct: Button? = null
     private var soldBtn: Button? = null
+    private var removeBtn: Button? = null
     private var favoritesList: ArrayList<String> = ArrayList()
     private lateinit var productKey: String
     private lateinit var from: String
@@ -91,6 +95,8 @@ class DetailDialogFragment : DialogFragment() {
         detailMessage = view.findViewById(R.id.detail_message)
         soldBtn = view.findViewById(R.id.sold_btn)
         favoriteBtn = view.findViewById(R.id.favorite_btn)
+        removeBtn = view.findViewById(R.id.remove_btn)
+        removeBtn?.visibility = View.GONE
     }
 
     @SuppressLint("SetTextI18n")
@@ -142,10 +148,26 @@ class DetailDialogFragment : DialogFragment() {
             }
         })
 
-        if (mData.uid != GrowUpApplication.mAuth.currentUser?.uid || from == "SalesFragment") {
+        if (mData.uid != FirebaseClient().getAuth().currentUser?.uid || from == "SalesFragment") {
             soldBtn?.visibility = View.GONE
             editProduct?.visibility = View.GONE
         }
+
+        if (mData.uid == FirebaseClient().getAuth().currentUser?.uid){
+            whatsappBtn?.visibility = View.GONE
+            dialerBtn?.visibility = View.GONE
+            favoriteBtn?.visibility = View.GONE
+            if (from == "SalesFragment"){
+                removeBtn?.visibility = View.VISIBLE
+            }
+        }
+
+        removeBtn?.setOnClickListener {
+            activity?.let { it1 -> Utils.confirmationForRemove(it1, productKey)
+                this.dismiss()}
+
+        }
+
         soldBtn?.setOnClickListener {
             activity?.let { it1 -> Utils.confirmationForSold(it1, mData, productKey)
                 this.dismiss()}

@@ -1,0 +1,44 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:orientation="vertical"
+                                                 android:background="@color/profile_gray"
+                                                 tools:context="com.growup.growup.ui.statistic.StatisticFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/market_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+    />
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_order"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/add_button_white"
+            android:layout_margin="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <TextView
+            android:layout_gravity="center"
+            android:id="@+id/no_data"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/pattaya"
+            android:textSize="30sp"
+            android:text="Нет данных"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</android.support.design.widget.CoordinatorLayout>

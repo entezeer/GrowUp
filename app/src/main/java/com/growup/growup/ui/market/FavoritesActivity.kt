@@ -68,7 +68,6 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
                     }
                     RepositoryProvider.getMarketDataSource().getMarketData(object : MarketDataSource.RequestCallback {
                         override fun onSuccess(result: HashMap<String, Products>) {
-
                             for (i in mDataKeys) {
                                 if (result.containsKey(i)) {
                                     result[i]?.let { mData.add(it) }
@@ -95,6 +94,7 @@ class FavoritesActivity : AppCompatActivity(), MarketRecyclerAdapter.Listener {
         if (mData.isEmpty()) {
             mNoData?.visibility = View.VISIBLE
         }
+        else mNoData?.visibility = View.GONE
         adapter = MarketRecyclerAdapter(mData, this, this)
         mProgressBar?.visibility = View.GONE
         recyclerView?.adapter = adapter

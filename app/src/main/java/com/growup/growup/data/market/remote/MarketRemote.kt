@@ -9,15 +9,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
-class MarketRemote : FirebaseClient() , MarketDataSource {
+class MarketRemote : FirebaseClient(), MarketDataSource {
 
-
-    companion object{
-
-
+    companion object {
         private var INSTANCE: MarketRemote? = null
         fun getInstance(): MarketRemote {
-            if(INSTANCE == null){
+            if (INSTANCE == null) {
                 INSTANCE =
                     MarketRemote()
             }
@@ -27,10 +24,10 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
 
     private val marketSales = getRef(MARKET_REF).child(MARKET_SALE)
 
-    override fun getMarketData(callback: MarketDataSource.RequestCallback){
+    override fun getMarketData(callback: MarketDataSource.RequestCallback) {
         val products = HashMap<String, Products>()
-        marketSales.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(p0: DatabaseError){
+        marketSales.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
                 callback.onFailure(p0.message)
             }
 
@@ -43,13 +40,12 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
         })
     }
 
+    private var marketSold = getRef(MARKET_REF).child(MarketRemoteConstants.MARKET_SOLD)
 
-    private var marketSold= getRef(MARKET_REF).child(MarketRemoteConstants.MARKET_SOLD)
-
-    override fun getMarketSold(callback: MarketDataSource.RequestCallback){
+    override fun getMarketSold(callback: MarketDataSource.RequestCallback) {
         val productsSold = HashMap<String, Products>()
-        marketSold.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(p0: DatabaseError){
+        marketSold.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
                 callback.onFailure(p0.message)
             }
 
@@ -65,8 +61,8 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
 
     override fun getCurrentUserProducts(callback: MarketDataSource.RequestCallback) {
         val products = HashMap<String, Products>()
-        marketSales.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(p0: DatabaseError){
+        marketSales.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
                 callback.onFailure(p0.message)
             }
 
@@ -88,8 +84,16 @@ class MarketRemote : FirebaseClient() , MarketDataSource {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     callback.onSuccess("success")
-                }
-                else callback.onFailure("failure")
+                } else callback.onFailure("failure")
             }
+    }
+
+    override fun removeMarketData(productKey: String, callback: MarketDataSource.SuccessCallback) {
+        marketSold.child(productKey).removeValue().addOnCompleteListener {
+            if (it.isSuccessful){
+                callback.onSuccess("success")
+            }else callback.onFailure("failure")
+        }
+
     }
 }
