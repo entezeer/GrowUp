@@ -5,6 +5,7 @@ import com.growup.growup.data.market.remote.MarketRemote
 
 class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSource{
 
+
     companion object{
 
         private var INSTANCE: MarketDataSource? = null
@@ -70,6 +71,43 @@ class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSourc
     }
 
     override fun removeMarketData(productKey: String, callback: MarketDataSource.SuccessCallback) {
+        remoteSource.removeOrderData(productKey, object : MarketDataSource.SuccessCallback{
+            override fun onFailure(message: String) {
+                callback.onFailure(message)
+            }
+
+            override fun onSuccess(result: String) {
+                callback.onSuccess(result)
+            }
+
+        })
+    }
+    override fun getOrderData(callback: MarketDataSource.RequestCallback) {
+        remoteSource.getOrderData(object:MarketDataSource.RequestCallback{
+            override fun onSuccess(result: HashMap<String, Products>) {
+                callback.onSuccess(result)
+            }
+            override fun onFailure(message: String) {
+                callback.onFailure(message)
+            }
+
+        })
+    }
+
+    override fun setOrderData(product: Products, callback: MarketDataSource.SuccessCallback) {
+        remoteSource.setOrderData(product, object : MarketDataSource.SuccessCallback{
+            override fun onSuccess(result: String) {
+                callback.onSuccess("success")
+            }
+
+            override fun onFailure(message: String) {
+                callback.onFailure(message)
+            }
+
+        })
+    }
+
+    override fun removeOrderData(productKey: String, callback: MarketDataSource.SuccessCallback) {
         remoteSource.removeMarketData(productKey, object : MarketDataSource.SuccessCallback{
             override fun onFailure(message: String) {
                 callback.onFailure(message)
@@ -82,4 +120,15 @@ class MarketRepository(private val remoteSource: MarketRemote) : MarketDataSourc
         })
     }
 
+    override fun getCurrentUserOrders(callback: MarketDataSource.RequestCallback) {
+        remoteSource.getCurrentUserOrders(object : MarketDataSource.RequestCallback {
+            override fun onSuccess(result: HashMap<String, Products>) {
+                callback.onSuccess(result)
+            }
+
+            override fun onFailure(message: String) {
+                callback.onFailure(message)
+            }
+        })
+    }
 }

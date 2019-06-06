@@ -102,6 +102,7 @@ class MarketRecyclerAdapter(private val items: ArrayList<Products>, var listener
                     items.add(wp)
                 }
             }
+
             else -> for (wp in arrayList) {
                 if (wp.location.substringBefore(',').trim().equals(productLocation.trim()) &&
                     wp.category.trim().equals(productCategory.trim()) &&

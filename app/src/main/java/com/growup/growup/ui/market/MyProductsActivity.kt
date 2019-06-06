@@ -11,7 +11,7 @@ import com.growup.growup.ui.user.SaleViewPagerAdapter
 
 class MyProductsActivity : AppCompatActivity(){
 
-    private var PAGE_COUNTS = 2
+    private var PAGE_COUNTS = 3
     private var viewPager: ViewPager? = null
     private var tabLayout: TabLayout? = null
 

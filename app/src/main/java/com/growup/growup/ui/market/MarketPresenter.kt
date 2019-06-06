@@ -6,11 +6,12 @@ import com.growup.growup.data.market.MarketDataSource
 import com.growup.growup.data.market.model.Products
 class MarketPresenter(private val marketDataSource: MarketDataSource): MarketContract.Presenter {
     private var mView: MarketContract.View? = null
-    private var data = HashMap<String, Products>()
 
+    private var data = HashMap<String, Products>()
     override fun getCurrentUserProducts(uid: String) {
         marketDataSource.getCurrentUserProducts(object: MarketDataSource.RequestCallback {
             override fun onSuccess(result: HashMap<String, Products>) {
+                data.clear()
                 result.forEach{
                     if(it.value.uid == uid.trim()){
                         data[it.key] = it.value
@@ -30,6 +31,7 @@ class MarketPresenter(private val marketDataSource: MarketDataSource): MarketCon
 
         marketDataSource.getMarketSold(object: MarketDataSource.RequestCallback {
             override fun onSuccess(result: HashMap<String, Products>) {
+                data.clear()
                 result.forEach{
                     if(it.value.uid == uid.trim()){
                         data[it.key] = it.value
@@ -48,6 +50,37 @@ class MarketPresenter(private val marketDataSource: MarketDataSource): MarketCon
         marketDataSource.getMarketData(object: MarketDataSource.RequestCallback {
             override fun onSuccess(result: HashMap<String, Products>) {
                 mView?.showData(result)
+            }
+
+            override fun onFailure(message: String) {
+                mView?.showNetworkAlert()
+            }
+
+        })
+    }
+
+    override fun getMarketOrderData() {
+        marketDataSource.getOrderData(object : MarketDataSource.RequestCallback{
+            override fun onSuccess(result: HashMap<String, Products>) {
+                mView?.showData(result)
+            }
+
+            override fun onFailure(message: String) {
+                mView?.showNetworkAlert()
+            }
+        })
+    }
+
+    override fun getCurrentUserOrders(uid: String) {
+        marketDataSource.getCurrentUserOrders(object: MarketDataSource.RequestCallback {
+            override fun onSuccess(result: HashMap<String, Products>) {
+                data.clear()
+                result.forEach{
+                    if(it.value.uid == uid.trim()){
+                        data[it.key] = it.value
+                    }
+                }
+                mView?.showData(data)
             }
 
             override fun onFailure(message: String) {

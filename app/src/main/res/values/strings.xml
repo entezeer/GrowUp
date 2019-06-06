@@ -62,5 +62,6 @@
     <string name="edit_product">Редактировать</string>
     <string name="save_chages">Сохранить изменения</string>
     <string name="remove">Удалить</string>
+    <string name="add_order">Оставить заявку</string>
 
 </resources>

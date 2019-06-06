@@ -8,10 +8,11 @@ import com.growup.growup.data.market.remote.MarketRemoteConstants.MARKET_SALE
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.growup.growup.data.market.remote.MarketRemoteConstants.MARKET_ORDER
 
 class MarketRemote : FirebaseClient(), MarketDataSource {
-
     companion object {
+
         private var INSTANCE: MarketRemote? = null
         fun getInstance(): MarketRemote {
             if (INSTANCE == null) {
@@ -80,7 +81,7 @@ class MarketRemote : FirebaseClient(), MarketDataSource {
     }
 
     override fun setMarketData(product: Products, callback: MarketDataSource.SuccessCallback) {
-        getRef(MARKET_REF).child(MARKET_SALE).push().setValue(product)
+        marketSales.push().setValue(product)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     callback.onSuccess("success")
@@ -90,10 +91,60 @@ class MarketRemote : FirebaseClient(), MarketDataSource {
 
     override fun removeMarketData(productKey: String, callback: MarketDataSource.SuccessCallback) {
         marketSold.child(productKey).removeValue().addOnCompleteListener {
-            if (it.isSuccessful){
+            if (it.isSuccessful) {
                 callback.onSuccess("success")
-            }else callback.onFailure("failure")
+            } else callback.onFailure("failure")
         }
 
+    }
+
+    private val marketOrder = getRef(MARKET_REF).child(MARKET_ORDER)
+    override fun getOrderData(callback: MarketDataSource.RequestCallback) {
+        val products = HashMap<String, Products>()
+        marketOrder.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                callback.onFailure(p0.message)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+                    products[it.key!!] = it.getValue(Products::class.java)!!
+                }
+                callback.onSuccess(products)
+            }
+        })
+    }
+
+    override fun setOrderData(product: Products, callback: MarketDataSource.SuccessCallback) {
+        marketOrder.push().setValue(product)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    callback.onSuccess("success")
+                } else callback.onFailure("failure")
+            }
+    }
+
+    override fun removeOrderData(productKey: String, callback: MarketDataSource.SuccessCallback) {
+        marketOrder.child(productKey).removeValue().addOnCompleteListener {
+            if (it.isSuccessful) {
+                callback.onSuccess("success")
+            } else callback.onFailure("failure")
+        }
+    }
+
+    override fun getCurrentUserOrders(callback: MarketDataSource.RequestCallback) {
+        val products = HashMap<String, Products>()
+        marketOrder.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                callback.onFailure(p0.message)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+                    products[it.key.toString()] = it.getValue(Products::class.java)!!
+                }
+                callback.onSuccess(products)
+            }
+        })
     }
 }

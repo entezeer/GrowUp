@@ -148,7 +148,7 @@ class DetailDialogFragment : DialogFragment() {
             }
         })
 
-        if (mData.uid != FirebaseClient().getAuth().currentUser?.uid || from == "SalesFragment") {
+        if (mData.uid != FirebaseClient().getAuth().currentUser?.uid || from == "OnSalesFragment") {
             soldBtn?.visibility = View.GONE
             editProduct?.visibility = View.GONE
         }
@@ -157,7 +157,7 @@ class DetailDialogFragment : DialogFragment() {
             whatsappBtn?.visibility = View.GONE
             dialerBtn?.visibility = View.GONE
             favoriteBtn?.visibility = View.GONE
-            if (from == "SalesFragment"){
+            if (from != "OnSalesFragment"){
                 removeBtn?.visibility = View.VISIBLE
             }
         }

@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class UserActivity : AppCompatActivity() {
-    private var PAGE_COUNTS = 2
+    private var PAGE_COUNTS = 3
     private var viewPager: ViewPager? = null
     private var tabLayout: TabLayout? = null
     private var uid: String? = null

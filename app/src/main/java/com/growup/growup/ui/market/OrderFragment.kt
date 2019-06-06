@@ -58,7 +58,7 @@ class OrderFragment : Fragment(), MarketContract.View, MarketRecyclerAdapter.Lis
         init(rootView)
         mMarketPresenter = MarketPresenter(RepositoryProvider.getMarketDataSource())
         mMarketPresenter?.attachView(this)
-        mMarketPresenter?.getMarketData()
+        mMarketPresenter?.getMarketOrderData()
 
         return rootView
     }
@@ -73,7 +73,7 @@ class OrderFragment : Fragment(), MarketContract.View, MarketRecyclerAdapter.Lis
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         mSwipeRefreshLayout?.setOnRefreshListener {
             mSwipeRefreshLayout?.isRefreshing = true
-            mMarketPresenter?.getMarketData()
+            mMarketPresenter?.getMarketOrderData()
             mNoData?.visibility = View.GONE
         }
         mProgressBar = view.findViewById(R.id.progress_bar)
@@ -93,7 +93,7 @@ class OrderFragment : Fragment(), MarketContract.View, MarketRecyclerAdapter.Lis
 
             })
         mAddButton?.setOnClickListener {
-            startActivity(Intent(activity, AddAnnouncementActivity::class.java))
+            startActivity(Intent(activity, AddOrderActivity::class.java))
         }
     }
 
@@ -197,7 +197,7 @@ class OrderFragment : Fragment(), MarketContract.View, MarketRecyclerAdapter.Lis
 
     companion object {
         private const val ARG_POSITION = "position"
-        const val TITLE = "Заказы"
+        const val TITLE = "Заявки"
         fun newInstance(position: Int): Fragment {
             val fragment = OrderFragment()
             val bundle = Bundle()

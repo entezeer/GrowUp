@@ -18,5 +18,7 @@ interface MarketContract {
         fun getMarketSold(uid: String)
         fun checkNetwork(context: Context)
         fun onProductClick(data: HashMap<String, Products>)
+        fun getMarketOrderData()
+        fun getCurrentUserOrders(uid:String)
     }
 }

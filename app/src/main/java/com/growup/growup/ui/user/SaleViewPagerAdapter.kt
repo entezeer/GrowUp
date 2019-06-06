@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.growup.growup.ui.market.sale.MyOrderFragment
 import com.growup.growup.ui.market.sale.OnSaleFragment
 import com.growup.growup.ui.market.sale.SalesFragment
 
@@ -13,6 +14,7 @@ class SaleViewPagerAdapter(fm: FragmentManager, private val context: Context, pr
         return when(position){
             0-> OnSaleFragment.newInstance(position, uid)
             1-> SalesFragment.newInstance(position, uid)
+            2-> MyOrderFragment.newInstance(position, uid)
             else -> null
         }
     }
@@ -25,6 +27,7 @@ class SaleViewPagerAdapter(fm: FragmentManager, private val context: Context, pr
         return when(position){
             0-> OnSaleFragment.TITLE
             1-> SalesFragment.TITLE
+            2-> MyOrderFragment.TITLE
             else -> null
         }
     }
